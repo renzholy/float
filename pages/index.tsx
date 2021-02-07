@@ -6,21 +6,28 @@ export default function Index() {
   const { data: coins } = useSWR<
     { id: string; name: string; symbol: string }[]
   >('coins', () =>
-    fetch(`https://api.coinpaprika.com/v1/coins`).then((response) =>
+    fetch('https://api.coinpaprika.com/v1/coins').then((response) =>
       response.json(),
     ),
   )
   const { data: stocks } = useSWR<{ data: [string, string][] }>('stocks', () =>
-    fetch(`https://api.doctorxiong.club/v1/stock/all`).then((response) =>
+    fetch('https://api.doctorxiong.club/v1/stock/all').then((response) =>
       response.json(),
     ),
   )
   const { data: funds } = useSWR<{
     data: [string, string, string, string, string][]
   }>('funds', () =>
-    fetch(`https://api.doctorxiong.club/v1/fund/all`).then((response) =>
+    fetch('https://api.doctorxiong.club/v1/fund/all').then((response) =>
       response.json(),
     ),
+  )
+  const { data: rates } = useSWR<{ rates: { [name: string]: number } }>(
+    'rates',
+    () =>
+      fetch('https://api.ratesapi.io/api/latest?base=CNY').then((response) =>
+        response.json(),
+      ),
   )
 
   return (
@@ -33,6 +40,13 @@ export default function Index() {
         placeholder="search"
       />
       <ul>
+        {Object.entries(rates?.rates || {}).map((rate) => (
+          <li key={rate[0]}>
+            <button type="button">
+              {rate[0]} {rate[1]}
+            </button>
+          </li>
+        ))}
         {coins?.map((coin) => (
           <li key={coin.id}>
             <button type="button">
