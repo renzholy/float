@@ -1,26 +1,20 @@
-import { useMemo } from 'react'
+import { useEffect } from 'react'
 import useSWR from 'swr'
 
-export enum AssetType {
-  FOREX = '外汇',
-  CRYPTO = '加密货币',
-  STOCK_CN = 'A股',
-  STOCK_HK = '港股',
-  STOCK_US = '美股',
-  FUND = '基金',
-}
+import { db } from '../libs/db'
+import { AssetType } from '../libs/types'
 
 export function useAllItems() {
-  const { data: currencies } = useSWR<{ rates: { [name: string]: number } }>(
-    'currencies',
+  const { data: forexs } = useSWR<{ rates: { [name: string]: number } }>(
+    'forexs',
     () =>
       fetch('https://api.ratesapi.io/api/latest').then((response) =>
         response.json(),
       ),
   )
-  const { data: coins } = useSWR<
+  const { data: cryptos } = useSWR<
     { id: string; name: string; symbol: string }[]
-  >('coins', () =>
+  >('cryptos', () =>
     fetch('https://api.coinpaprika.com/v1/coins').then((response) =>
       response.json(),
     ),
@@ -39,49 +33,51 @@ export function useAllItems() {
       response.json(),
     ),
   )
-
-  return useMemo<
-    {
-      [type in AssetType]: {
-        type: AssetType
-        id: string
-        name?: string
-        shortcut?: string
-      }[]
+  useEffect(() => {
+    if (forexs) {
+      db.assets.bulkPut(
+        Object.keys(forexs.rates).map((rate) => ({
+          type: AssetType.FOREX,
+          id: rate,
+        })),
+      )
     }
-  >(
-    () => ({
-      [AssetType.FOREX]: currencies
-        ? Object.keys(currencies.rates).map((rate) => ({
-            type: AssetType.FOREX,
-            id: rate,
-          }))
-        : [],
-      [AssetType.CRYPTO]:
-        coins?.map((crypto) => ({
+  }, [forexs])
+  useEffect(() => {
+    if (cryptos) {
+      db.assets.bulkPut(
+        cryptos.map((crypto) => ({
           type: AssetType.CRYPTO,
           id: crypto.id,
           name: crypto.name,
           shortcut: crypto.symbol,
-        })) || [],
-      [AssetType.STOCK_CN]:
-        stocks?.data.map((stock) => ({
+        })),
+      )
+    }
+  }, [cryptos])
+  useEffect(() => {
+    if (stocks) {
+      db.assets.bulkPut(
+        stocks.data.map((stock) => ({
           type: AssetType.STOCK_CN,
           id: stock[0],
           name: stock[1],
-        })) || [],
-      [AssetType.STOCK_HK]: [],
-      [AssetType.STOCK_US]: [],
-      [AssetType.FUND]:
-        funds?.data.map((fund) => ({
+        })),
+      )
+    }
+  }, [stocks])
+  useEffect(() => {
+    if (funds) {
+      db.assets.bulkPut(
+        funds.data.map((fund) => ({
           type: AssetType.FUND,
           id: fund[0],
           name: fund[2],
           shortcut: fund[1],
-        })) || [],
-    }),
-    [currencies, coins, stocks, funds],
-  )
+        })),
+      )
+    }
+  }, [funds])
 }
 
 export function usePrice(base: string, type: AssetType, id: string) {
