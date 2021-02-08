@@ -38,7 +38,7 @@ export default function Index() {
                 <option
                   key={`${item.type}${splitter}${item.id}`}
                   value={`${item.type}${splitter}${item.id}`}>
-                  {item.id} {item.name}
+                  {item.id} {item.name} {item.shortcut}
                 </option>
               ))}
             </optgroup>
