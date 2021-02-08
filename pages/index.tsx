@@ -1,3 +1,4 @@
+import { css } from 'linaria'
 import { useState } from 'react'
 
 import { Price } from '../components/price'
@@ -20,7 +21,10 @@ export default function Index() {
           value={unit}
           onChange={(e) => {
             setUnit(e.target.value)
-          }}>
+          }}
+          className={css`
+            height: 32px;
+          `}>
           <option value="" disabled={true}>
             select unit
           </option>
@@ -43,13 +47,19 @@ export default function Index() {
             setAmount(parseFloat(e.target.value))
           }}
           placeholder="amount"
+          className={css`
+            height: 26px;
+          `}
         />
         <button
           type="button"
           onClick={() => {
             const [type, id] = unit.split(splitter) as [ItemType, string]
             setList((old) => [{ amount, type, id }, ...old])
-          }}>
+          }}
+          className={css`
+            height: 32px;
+          `}>
           ADD
         </button>
       </form>
