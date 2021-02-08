@@ -1,16 +1,17 @@
 import { useMemo } from 'react'
 import useSWR from 'swr'
 
-export enum ItemType {
-  EXCHANGE = 'EXCHANGE',
-  COIN = 'COIN',
+export enum AssetType {
+  FOREX = 'FOREX',
+  CRYPTO = 'CRYPTO',
   STOCK = 'STOCK',
   FUND = 'FUND',
+  OPTION = 'OPTION',
 }
 
 export function useAllItems() {
-  const { data: exchanges } = useSWR<{ rates: { [name: string]: number } }>(
-    'exchanges',
+  const { data: currencies } = useSWR<{ rates: { [name: string]: number } }>(
+    'currencies',
     () =>
       fetch('https://api.ratesapi.io/api/latest').then((response) =>
         response.json(),
@@ -40,8 +41,8 @@ export function useAllItems() {
 
   return useMemo<
     {
-      [type in ItemType]: {
-        type: ItemType
+      [type in AssetType]: {
+        type: AssetType
         id: string
         name?: string
         shortcut?: string
@@ -49,39 +50,40 @@ export function useAllItems() {
     }
   >(
     () => ({
-      [ItemType.EXCHANGE]: exchanges
-        ? Object.keys(exchanges.rates).map((rate) => ({
-            type: ItemType.EXCHANGE,
+      [AssetType.FOREX]: currencies
+        ? Object.keys(currencies.rates).map((rate) => ({
+            type: AssetType.FOREX,
             id: rate,
           }))
         : [],
-      [ItemType.COIN]:
-        coins?.map((coin) => ({
-          type: ItemType.COIN,
-          id: coin.id,
-          name: coin.name,
-          shortcut: coin.symbol,
+      [AssetType.CRYPTO]:
+        coins?.map((crypto) => ({
+          type: AssetType.CRYPTO,
+          id: crypto.id,
+          name: crypto.name,
+          shortcut: crypto.symbol,
         })) || [],
-      [ItemType.STOCK]:
+      [AssetType.STOCK]:
         stocks?.data.map((stock) => ({
-          type: ItemType.STOCK,
+          type: AssetType.STOCK,
           id: stock[0],
           name: stock[1],
         })) || [],
-      [ItemType.FUND]:
+      [AssetType.FUND]:
         funds?.data.map((fund) => ({
-          type: ItemType.FUND,
+          type: AssetType.FUND,
           id: fund[0],
           name: fund[2],
           shortcut: fund[1],
         })) || [],
+      [AssetType.OPTION]: [],
     }),
-    [exchanges, coins, stocks, funds],
+    [currencies, coins, stocks, funds],
   )
 }
 
-export function usePrice(base: string, type: ItemType, id: string) {
-  const { data: exchanges } = useSWR<{ rates: { [name: string]: number } }>(
+export function usePrice(base: string, type: AssetType, id: string) {
+  const { data: rates } = useSWR<{ rates: { [name: string]: number } }>(
     ['exchanges', base],
     () =>
       fetch(
@@ -89,32 +91,30 @@ export function usePrice(base: string, type: ItemType, id: string) {
       ).then((response) => response.json()),
   )
   const { data } = useSWR<number>(
-    exchanges ? ['price', type, id, exchanges] : null,
+    rates ? ['price', type, id, rates] : null,
     () => {
-      if (type === ItemType.EXCHANGE) {
-        return exchanges!.rates[type.toUpperCase()]
+      if (type === AssetType.FOREX) {
+        return rates!.rates[type.toUpperCase()]
       }
-      if (type === ItemType.COIN) {
+      if (type === AssetType.CRYPTO) {
         return fetch(`https://api.coinpaprika.com/v1/coins/${id}/ohlcv/today`)
           .then((response) => response.json())
-          .then(
-            (json: [{ close: number }]) => json[0].close / exchanges!.rates.USD,
-          )
+          .then((json: [{ close: number }]) => json[0].close / rates!.rates.USD)
       }
-      if (type === ItemType.STOCK) {
+      if (type === AssetType.STOCK) {
         return fetch(`https://api.doctorxiong.club/v1/stock?code=${id}`)
           .then((response) => response.json())
           .then(
             (json: { data: [{ price: string }] }) =>
-              parseFloat(json.data[0].price) / exchanges!.rates[base],
+              parseFloat(json.data[0].price) / rates!.rates[base],
           )
       }
-      if (type === ItemType.FUND) {
+      if (type === AssetType.FUND) {
         return fetch(`https://api.doctorxiong.club/v1/fund?code=${id}`)
           .then((response) => response.json())
           .then(
             (json: { data: [{ netWorth: string }] }) =>
-              parseFloat(json.data[0].netWorth) / exchanges!.rates[base],
+              parseFloat(json.data[0].netWorth) / rates!.rates[base],
           )
       }
       return 0

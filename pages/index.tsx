@@ -2,7 +2,7 @@ import { css } from 'linaria'
 import { useState } from 'react'
 
 import { Price } from '../components/price'
-import { ItemType, useAllItems } from '../hooks/use-api'
+import { AssetType, useAllItems } from '../hooks/use-api'
 
 const splitter = '|'
 
@@ -10,7 +10,7 @@ export default function Index() {
   const [amount, setAmount] = useState(0)
   const [unit, setUnit] = useState('')
   const [list, setList] = useState<
-    { amount: number; type: ItemType; id: string }[]
+    { amount: number; type: AssetType; id: string }[]
   >([])
   const items = useAllItems()
 
@@ -54,7 +54,7 @@ export default function Index() {
         <button
           type="button"
           onClick={() => {
-            const [type, id] = unit.split(splitter) as [ItemType, string]
+            const [type, id] = unit.split(splitter) as [AssetType, string]
             setList((old) => [{ amount, type, id }, ...old])
           }}
           className={css`
