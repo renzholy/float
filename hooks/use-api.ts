@@ -2,11 +2,12 @@ import { useMemo } from 'react'
 import useSWR from 'swr'
 
 export enum AssetType {
-  FOREX = 'FOREX',
-  CRYPTO = 'CRYPTO',
-  STOCK = 'STOCK',
-  FUND = 'FUND',
-  OPTION = 'OPTION',
+  FOREX = '外汇',
+  CRYPTO = '加密货币',
+  STOCK_CN = 'A股',
+  STOCK_HK = '港股',
+  STOCK_US = '美股',
+  FUND = '基金',
 }
 
 export function useAllItems() {
@@ -63,12 +64,14 @@ export function useAllItems() {
           name: crypto.name,
           shortcut: crypto.symbol,
         })) || [],
-      [AssetType.STOCK]:
+      [AssetType.STOCK_CN]:
         stocks?.data.map((stock) => ({
-          type: AssetType.STOCK,
+          type: AssetType.STOCK_CN,
           id: stock[0],
           name: stock[1],
         })) || [],
+      [AssetType.STOCK_HK]: [],
+      [AssetType.STOCK_US]: [],
       [AssetType.FUND]:
         funds?.data.map((fund) => ({
           type: AssetType.FUND,
@@ -76,7 +79,6 @@ export function useAllItems() {
           name: fund[2],
           shortcut: fund[1],
         })) || [],
-      [AssetType.OPTION]: [],
     }),
     [currencies, coins, stocks, funds],
   )
@@ -101,7 +103,7 @@ export function usePrice(base: string, type: AssetType, id: string) {
           .then((response) => response.json())
           .then((json: [{ close: number }]) => json[0].close / rates!.rates.USD)
       }
-      if (type === AssetType.STOCK) {
+      if (type === AssetType.STOCK_CN) {
         return fetch(`https://api.doctorxiong.club/v1/stock?code=${id}`)
           .then((response) => response.json())
           .then(
