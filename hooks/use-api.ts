@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import useSWR from 'swr'
 
-enum ItemType {
+export enum ItemType {
   EXCHANGE = 'EXCHANGE',
   COIN = 'COIN',
   STOCK = 'STOCK',
