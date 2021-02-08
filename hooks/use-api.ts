@@ -12,7 +12,7 @@ export function useAllItems() {
   const { data: exchanges } = useSWR<{ rates: { [name: string]: number } }>(
     'exchanges',
     () =>
-      fetch('https://api.ratesapi.io/api/latest?base=CNY').then((response) =>
+      fetch('https://api.ratesapi.io/api/latest').then((response) =>
         response.json(),
       ),
   )
@@ -78,4 +78,47 @@ export function useAllItems() {
     }),
     [exchanges, coins, stocks, funds],
   )
+}
+
+export function usePrice(base: string, type: ItemType, id: string) {
+  const { data: exchanges } = useSWR<{ rates: { [name: string]: number } }>(
+    ['exchanges', base],
+    () =>
+      fetch(
+        `https://api.ratesapi.io/api/latest?base=${base}`,
+      ).then((response) => response.json()),
+  )
+  const { data } = useSWR<number>(
+    exchanges ? ['price', type, id, exchanges] : null,
+    () => {
+      if (type === ItemType.EXCHANGE) {
+        return exchanges!.rates[type.toUpperCase()]
+      }
+      if (type === ItemType.COIN) {
+        return fetch(`https://api.coinpaprika.com/v1/coins/${id}/ohlcv/today`)
+          .then((response) => response.json())
+          .then(
+            (json: [{ close: number }]) => json[0].close / exchanges!.rates.USD,
+          )
+      }
+      if (type === ItemType.STOCK) {
+        return fetch(`https://api.doctorxiong.club/v1/stock?code=${id}`)
+          .then((response) => response.json())
+          .then(
+            (json: { data: [{ netWorth: number }] }) =>
+              json.data[0].netWorth / exchanges!.rates[base],
+          )
+      }
+      if (type === ItemType.FUND) {
+        return fetch(`https://api.doctorxiong.club/v1/fund?code=${id}`)
+          .then((response) => response.json())
+          .then(
+            (json: { data: [{ price: number }] }) =>
+              json.data[0].price / exchanges!.rates[base],
+          )
+      }
+      return 0
+    },
+  )
+  return data || 0
 }

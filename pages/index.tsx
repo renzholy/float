@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { Price } from '../components/price'
 import { ItemType, useAllItems } from '../hooks/use-api'
 
 const splitter = '|'
@@ -55,7 +56,8 @@ export default function Index() {
       <ul>
         {list.map((item) => (
           <li key={`${item.type}${splitter}${item.id}`}>
-            {item.type} {item.id} {item.amount}
+            {item.type} {item.id} {item.amount}&nbsp;
+            <Price amount={item.amount} type={item.type} id={item.id} />
           </li>
         ))}
       </ul>
