@@ -16,14 +16,6 @@ export default function Index() {
   return (
     <div>
       <form>
-        <input
-          type="number"
-          value={amount}
-          onChange={(e) => {
-            setAmount(parseFloat(e.target.value))
-          }}
-          placeholder="amount"
-        />
         <select
           value={unit}
           onChange={(e) => {
@@ -44,6 +36,14 @@ export default function Index() {
             </optgroup>
           ))}
         </select>
+        <input
+          type="number"
+          value={amount}
+          onChange={(e) => {
+            setAmount(parseFloat(e.target.value))
+          }}
+          placeholder="amount"
+        />
         <button
           type="button"
           onClick={() => {

@@ -105,16 +105,16 @@ export function usePrice(base: string, type: ItemType, id: string) {
         return fetch(`https://api.doctorxiong.club/v1/stock?code=${id}`)
           .then((response) => response.json())
           .then(
-            (json: { data: [{ netWorth: number }] }) =>
-              json.data[0].netWorth / exchanges!.rates[base],
+            (json: { data: [{ price: string }] }) =>
+              parseFloat(json.data[0].price) / exchanges!.rates[base],
           )
       }
       if (type === ItemType.FUND) {
         return fetch(`https://api.doctorxiong.club/v1/fund?code=${id}`)
           .then((response) => response.json())
           .then(
-            (json: { data: [{ price: number }] }) =>
-              json.data[0].price / exchanges!.rates[base],
+            (json: { data: [{ netWorth: string }] }) =>
+              parseFloat(json.data[0].netWorth) / exchanges!.rates[base],
           )
       }
       return 0
