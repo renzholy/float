@@ -2,13 +2,20 @@ import { useMemo } from 'react'
 import useSWR from 'swr'
 
 enum ItemType {
-  COIN,
-  STOCK,
-  FUND,
-  EXCHANGE,
+  EXCHANGE = 'EXCHANGE',
+  COIN = 'COIN',
+  STOCK = 'STOCK',
+  FUND = 'FUND',
 }
 
-export function useSearchIndex() {
+export function useAllItems() {
+  const { data: exchanges } = useSWR<{ rates: { [name: string]: number } }>(
+    'exchanges',
+    () =>
+      fetch('https://api.ratesapi.io/api/latest?base=CNY').then((response) =>
+        response.json(),
+      ),
+  )
   const { data: coins } = useSWR<
     { id: string; name: string; symbol: string }[]
   >('coins', () =>
@@ -30,47 +37,45 @@ export function useSearchIndex() {
       response.json(),
     ),
   )
-  const { data: exchanges } = useSWR<{ rates: { [name: string]: number } }>(
-    'exchanges',
-    () =>
-      fetch('https://api.ratesapi.io/api/latest?base=CNY').then((response) =>
-        response.json(),
-      ),
-  )
+
   return useMemo<
     {
-      type: ItemType
-      id: string
-      name?: string
-      shortcut?: string
-    }[]
+      [type in ItemType]: {
+        type: ItemType
+        id: string
+        name?: string
+        shortcut?: string
+      }[]
+    }
   >(
-    () =>
-      coins && stocks && funds && exchanges
-        ? [
-            ...coins.map((coin) => ({
-              type: ItemType.COIN,
-              id: coin.id,
-              name: coin.name,
-              shortcut: coin.symbol,
-            })),
-            ...stocks.data.map((stock) => ({
-              type: ItemType.STOCK,
-              id: stock[0],
-              name: stock[1],
-            })),
-            ...funds.data.map((fund) => ({
-              type: ItemType.FUND,
-              id: fund[0],
-              name: fund[2],
-              shortcut: fund[1],
-            })),
-            ...Object.keys(exchanges.rates).map((rate) => ({
-              type: ItemType.EXCHANGE,
-              id: rate,
-            })),
-          ]
+    () => ({
+      [ItemType.EXCHANGE]: exchanges
+        ? Object.keys(exchanges.rates).map((rate) => ({
+            type: ItemType.EXCHANGE,
+            id: rate,
+          }))
         : [],
-    [coins, stocks, funds, exchanges],
+      [ItemType.COIN]:
+        coins?.map((coin) => ({
+          type: ItemType.COIN,
+          id: coin.id,
+          name: coin.name,
+          shortcut: coin.symbol,
+        })) || [],
+      [ItemType.STOCK]:
+        stocks?.data.map((stock) => ({
+          type: ItemType.STOCK,
+          id: stock[0],
+          name: stock[1],
+        })) || [],
+      [ItemType.FUND]:
+        funds?.data.map((fund) => ({
+          type: ItemType.FUND,
+          id: fund[0],
+          name: fund[2],
+          shortcut: fund[1],
+        })) || [],
+    }),
+    [exchanges, coins, stocks, funds],
   )
 }
