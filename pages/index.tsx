@@ -2,7 +2,7 @@ import { css } from 'linaria'
 import { useState } from 'react'
 import useSWR from 'swr'
 import { Suggest } from '@blueprintjs/select'
-import { ControlGroup, MenuItem, NumericInput, Button } from '@blueprintjs/core'
+import { MenuItem, NumericInput, Button } from '@blueprintjs/core'
 
 import { Price } from '../components/price'
 import { useAllItems } from '../hooks/use-api'
@@ -32,8 +32,16 @@ export default function Index() {
 
   return (
     <div>
-      <ControlGroup>
+      <div
+        className={css`
+          display: flex;
+          margin: 5px;
+        `}>
         <AssetSuggest
+          inputProps={{ large: true }}
+          className={css`
+            margin: 5px;
+          `}
           query={keyword}
           onQueryChange={setKeyword}
           items={data || []}
@@ -62,12 +70,20 @@ export default function Index() {
           }}
         />
         <NumericInput
+          large={true}
+          className={css`
+            margin: 5px;
+          `}
           value={amount}
           onValueChange={setAmount}
           placeholder="Amount"
           buttonPosition="none"
         />
         <Button
+          large={true}
+          className={css`
+            margin: 5px;
+          `}
           onClick={() => {
             if (asset && amount) {
               setList((old) => [
@@ -80,7 +96,7 @@ export default function Index() {
           }}>
           ADD
         </Button>
-      </ControlGroup>
+      </div>
       <ul>
         {list.map((item) => (
           <li key={`${item.type}${splitter}${item.id}`}>
