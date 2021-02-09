@@ -178,7 +178,8 @@ export default function Index() {
           <MenuItem
             key={item.type + item.id}
             icon={icons(item.type, true)}
-            text={
+            text={item.name}
+            labelElement={
               <Price
                 amount={item.amount}
                 type={item.type}
@@ -192,8 +193,7 @@ export default function Index() {
                   )
                 }}
               />
-            }
-            label={item.name}>
+            }>
             <MenuItem
               icon="trash"
               intent={Intent.DANGER}
@@ -209,8 +209,8 @@ export default function Index() {
           icon={
             <RiMoneyCnyCircleLine size={20} className={iconLargeClassName} />
           }
-          text={formatNumber(sum(total))}
-          label="Total"
+          text="Total"
+          label={formatNumber(sum(total))}
         />
       </Menu>
     </div>
