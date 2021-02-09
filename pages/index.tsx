@@ -45,7 +45,11 @@ export default function Index() {
           query={keyword}
           onQueryChange={setKeyword}
           items={data || []}
-          noResults={<MenuItem disabled={true} text="No results." />}
+          noResults={
+            keyword ? (
+              <MenuItem disabled={true} text="No results." />
+            ) : undefined
+          }
           inputValueRenderer={(item) => item.name}
           itemRenderer={(item, { handleClick, modifiers }) => (
             <MenuItem
