@@ -80,7 +80,7 @@ export default function Index() {
   return (
     <div
       className={css`
-        width: 400px;
+        max-width: 500px;
         margin: 0 auto;
       `}>
       <div
@@ -92,6 +92,7 @@ export default function Index() {
           inputProps={{
             large: true,
             placeholder: 'Forex, Stock, Fund, Crypto',
+            autoFocus: true,
           }}
           fill={true}
           className={css`
