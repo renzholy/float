@@ -53,13 +53,16 @@ export default function Index() {
   const [keyword, setKeyword] = useState('')
   const [amount, setAmount] = useState('')
   const [asset, setAsset] = useState<Asset | null>(null)
-  const { data } = useSWR(keyword ? ['asset', keyword] : null, () =>
-    db.assets
-      .where('name')
-      .startsWithIgnoreCase(keyword)
-      .or('symbol')
-      .equalsIgnoreCase(keyword)
-      .toArray(),
+  const { data } = useSWR(['asset', keyword], () =>
+    keyword
+      ? db.assets
+          .where('name')
+          .startsWithIgnoreCase(keyword)
+          .or('symbol')
+          .equalsIgnoreCase(keyword)
+          .limit(20)
+          .toArray()
+      : [],
   )
   const [list, setList] = useState<({ amount: number } & Asset)[]>([])
   useAllItems()
@@ -102,7 +105,7 @@ export default function Index() {
           )}
           selectedItem={asset}
           activeItem={asset}
-          itemPredicate={() => true}
+          itemListPredicate={(_q, items) => items}
           onItemSelect={setAsset}
           openOnKeyDown={true}
           popoverProps={{
