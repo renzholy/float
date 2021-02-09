@@ -17,7 +17,6 @@ import {
   RiStockLine,
 } from 'react-icons/ri'
 import * as Comlink from 'comlink'
-import useAsyncEffect from 'use-async-effect'
 
 import { Price } from '../components/price'
 import { useAllItems } from '../hooks/use-api'
@@ -64,23 +63,8 @@ export default function Index() {
     comlinkWorkerRef.current = Comlink.wrap<WorkerApi>(workerRef.current)
     return workerRef.current?.terminate
   }, [])
-  const [db, setDb] = useState<WorkerApi['db']>()
-  useAsyncEffect(async (isMounted) => {
-    const d = await comlinkWorkerRef.current?.db
-    if (isMounted()) {
-      setDb(d)
-    }
-  }, [])
-  const { data } = useSWR(['asset', keyword, db], async () =>
-    keyword && db
-      ? db.assets
-          .where('name')
-          .startsWithIgnoreCase(keyword)
-          .or('symbol')
-          .equalsIgnoreCase(keyword)
-          .limit(20)
-          .toArray()
-      : [],
+  const { data } = useSWR(['asset', keyword], async () =>
+    keyword ? comlinkWorkerRef.current?.search?.(keyword) : [],
   )
   const [list, setList] = useState<({ amount: number } & Asset)[]>([])
   useAllItems()
@@ -113,6 +97,7 @@ export default function Index() {
           inputValueRenderer={(item) => item.name}
           itemRenderer={(item, { handleClick, modifiers }) => (
             <MenuItem
+              key={item.type + item.id}
               icon={icons(item.type)}
               text={item.name}
               label={item.symbol}

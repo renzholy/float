@@ -13,7 +13,6 @@ export function useAllItems() {
     comlinkWorkerRef.current = Comlink.wrap<WorkerApi>(workerRef.current)
     return workerRef.current?.terminate
   }, [])
-  const { data: db } = useSWR('db', () => comlinkWorkerRef.current?.db)
   const { data: forexs } = useSWR<{ rates: { [name: string]: number } }>(
     'forexs',
     () =>
@@ -54,7 +53,7 @@ export function useAllItems() {
   )
   useEffect(() => {
     if (forexs) {
-      db?.assets.bulkPut(
+      comlinkWorkerRef.current?.bulkPut(
         Object.keys(forexs.rates).map((rate) => ({
           type: AssetType.FOREX,
           id: rate,
@@ -63,10 +62,10 @@ export function useAllItems() {
         })),
       )
     }
-  }, [forexs, db])
+  }, [forexs])
   useEffect(() => {
     if (cryptos) {
-      db?.assets.bulkPut(
+      comlinkWorkerRef.current?.bulkPut(
         cryptos.map((crypto) => ({
           type: AssetType.CRYPTO,
           id: crypto.id,
@@ -75,10 +74,10 @@ export function useAllItems() {
         })),
       )
     }
-  }, [cryptos, db])
+  }, [cryptos])
   useEffect(() => {
     if (stocks) {
-      db?.assets.bulkPut(
+      comlinkWorkerRef.current?.bulkPut(
         stocks.data.map((stock) => ({
           type: AssetType.STOCK_CN,
           id: stock[0],
@@ -87,10 +86,10 @@ export function useAllItems() {
         })),
       )
     }
-  }, [stocks, db])
+  }, [stocks])
   useEffect(() => {
     if (funds) {
-      db?.assets.bulkPut(
+      comlinkWorkerRef.current?.bulkPut(
         funds.data.map((fund) => ({
           type: AssetType.FUND,
           id: fund[0],
@@ -99,7 +98,7 @@ export function useAllItems() {
         })),
       )
     }
-  }, [funds, db])
+  }, [funds])
 }
 
 export function usePrice(base: string, type: AssetType, id: string) {
