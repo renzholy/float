@@ -9,7 +9,7 @@ export function useAllItems() {
   const workerRef = useRef<Worker>()
   const comlinkWorkerRef = useRef<Comlink.Remote<WorkerApi>>()
   useEffect(() => {
-    workerRef.current = new Worker('../workers/db.worker')
+    workerRef.current = new Worker('../workers/db.worker', { type: 'module' })
     comlinkWorkerRef.current = Comlink.wrap<WorkerApi>(workerRef.current)
     return workerRef.current?.terminate
   }, [])

@@ -23,7 +23,8 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
-    "swr": "^0.4.2"
+    "swr": "^0.4.2",
+    "use-async-effect": "^2.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",
@@ -64,5 +65,8 @@
   "browserslist": [
     "since 2017"
   ],
+  "resolutions": {
+    "webpack": "^4.46.0"
+  },
   "license": "MIT"
 }

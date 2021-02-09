@@ -1,5 +1,5 @@
 import { css, cx } from 'linaria'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import useSWR from 'swr'
 import { Suggest } from '@blueprintjs/select'
 import {
@@ -17,6 +17,7 @@ import {
   RiStockLine,
 } from 'react-icons/ri'
 import * as Comlink from 'comlink'
+import useAsyncEffect from 'use-async-effect'
 
 import { Price } from '../components/price'
 import { useAllItems } from '../hooks/use-api'
@@ -54,11 +55,22 @@ export default function Index() {
   const [keyword, setKeyword] = useState('')
   const [amount, setAmount] = useState('')
   const [asset, setAsset] = useState<Asset | null>(null)
-  const { data: db } = useSWR('db', async () => {
-    const worker = new Worker('../workers/db.worker.js', { type: 'module' })
-    const obj = Comlink.wrap<WorkerApi>(worker)
-    return obj.db
-  })
+  const workerRef = useRef<Worker>()
+  const comlinkWorkerRef = useRef<Comlink.Remote<WorkerApi>>()
+  useEffect(() => {
+    workerRef.current = new Worker('../workers/db.worker', {
+      type: 'module',
+    })
+    comlinkWorkerRef.current = Comlink.wrap<WorkerApi>(workerRef.current)
+    return workerRef.current?.terminate
+  }, [])
+  const [db, setDb] = useState<WorkerApi['db']>()
+  useAsyncEffect(async (isMounted) => {
+    const d = await comlinkWorkerRef.current?.db
+    if (isMounted()) {
+      setDb(d)
+    }
+  }, [])
   const { data } = useSWR(['asset', keyword, db], async () =>
     keyword && db
       ? db.assets
