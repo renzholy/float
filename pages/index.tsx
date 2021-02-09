@@ -32,19 +32,20 @@ const iconClassName = css`
 
 const iconLargeClassName = css`
   fill: #5c7080;
-  margin-top: 3px;
+  margin-top: 1px;
   margin-right: 7px;
 `
 
 function icons(type: AssetType, large?: boolean) {
   const className = large ? iconLargeClassName : iconClassName
+  const size = large ? 20 : 16
   return {
-    [AssetType.FOREX]: <RiExchangeLine size={16} className={className} />,
-    [AssetType.CRYPTO]: <RiBitCoinLine size={16} className={className} />,
-    [AssetType.STOCK_CN]: <RiStockLine size={16} className={className} />,
-    [AssetType.STOCK_HK]: <RiStockLine size={16} className={className} />,
-    [AssetType.STOCK_US]: <RiStockLine size={16} className={className} />,
-    [AssetType.FUND]: <RiFundsLine size={16} className={className} />,
+    [AssetType.FOREX]: <RiExchangeLine size={size} className={className} />,
+    [AssetType.CRYPTO]: <RiBitCoinLine size={size} className={className} />,
+    [AssetType.STOCK_CN]: <RiStockLine size={size} className={className} />,
+    [AssetType.STOCK_HK]: <RiStockLine size={size} className={className} />,
+    [AssetType.STOCK_US]: <RiStockLine size={size} className={className} />,
+    [AssetType.FUND]: <RiFundsLine size={size} className={className} />,
   }[type]
 }
 
@@ -157,17 +158,22 @@ export default function Index() {
           {list.map((item) => (
             <MenuItem
               key={item.type + item.id}
-              onClick={() => {
-                setList((old) =>
-                  old.filter((i) => i.type !== item.type || i.id !== item.id),
-                )
-              }}
               icon={icons(item.type, true)}
               text={
                 <Price amount={item.amount} type={item.type} id={item.id} />
               }
-              label={item.name}
-            />
+              label={item.name}>
+              <MenuItem
+                icon="trash"
+                intent={Intent.DANGER}
+                onClick={() => {
+                  setList((old) =>
+                    old.filter((i) => i.type !== item.type || i.id !== item.id),
+                  )
+                }}
+                text="Remove"
+              />
+            </MenuItem>
           ))}
         </Menu>
       ) : null}
