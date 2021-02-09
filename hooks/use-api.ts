@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import useSWR from 'swr'
 
 import { db } from '../libs/db'
-import { segment } from '../libs/segment'
 import { AssetType } from '../libs/types'
 
 export function useAllItems() {
@@ -12,27 +11,37 @@ export function useAllItems() {
       fetch('https://api.ratesapi.io/api/latest').then((response) =>
         response.json(),
       ),
+    { revalidateOnFocus: false },
   )
   const { data: cryptos } = useSWR<
     { id: string; name: string; symbol: string }[]
-  >('cryptos', () =>
-    fetch('https://api.coinpaprika.com/v1/coins').then((response) =>
-      response.json(),
-    ),
+  >(
+    'cryptos',
+    () =>
+      fetch('https://api.coinpaprika.com/v1/coins').then((response) =>
+        response.json(),
+      ),
+    { revalidateOnFocus: false },
   )
   const { data: stocks } = useSWR<{
     data: [string, string][]
-  }>('stocks', () =>
-    fetch('https://api.doctorxiong.club/v1/stock/all').then((response) =>
-      response.json(),
-    ),
+  }>(
+    'stocks',
+    () =>
+      fetch('https://api.doctorxiong.club/v1/stock/all').then((response) =>
+        response.json(),
+      ),
+    { revalidateOnFocus: false },
   )
   const { data: funds } = useSWR<{
     data: [string, string, string, string, string][]
-  }>('funds', () =>
-    fetch('https://api.doctorxiong.club/v1/fund/all').then((response) =>
-      response.json(),
-    ),
+  }>(
+    'funds',
+    () =>
+      fetch('https://api.doctorxiong.club/v1/fund/all').then((response) =>
+        response.json(),
+      ),
+    { revalidateOnFocus: false },
   )
   useEffect(() => {
     if (forexs) {
@@ -41,8 +50,7 @@ export function useAllItems() {
           type: AssetType.FOREX,
           id: rate,
           name: rate,
-          segments: [rate],
-          length: rate.length,
+          symbol: rate,
         })),
       )
     }
@@ -54,8 +62,7 @@ export function useAllItems() {
           type: AssetType.CRYPTO,
           id: crypto.id,
           name: crypto.name,
-          segments: [...segment(crypto.symbol), ...segment(crypto.name)],
-          length: crypto.name.length,
+          symbol: crypto.symbol,
         })),
       )
     }
@@ -66,9 +73,8 @@ export function useAllItems() {
         stocks.data.map((stock) => ({
           type: AssetType.STOCK_CN,
           id: stock[0],
-          name: stock[1],
-          segments: segment(stock[1]),
-          length: stock[1]?.length || 0,
+          name: stock[1] || '',
+          symbol: stock[0],
         })),
       )
     }
@@ -80,8 +86,7 @@ export function useAllItems() {
           type: AssetType.FUND,
           id: fund[0],
           name: fund[2],
-          segments: [...segment(fund[1]), ...segment(fund[2])],
-          length: fund[2].length,
+          symbol: fund[1],
         })),
       )
     }

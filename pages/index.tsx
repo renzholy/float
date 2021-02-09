@@ -5,7 +5,6 @@ import useSWR from 'swr'
 import { Price } from '../components/price'
 import { useAllItems } from '../hooks/use-api'
 import { db } from '../libs/db'
-import { segment } from '../libs/segment'
 import { AssetType } from '../libs/types'
 
 const splitter = '|'
@@ -14,11 +13,13 @@ export default function Index() {
   const [keyword, setKeyword] = useState('')
   const [amount, setAmount] = useState(0)
   const [asset, setAsset] = useState('')
-  const { data } = useSWR(['asset', keyword], () =>
+  const { data } = useSWR(keyword ? ['asset', keyword] : null, () =>
     db.assets
-      .where('segments')
-      .anyOfIgnoreCase(segment(keyword))
-      .sortBy('length'),
+      .where('name')
+      .startsWithIgnoreCase(keyword)
+      .or('symbol')
+      .equalsIgnoreCase(keyword)
+      .toArray(),
   )
   const [list, setList] = useState<
     { amount: number; type: AssetType; id: string }[]
@@ -53,7 +54,7 @@ export default function Index() {
             <option
               key={`${item.type}${splitter}${item.id}`}
               value={`${item.type}${splitter}${item.id}`}>
-              {item.id} {item.name}
+              {item.type} {item.id} {item.name}
             </option>
           ))}
         </select>
