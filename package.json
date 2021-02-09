@@ -11,6 +11,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@blueprintjs/core": "^3.38.2",
+    "@blueprintjs/select": "^3.15.4",
     "@monaco-editor/react": "^4.0.9",
     "dexie": "^3.0.3",
     "linaria": "^3.0.0-beta.1",

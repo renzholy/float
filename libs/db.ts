@@ -1,17 +1,9 @@
 import Dexie from 'dexie'
 
-import { AssetType } from './types'
+import { Asset } from './types'
 
 class MyDatabase extends Dexie {
-  assets: Dexie.Table<
-    {
-      type: AssetType
-      id: string
-      name: string
-      symbol: string
-    },
-    string
-  >
+  assets: Dexie.Table<Asset, string>
 
   constructor() {
     super('MyDatabase')

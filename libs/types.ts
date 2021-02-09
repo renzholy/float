@@ -6,3 +6,10 @@ export enum AssetType {
   STOCK_US = '美股',
   FUND = '基金',
 }
+
+export interface Asset {
+  type: AssetType
+  id: string
+  name: string
+  symbol: string
+}

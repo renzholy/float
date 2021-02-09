@@ -4,6 +4,7 @@ import React from 'react'
 import type { AppProps } from 'next/app'
 import whyDidYouRender from '@welldone-software/why-did-you-render'
 import 'normalize.css'
+import '@blueprintjs/core/lib/css/blueprint.css'
 
 import './global.css'
 

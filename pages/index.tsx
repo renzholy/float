@@ -1,18 +1,22 @@
 import { css } from 'linaria'
 import { useState } from 'react'
 import useSWR from 'swr'
+import { Suggest } from '@blueprintjs/select'
+import { ControlGroup, MenuItem, NumericInput, Button } from '@blueprintjs/core'
 
 import { Price } from '../components/price'
 import { useAllItems } from '../hooks/use-api'
 import { db } from '../libs/db'
-import { AssetType } from '../libs/types'
+import { Asset, AssetType } from '../libs/types'
 
 const splitter = '|'
+
+const AssetSuggest = Suggest.ofType<Asset>()
 
 export default function Index() {
   const [keyword, setKeyword] = useState('')
   const [amount, setAmount] = useState(0)
-  const [asset, setAsset] = useState('')
+  const [asset, setAsset] = useState<Asset>()
   const { data } = useSWR(keyword ? ['asset', keyword] : null, () =>
     db.assets
       .where('name')
@@ -28,63 +32,55 @@ export default function Index() {
 
   return (
     <div>
-      <form>
-        <input
-          value={keyword}
-          onChange={(e) => {
-            setKeyword(e.target.value)
+      <ControlGroup>
+        <AssetSuggest
+          query={keyword}
+          onQueryChange={setKeyword}
+          items={data || []}
+          noResults={<MenuItem disabled={true} text="No results." />}
+          inputValueRenderer={(item) => item.name}
+          itemRenderer={(item, { handleClick, modifiers }) => (
+            <MenuItem
+              text={item.name}
+              label={item.symbol}
+              onClick={handleClick}
+              disabled={modifiers.disabled}
+              active={modifiers.active}
+            />
+          )}
+          selectedItem={asset}
+          activeItem={asset}
+          itemPredicate={() => true}
+          onItemSelect={setAsset}
+          openOnKeyDown={true}
+          popoverProps={{
+            minimal: true,
+            popoverClassName: css`
+              max-height: 400px;
+              overflow-y: auto;
+            `,
           }}
-          placeholder="search"
-          className={css`
-            height: 26px;
-          `}
         />
-        <select
-          value={asset}
-          onChange={(e) => {
-            setAsset(e.target.value)
-          }}
-          className={css`
-            height: 32px;
-          `}>
-          <option value="" disabled={true}>
-            select unit
-          </option>
-          {data?.map((item) => (
-            <option
-              key={`${item.type}${splitter}${item.id}`}
-              value={`${item.type}${splitter}${item.id}`}>
-              {item.type} {item.id} {item.name}
-            </option>
-          ))}
-        </select>
-        <input
-          type="number"
+        <NumericInput
           value={amount}
-          onChange={(e) => {
-            setAmount(parseFloat(e.target.value))
-          }}
-          placeholder="amount"
-          className={css`
-            height: 26px;
-          `}
+          onValueChange={setAmount}
+          placeholder="Amount"
+          buttonPosition="none"
         />
-        <button
-          type="button"
+        <Button
           onClick={() => {
-            const [type, id] = asset.split(splitter) as [AssetType, string]
-            if (type && id && amount) {
-              setList((old) => [{ amount, type, id }, ...old])
+            if (asset && amount) {
+              setList((old) => [
+                { amount, type: asset.type, id: asset.id },
+                ...old,
+              ])
               setAmount(0)
-              setAsset('')
+              setAsset(undefined)
             }
-          }}
-          className={css`
-            height: 32px;
-          `}>
+          }}>
           ADD
-        </button>
-      </form>
+        </Button>
+      </ControlGroup>
       <ul>
         {list.map((item) => (
           <li key={`${item.type}${splitter}${item.id}`}>
