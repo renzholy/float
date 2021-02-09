@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
+
 import { usePrice } from '../hooks/use-api'
-import { numberFormat } from '../libs/formatter'
+import { formatNumber } from '../libs/formatter'
 import { AssetType } from '../libs/types'
 
 export function Price(props: {
@@ -15,5 +16,5 @@ export function Price(props: {
     onPrice(price)
   }, [onPrice, price])
 
-  return <>{numberFormat.format(price * props.amount)}</>
+  return <>{formatNumber(price * props.amount)}</>
 }

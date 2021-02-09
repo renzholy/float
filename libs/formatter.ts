@@ -1,1 +1,5 @@
-export const numberFormat = Intl.NumberFormat()
+const numberFormat = Intl.NumberFormat()
+
+export function formatNumber(num: number) {
+  return Number.isNaN(num) ? '-' : numberFormat.format(num)
+}

@@ -136,8 +136,8 @@ export function usePrice(base: string, type: AssetType, id: string) {
               parseFloat(json.data[0].netWorth) / rates!.rates[base],
           )
       }
-      return 0
+      return NaN
     },
   )
-  return data || 0
+  return data || NaN
 }

@@ -25,7 +25,7 @@ import { Price } from '../components/price'
 import { useAllItems } from '../hooks/use-api'
 import { Asset, AssetType } from '../libs/types'
 import type { WorkerApi } from '../workers/db.worker'
-import { numberFormat } from '../libs/formatter'
+import { formatNumber } from '../libs/formatter'
 import db from '../libs/db'
 
 const AssetSuggest = Suggest.ofType<Asset>()
@@ -208,7 +208,7 @@ export default function Index() {
           icon={
             <RiMoneyCnyCircleLine size={20} className={iconLargeClassName} />
           }
-          text={numberFormat.format(sum(total))}
+          text={formatNumber(sum(total))}
           label="Total"
         />
       </Menu>
