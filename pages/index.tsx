@@ -16,11 +16,12 @@ import {
   RiFundsLine,
   RiStockLine,
 } from 'react-icons/ri'
+import * as Comlink from 'comlink'
 
 import { Price } from '../components/price'
 import { useAllItems } from '../hooks/use-api'
-import { db } from '../libs/db'
 import { Asset, AssetType } from '../libs/types'
+import type { WorkerApi } from '../workers/db.worker'
 
 const AssetSuggest = Suggest.ofType<Asset>()
 
@@ -53,8 +54,13 @@ export default function Index() {
   const [keyword, setKeyword] = useState('')
   const [amount, setAmount] = useState('')
   const [asset, setAsset] = useState<Asset | null>(null)
-  const { data } = useSWR(['asset', keyword], () =>
-    keyword
+  const { data: db } = useSWR('db', async () => {
+    const worker = new Worker('../workers/db.worker.js', { type: 'module' })
+    const obj = Comlink.wrap<WorkerApi>(worker)
+    return obj.db
+  })
+  const { data } = useSWR(['asset', keyword, db], async () =>
+    keyword && db
       ? db.assets
           .where('name')
           .startsWithIgnoreCase(keyword)

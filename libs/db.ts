@@ -1,4 +1,4 @@
-import Dexie from 'dexie'
+import Dexie from 'dexie/dist/dexie'
 
 import { Asset } from './types'
 
@@ -14,4 +14,6 @@ class MyDatabase extends Dexie {
   }
 }
 
-export const db = new MyDatabase()
+const db = new MyDatabase()
+
+export default db

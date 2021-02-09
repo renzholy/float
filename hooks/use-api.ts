@@ -1,10 +1,19 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import useSWR from 'swr'
+import * as Comlink from 'comlink'
 
-import { db } from '../libs/db'
 import { AssetType } from '../libs/types'
+import { WorkerApi } from '../workers/db.worker'
 
 export function useAllItems() {
+  const workerRef = useRef<Worker>()
+  const comlinkWorkerRef = useRef<Comlink.Remote<WorkerApi>>()
+  useEffect(() => {
+    workerRef.current = new Worker('../workers/db.worker')
+    comlinkWorkerRef.current = Comlink.wrap<WorkerApi>(workerRef.current)
+    return workerRef.current?.terminate
+  }, [])
+  const { data: db } = useSWR('db', () => comlinkWorkerRef.current?.db)
   const { data: forexs } = useSWR<{ rates: { [name: string]: number } }>(
     'forexs',
     () =>
@@ -45,7 +54,7 @@ export function useAllItems() {
   )
   useEffect(() => {
     if (forexs) {
-      db.assets.bulkPut(
+      db?.assets.bulkPut(
         Object.keys(forexs.rates).map((rate) => ({
           type: AssetType.FOREX,
           id: rate,
@@ -54,10 +63,10 @@ export function useAllItems() {
         })),
       )
     }
-  }, [forexs])
+  }, [forexs, db])
   useEffect(() => {
     if (cryptos) {
-      db.assets.bulkPut(
+      db?.assets.bulkPut(
         cryptos.map((crypto) => ({
           type: AssetType.CRYPTO,
           id: crypto.id,
@@ -66,10 +75,10 @@ export function useAllItems() {
         })),
       )
     }
-  }, [cryptos])
+  }, [cryptos, db])
   useEffect(() => {
     if (stocks) {
-      db.assets.bulkPut(
+      db?.assets.bulkPut(
         stocks.data.map((stock) => ({
           type: AssetType.STOCK_CN,
           id: stock[0],
@@ -78,10 +87,10 @@ export function useAllItems() {
         })),
       )
     }
-  }, [stocks])
+  }, [stocks, db])
   useEffect(() => {
     if (funds) {
-      db.assets.bulkPut(
+      db?.assets.bulkPut(
         funds.data.map((fund) => ({
           type: AssetType.FUND,
           id: fund[0],
@@ -90,7 +99,7 @@ export function useAllItems() {
         })),
       )
     }
-  }, [funds])
+  }, [funds, db])
 }
 
 export function usePrice(base: string, type: AssetType, id: string) {
