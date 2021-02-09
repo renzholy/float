@@ -86,7 +86,10 @@ export default function Index() {
           margin: 5px;
         `}>
         <AssetSuggest
-          inputProps={{ large: true }}
+          inputProps={{
+            large: true,
+            placeholder: 'Forex, Stock, Fund, Crypto',
+          }}
           fill={true}
           className={css`
             margin: 5px;
