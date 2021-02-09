@@ -26,6 +26,7 @@ import { useAllItems } from '../hooks/use-api'
 import { Asset, AssetType } from '../libs/types'
 import type { WorkerApi } from '../workers/db.worker'
 import { numberFormat } from '../libs/formatter'
+import db from '../libs/db'
 
 const AssetSuggest = Suggest.ofType<Asset>()
 
@@ -70,9 +71,11 @@ export default function Index() {
   const { data } = useSWR(['asset', keyword], async () =>
     keyword ? comlinkWorkerRef.current?.search?.(keyword) : [],
   )
-  const [list, setList] = useState<({ amount: number } & Asset)[]>([])
-  useAllItems()
+  const { data: mine, revalidate } = useSWR('mine', () =>
+    db.mine.orderBy('order').reverse().toArray(),
+  )
   const [total, setTotal] = useState<number[]>([])
+  useAllItems()
 
   return (
     <div
@@ -147,14 +150,16 @@ export default function Index() {
           `}
           disabled={!asset || !amount}
           intent={Intent.PRIMARY}
-          onClick={() => {
-            if (asset && amount) {
-              setList((old) => [
-                { amount: parseFloat(amount), ...asset },
-                ...old,
-              ])
+          onClick={async () => {
+            if (asset && amount && mine) {
               setAmount('')
               setAsset(null)
+              await db.mine.add({
+                amount: parseFloat(amount),
+                ...asset,
+                order: mine.length,
+              })
+              await revalidate()
             }
           }}>
           Add
@@ -168,7 +173,7 @@ export default function Index() {
           `,
           Classes.ELEVATION_1,
         )}>
-        {list.map((item, index) => (
+        {mine?.map((item, index) => (
           <MenuItem
             key={item.type + item.id}
             icon={icons(item.type, true)}
@@ -191,10 +196,9 @@ export default function Index() {
             <MenuItem
               icon="trash"
               intent={Intent.DANGER}
-              onClick={() => {
-                setList((old) =>
-                  old.filter((i) => i.type !== item.type || i.id !== item.id),
-                )
+              onClick={async () => {
+                await db.mine.delete(item.order)
+                await revalidate()
               }}
               text="Remove"
             />
