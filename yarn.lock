@@ -1080,22 +1080,6 @@
     mkdirp "^0.5.1"
     normalize-path "^3.0.0"
 
-"@monaco-editor/loader@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@monaco-editor/loader/-/loader-1.0.0.tgz#c7ea78ef07cebcae83d92bbfe2bddab563468102"
-  integrity sha512-CA35bf5Y7wFWfeJZfkLslOxiatln3oTBKkfbdo+TF5H+UdPP96qHvhOUjjd1DeQ2NWsRkVPSnoSYek7NE5B26w==
-  dependencies:
-    state-local "^1.0.6"
-
-"@monaco-editor/react@^4.0.9":
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/@monaco-editor/react/-/react-4.0.9.tgz#77f3170c6c8409efe6b450467748f0df4f64d6b2"
-  integrity sha512-mTDqf47FsPnud/Ct3ekKqSFxmytkk4oMVIPUFMJF9iJcKH5AoqXs1oobXtPoVWiL9uWePatBNVCFv1pg4AqZuA==
-  dependencies:
-    "@monaco-editor/loader" "^1.0.0"
-    prop-types "^15.7.2"
-    state-local "^1.0.7"
-
 "@next/env@10.0.4":
   version "10.0.4"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-10.0.4.tgz#ac759094d021853616af56a7bd6720e44a92a303"
@@ -6176,11 +6160,6 @@ stacktrace-parser@0.1.10:
   integrity sha512-KJP1OCML99+8fhOHxwwzyWrlUuVX5GQ0ZpJTd1DFXhdkrvg1szxfHhawXUZ3g9TkXORQd4/WG68jMlQZ2p8wlg==
   dependencies:
     type-fest "^0.7.1"
-
-state-local@^1.0.6, state-local@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/state-local/-/state-local-1.0.7.tgz#da50211d07f05748d53009bee46307a37db386d5"
-  integrity sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w==
 
 static-extend@^0.1.1:
   version "0.1.2"
