@@ -14,14 +14,18 @@ import {
   RiBitCoinLine,
   RiExchangeLine,
   RiFundsLine,
+  RiMoneyCnyCircleLine,
   RiStockLine,
 } from 'react-icons/ri'
 import * as Comlink from 'comlink'
+import produce from 'immer'
+import sum from 'lodash/sum'
 
 import { Price } from '../components/price'
 import { useAllItems } from '../hooks/use-api'
 import { Asset, AssetType } from '../libs/types'
 import type { WorkerApi } from '../workers/db.worker'
+import { numberFormat } from '../libs/formatter'
 
 const AssetSuggest = Suggest.ofType<Asset>()
 
@@ -68,6 +72,7 @@ export default function Index() {
   )
   const [list, setList] = useState<({ amount: number } & Asset)[]>([])
   useAllItems()
+  const [total, setTotal] = useState<number[]>([])
 
   return (
     <div
@@ -152,37 +157,54 @@ export default function Index() {
           Add
         </Button>
       </div>
-      {list.length ? (
-        <Menu
-          large={true}
-          className={cx(
-            css`
-              margin: 10px;
-            `,
-            Classes.ELEVATION_1,
-          )}>
-          {list.map((item) => (
-            <MenuItem
-              key={item.type + item.id}
-              icon={icons(item.type, true)}
-              text={
-                <Price amount={item.amount} type={item.type} id={item.id} />
-              }
-              label={item.name}>
-              <MenuItem
-                icon="trash"
-                intent={Intent.DANGER}
-                onClick={() => {
-                  setList((old) =>
-                    old.filter((i) => i.type !== item.type || i.id !== item.id),
+      <Menu
+        large={true}
+        className={cx(
+          css`
+            margin: 10px;
+          `,
+          Classes.ELEVATION_1,
+        )}>
+        {list.map((item, index) => (
+          <MenuItem
+            key={item.type + item.id}
+            icon={icons(item.type, true)}
+            text={
+              <Price
+                amount={item.amount}
+                type={item.type}
+                id={item.id}
+                onPrice={(price) => {
+                  setTotal((old) =>
+                    produce(old, (draft) => {
+                      // eslint-disable-next-line no-param-reassign
+                      draft[index] = price * item.amount
+                    }),
                   )
                 }}
-                text="Remove"
               />
-            </MenuItem>
-          ))}
-        </Menu>
-      ) : null}
+            }
+            label={item.name}>
+            <MenuItem
+              icon="trash"
+              intent={Intent.DANGER}
+              onClick={() => {
+                setList((old) =>
+                  old.filter((i) => i.type !== item.type || i.id !== item.id),
+                )
+              }}
+              text="Remove"
+            />
+          </MenuItem>
+        ))}
+        <MenuItem
+          icon={
+            <RiMoneyCnyCircleLine size={20} className={iconLargeClassName} />
+          }
+          text={numberFormat.format(sum(total))}
+          label="Total"
+        />
+      </Menu>
     </div>
   )
 }
