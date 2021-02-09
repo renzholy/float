@@ -5,26 +5,20 @@ import useSWR from 'swr'
 import { Price } from '../components/price'
 import { useAllItems } from '../hooks/use-api'
 import { db } from '../libs/db'
+import { segment } from '../libs/segment'
 import { AssetType } from '../libs/types'
+
+const splitter = '|'
 
 export default function Index() {
   const [keyword, setKeyword] = useState('')
   const [amount, setAmount] = useState(0)
-  const [type, setType] = useState<AssetType | ''>('')
-  const [id, setId] = useState('')
-  const { data } = useSWR(['asset', type, keyword], () =>
+  const [asset, setAsset] = useState('')
+  const { data } = useSWR(['asset', keyword], () =>
     db.assets
-      .where('type')
-      .equals(type)
-      .filter(
-        (item) =>
-          !!(
-            !keyword ||
-            item.name?.includes(keyword) ||
-            item.shortcut?.includes(keyword)
-          ),
-      )
-      .toArray(),
+      .where('segments')
+      .anyOfIgnoreCase(segment(keyword))
+      .sortBy('length'),
   )
   const [list, setList] = useState<
     { amount: number; type: AssetType; id: string }[]
@@ -34,19 +28,6 @@ export default function Index() {
   return (
     <div>
       <form>
-        <select
-          value={type}
-          onChange={(e) => {
-            setType(e.target.value as AssetType)
-          }}
-          className={css`
-            height: 32px;
-          `}>
-          <option value="">select type</option>
-          {Object.entries(AssetType).map((asset) => (
-            <option key={asset[0]}>{asset[1]}</option>
-          ))}
-        </select>
         <input
           value={keyword}
           onChange={(e) => {
@@ -58,9 +39,9 @@ export default function Index() {
           `}
         />
         <select
-          value={id}
+          value={asset}
           onChange={(e) => {
-            setId(e.target.value)
+            setAsset(e.target.value)
           }}
           className={css`
             height: 32px;
@@ -69,8 +50,10 @@ export default function Index() {
             select unit
           </option>
           {data?.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.id} {item.name} {item.shortcut}
+            <option
+              key={`${item.type}${splitter}${item.id}`}
+              value={`${item.type}${splitter}${item.id}`}>
+              {item.id} {item.name}
             </option>
           ))}
         </select>
@@ -88,9 +71,8 @@ export default function Index() {
         <button
           type="button"
           onClick={() => {
-            if (type) {
-              setList((old) => [{ amount, type, id }, ...old])
-            }
+            const [type, id] = asset.split(splitter) as [AssetType, string]
+            setList((old) => [{ amount, type, id }, ...old])
           }}
           className={css`
             height: 32px;
@@ -100,7 +82,7 @@ export default function Index() {
       </form>
       <ul>
         {list.map((item) => (
-          <li key={item.id}>
+          <li key={`${item.type}${splitter}${item.id}`}>
             {item.type} {item.id} {item.amount}&nbsp;
             <Price amount={item.amount} type={item.type} id={item.id} />
             <button

@@ -7,8 +7,9 @@ class MyDatabase extends Dexie {
     {
       type: AssetType
       id: string
-      name?: string
-      shortcut?: string
+      name: string
+      segments: string[]
+      length: number
     },
     string
   >
@@ -16,7 +17,7 @@ class MyDatabase extends Dexie {
   constructor() {
     super('MyDatabase')
     this.version(1).stores({
-      assets: '&[type+id], type',
+      assets: '&[type+id], *segments, length',
     })
     this.assets = this.table('assets')
   }

@@ -1,4 +1,5 @@
-import { AssetType, usePrice } from '../hooks/use-api'
+import { usePrice } from '../hooks/use-api'
+import { AssetType } from '../libs/types'
 
 const numberFormat = Intl.NumberFormat()
 

@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import useSWR from 'swr'
 
 import { db } from '../libs/db'
+import { segment } from '../libs/segment'
 import { AssetType } from '../libs/types'
 
 export function useAllItems() {
@@ -39,6 +40,9 @@ export function useAllItems() {
         Object.keys(forexs.rates).map((rate) => ({
           type: AssetType.FOREX,
           id: rate,
+          name: rate,
+          segments: [rate],
+          length: rate.length,
         })),
       )
     }
@@ -50,7 +54,8 @@ export function useAllItems() {
           type: AssetType.CRYPTO,
           id: crypto.id,
           name: crypto.name,
-          shortcut: crypto.symbol,
+          segments: [...segment(crypto.symbol), ...segment(crypto.name)],
+          length: crypto.name.length,
         })),
       )
     }
@@ -62,6 +67,8 @@ export function useAllItems() {
           type: AssetType.STOCK_CN,
           id: stock[0],
           name: stock[1],
+          segments: segment(stock[1]),
+          length: stock[1]?.length || 0,
         })),
       )
     }
@@ -73,7 +80,8 @@ export function useAllItems() {
           type: AssetType.FUND,
           id: fund[0],
           name: fund[2],
-          shortcut: fund[1],
+          segments: [...segment(fund[1]), ...segment(fund[2])],
+          length: fund[2].length,
         })),
       )
     }
