@@ -1,13 +1,20 @@
-import { css } from 'linaria'
+import { css, cx } from 'linaria'
 import { useState } from 'react'
 import useSWR from 'swr'
 import { Suggest } from '@blueprintjs/select'
-import { MenuItem, NumericInput, Button } from '@blueprintjs/core'
+import {
+  MenuItem,
+  Button,
+  Menu,
+  Classes,
+  Intent,
+  InputGroup,
+} from '@blueprintjs/core'
 
 import { Price } from '../components/price'
 import { useAllItems } from '../hooks/use-api'
 import { db } from '../libs/db'
-import { Asset, AssetType } from '../libs/types'
+import { Asset } from '../libs/types'
 
 const splitter = '|'
 
@@ -15,8 +22,8 @@ const AssetSuggest = Suggest.ofType<Asset>()
 
 export default function Index() {
   const [keyword, setKeyword] = useState('')
-  const [amount, setAmount] = useState(0)
-  const [asset, setAsset] = useState<Asset>()
+  const [amount, setAmount] = useState('')
+  const [asset, setAsset] = useState<Asset | null>(null)
   const { data } = useSWR(keyword ? ['asset', keyword] : null, () =>
     db.assets
       .where('name')
@@ -25,13 +32,15 @@ export default function Index() {
       .equalsIgnoreCase(keyword)
       .toArray(),
   )
-  const [list, setList] = useState<
-    { amount: number; type: AssetType; id: string }[]
-  >([])
+  const [list, setList] = useState<({ amount: number } & Asset)[]>([])
   useAllItems()
 
   return (
-    <div>
+    <div
+      className={css`
+        width: 400px;
+        margin: 0 auto;
+      `}>
       <div
         className={css`
           display: flex;
@@ -39,6 +48,7 @@ export default function Index() {
         `}>
         <AssetSuggest
           inputProps={{ large: true }}
+          fill={true}
           className={css`
             margin: 5px;
           `}
@@ -73,51 +83,64 @@ export default function Index() {
             `,
           }}
         />
-        <NumericInput
+        <InputGroup
           large={true}
           className={css`
             margin: 5px;
+            width: 80px;
+            flex-shrink: 0;
           `}
           value={amount}
-          onValueChange={setAmount}
+          onChange={(e) => {
+            setAmount(e.target.value)
+          }}
           placeholder="Amount"
-          buttonPosition="none"
         />
         <Button
           large={true}
           className={css`
             margin: 5px;
           `}
+          disabled={!asset || !amount}
+          intent={Intent.PRIMARY}
           onClick={() => {
             if (asset && amount) {
               setList((old) => [
-                { amount, type: asset.type, id: asset.id },
+                { amount: parseFloat(amount), ...asset },
                 ...old,
               ])
-              setAmount(0)
-              setAsset(undefined)
+              setAmount('')
+              setAsset(null)
             }
           }}>
-          ADD
+          Add
         </Button>
       </div>
-      <ul>
-        {list.map((item) => (
-          <li key={`${item.type}${splitter}${item.id}`}>
-            {item.type} {item.id} {item.amount}&nbsp;
-            <Price amount={item.amount} type={item.type} id={item.id} />
-            <button
-              type="button"
+      {list.length ? (
+        <Menu
+          large={true}
+          className={cx(
+            css`
+              margin: 10px;
+            `,
+            Classes.ELEVATION_1,
+          )}>
+          {list.map((item) => (
+            <MenuItem
+              key={`${item.type}${splitter}${item.id}`}
               onClick={() => {
                 setList((old) =>
                   old.filter((i) => i.type !== item.type || i.id !== item.id),
                 )
-              }}>
-              X
-            </button>
-          </li>
-        ))}
-      </ul>
+              }}
+              text={
+                <Price amount={item.amount} type={item.type} id={item.id} />
+              }
+              label={item.name}
+            />
+          ))}
+        </Menu>
+      ) : null}
     </div>
   )
 }
