@@ -73,7 +73,11 @@ export default function Index() {
           type="button"
           onClick={() => {
             const [type, id] = asset.split(splitter) as [AssetType, string]
-            setList((old) => [{ amount, type, id }, ...old])
+            if (type && id && amount) {
+              setList((old) => [{ amount, type, id }, ...old])
+              setAmount(0)
+              setAsset('')
+            }
           }}
           className={css`
             height: 32px;
