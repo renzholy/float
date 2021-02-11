@@ -132,7 +132,7 @@ export function useAllItems() {
           type: AssetType.FUND,
           id: fund[0],
           name: fund[2],
-          symbol: fund[1],
+          symbol: fund[0],
         })),
       )
     }
