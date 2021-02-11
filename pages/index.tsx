@@ -154,6 +154,7 @@ export default function Index() {
           onClick={async () => {
             if (asset && amount && mine) {
               setAmount('')
+              setKeyword('')
               setAsset(null)
               await db.mine.add({
                 amount: parseFloat(amount),

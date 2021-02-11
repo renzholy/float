@@ -164,6 +164,16 @@ export function usePrice(base: string, type: AssetType, id: string) {
               parseFloat(json.data[0].price) / rates!.rates[base],
           )
       }
+      if (type === AssetType.STOCK_HK) {
+        return fetch(`https://qt.gtimg.cn/q=hk${id}`)
+          .then((response) => response.text())
+          .then((text) => parseFloat(text.split('~')[3]) / rates!.rates.HKD)
+      }
+      if (type === AssetType.STOCK_US) {
+        return fetch(`https://qt.gtimg.cn/q=us${id}`)
+          .then((response) => response.text())
+          .then((text) => parseFloat(text.split('~')[3]) / rates!.rates.USD)
+      }
       if (type === AssetType.FUND) {
         return fetch(`https://api.doctorxiong.club/v1/fund?code=${id}`)
           .then((response) => response.json())
