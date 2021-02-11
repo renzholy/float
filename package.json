@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.38.2",
+    "@blueprintjs/popover2": "^0.2.0",
     "@blueprintjs/select": "^3.15.4",
     "comlink": "^4.3.0",
     "dexie": "^3.0.3",

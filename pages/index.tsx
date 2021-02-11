@@ -20,6 +20,7 @@ import {
 import * as Comlink from 'comlink'
 import produce from 'immer'
 import sum from 'lodash/sum'
+import { Popover2 } from '@blueprintjs/popover2'
 
 import { Price } from '../components/price'
 import { useAllItems } from '../hooks/use-api'
@@ -181,35 +182,44 @@ export default function Index() {
           Classes.ELEVATION_1,
         )}>
         {mine?.map((item, index) => (
-          <MenuItem
-            key={item.type + item.id}
-            icon={icons(item.type, true)}
-            text={item.name}
-            labelElement={
-              <Price
-                amount={item.amount}
-                type={item.type}
-                id={item.id}
-                onPrice={(price) => {
-                  setTotal((old) =>
-                    produce(old, (draft) => {
-                      // eslint-disable-next-line no-param-reassign
-                      draft[index] = price * item.amount
-                    }),
-                  )
-                }}
-              />
+          <Popover2
+            className={css`
+              width: 100%;
+            `}
+            content={
+              <Menu>
+                <MenuItem
+                  icon="trash"
+                  intent={Intent.DANGER}
+                  onClick={async () => {
+                    await db.mine.delete(item.order)
+                    await revalidate()
+                  }}
+                  text="Remove"
+                />
+              </Menu>
             }>
             <MenuItem
-              icon="trash"
-              intent={Intent.DANGER}
-              onClick={async () => {
-                await db.mine.delete(item.order)
-                await revalidate()
-              }}
-              text="Remove"
+              key={item.type + item.id}
+              icon={icons(item.type, true)}
+              text={item.name}
+              labelElement={
+                <Price
+                  amount={item.amount}
+                  type={item.type}
+                  id={item.id}
+                  onPrice={(price) => {
+                    setTotal((old) =>
+                      produce(old, (draft) => {
+                        // eslint-disable-next-line no-param-reassign
+                        draft[index] = price * item.amount
+                      }),
+                    )
+                  }}
+                />
+              }
             />
-          </MenuItem>
+          </Popover2>
         ))}
         <MenuItem
           icon={
