@@ -2,6 +2,7 @@
 
 import React from 'react'
 import type { AppProps } from 'next/app'
+import Head from 'next/head'
 // import whyDidYouRender from '@welldone-software/why-did-you-render'
 import 'normalize.css'
 import '@blueprintjs/core/lib/css/blueprint.css'
@@ -13,7 +14,15 @@ import './global.css'
 // }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Head>
+        <title>Float - 浮动收益</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <Component {...pageProps} />
+    </>
+  )
 }
 
 export default MyApp
