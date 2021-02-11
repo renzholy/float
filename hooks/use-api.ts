@@ -36,7 +36,7 @@ export function useAllItems() {
   }, [forexs])
 
   const { data: cryptos } = useSWR<
-    { id: string; name: string; symbol: string }[]
+    { id: string; name: string; symbol: string; type: string }[]
   >(
     'cryptos',
     () =>
@@ -48,12 +48,14 @@ export function useAllItems() {
   useEffect(() => {
     if (cryptos) {
       comlinkWorkerRef.current?.bulkPut(
-        cryptos.map((crypto) => ({
-          type: AssetType.CRYPTO,
-          id: crypto.id,
-          name: crypto.name,
-          symbol: crypto.symbol,
-        })),
+        cryptos
+          .filter((crypto) => crypto.type === 'coin')
+          .map((crypto) => ({
+            type: AssetType.CRYPTO,
+            id: crypto.id,
+            name: crypto.name,
+            symbol: crypto.symbol,
+          })),
       )
     }
   }, [cryptos])
