@@ -13,40 +13,11 @@ export function useAllItems() {
     comlinkWorkerRef.current = Comlink.wrap<WorkerApi>(workerRef.current)
     return workerRef.current?.terminate
   }, [])
+
   const { data: forexs } = useSWR<{ rates: { [name: string]: number } }>(
     'forexs',
     () =>
       fetch('https://api.ratesapi.io/api/latest').then((response) =>
-        response.json(),
-      ),
-    { revalidateOnFocus: false },
-  )
-  const { data: cryptos } = useSWR<
-    { id: string; name: string; symbol: string }[]
-  >(
-    'cryptos',
-    () =>
-      fetch('https://api.coinpaprika.com/v1/coins').then((response) =>
-        response.json(),
-      ),
-    { revalidateOnFocus: false },
-  )
-  const { data: stocks } = useSWR<{
-    data: [string, string][]
-  }>(
-    'stocks',
-    () =>
-      fetch('https://api.doctorxiong.club/v1/stock/all').then((response) =>
-        response.json(),
-      ),
-    { revalidateOnFocus: false },
-  )
-  const { data: funds } = useSWR<{
-    data: [string, string, string, string, string][]
-  }>(
-    'funds',
-    () =>
-      fetch('https://api.doctorxiong.club/v1/fund/all').then((response) =>
         response.json(),
       ),
     { revalidateOnFocus: false },
@@ -63,6 +34,17 @@ export function useAllItems() {
       )
     }
   }, [forexs])
+
+  const { data: cryptos } = useSWR<
+    { id: string; name: string; symbol: string }[]
+  >(
+    'cryptos',
+    () =>
+      fetch('https://api.coinpaprika.com/v1/coins').then((response) =>
+        response.json(),
+      ),
+    { revalidateOnFocus: false },
+  )
   useEffect(() => {
     if (cryptos) {
       comlinkWorkerRef.current?.bulkPut(
@@ -75,10 +57,21 @@ export function useAllItems() {
       )
     }
   }, [cryptos])
+
+  const { data: stocksCN } = useSWR<{
+    data: [string, string][]
+  }>(
+    'stocksCN',
+    () =>
+      fetch('https://api.doctorxiong.club/v1/stock/all').then((response) =>
+        response.json(),
+      ),
+    { revalidateOnFocus: false },
+  )
   useEffect(() => {
-    if (stocks) {
+    if (stocksCN) {
       comlinkWorkerRef.current?.bulkPut(
-        stocks.data.map((stock) => ({
+        stocksCN.data.map((stock) => ({
           type: AssetType.STOCK_CN,
           id: stock[0],
           name: stock[1] || '',
@@ -86,7 +79,50 @@ export function useAllItems() {
         })),
       )
     }
-  }, [stocks])
+  }, [stocksCN])
+
+  const { data: stocksHK } = useSWR<
+    { id: string; name: string; symbol: string }[]
+  >('stocksHK', () => import('../data/hk.json').then(({ default: hk }) => hk), {
+    revalidateOnFocus: false,
+  })
+  useEffect(() => {
+    if (stocksHK) {
+      comlinkWorkerRef.current?.bulkPut(
+        stocksHK.map((stock) => ({
+          type: AssetType.STOCK_HK,
+          ...stock,
+        })),
+      )
+    }
+  }, [stocksHK])
+
+  const { data: stocksUS } = useSWR<
+    { id: string; name: string; symbol: string }[]
+  >('stocksUS', () => import('../data/us.json').then(({ default: hk }) => hk), {
+    revalidateOnFocus: false,
+  })
+  useEffect(() => {
+    if (stocksUS) {
+      comlinkWorkerRef.current?.bulkPut(
+        stocksUS.map((stock) => ({
+          type: AssetType.STOCK_US,
+          ...stock,
+        })),
+      )
+    }
+  }, [stocksUS])
+
+  const { data: funds } = useSWR<{
+    data: [string, string, string, string, string][]
+  }>(
+    'funds',
+    () =>
+      fetch('https://api.doctorxiong.club/v1/fund/all').then((response) =>
+        response.json(),
+      ),
+    { revalidateOnFocus: false },
+  )
   useEffect(() => {
     if (funds) {
       comlinkWorkerRef.current?.bulkPut(
