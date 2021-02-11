@@ -194,6 +194,11 @@ export default function Index() {
                   onClick={async () => {
                     await db.mine.delete(item.order)
                     await revalidate()
+                    setTotal((old) =>
+                      produce(old, (draft) => {
+                        draft.splice(index, 1)
+                      }),
+                    )
                   }}
                   text="Remove"
                 />

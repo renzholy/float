@@ -36,7 +36,7 @@ export function useAllItems() {
   }, [forexs])
 
   const { data: cryptos } = useSWR<
-    { id: string; name: string; symbol: string; type: string }[]
+    { id: string; name: string; symbol: string; is_active: boolean }[]
   >(
     'cryptos',
     () =>
@@ -49,7 +49,7 @@ export function useAllItems() {
     if (cryptos) {
       comlinkWorkerRef.current?.bulkPut(
         cryptos
-          .filter((crypto) => crypto.type === 'coin')
+          .filter((crypto) => crypto.is_active)
           .map((crypto) => ({
             type: AssetType.CRYPTO,
             id: crypto.id,
