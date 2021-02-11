@@ -183,6 +183,7 @@ export default function Index() {
         )}>
         {mine?.map((item, index) => (
           <Popover2
+            placement="top"
             className={css`
               width: 100%;
             `}
