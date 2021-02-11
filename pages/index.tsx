@@ -27,6 +27,7 @@ import { Asset, AssetType } from '../libs/types'
 import type { WorkerApi } from '../workers/db.worker'
 import { formatNumber } from '../libs/formatter'
 import db from '../libs/db'
+import { useDarkMode } from '../hooks/use-dark-mode'
 
 const AssetSuggest = Suggest.ofType<Asset>()
 
@@ -75,14 +76,18 @@ export default function Index() {
     db.mine.orderBy('order').reverse().toArray(),
   )
   const [total, setTotal] = useState<number[]>([])
+  const isDarkMode = useDarkMode()
   useAllItems()
 
   return (
     <div
-      className={css`
-        max-width: 500px;
-        margin: 0 auto;
-      `}>
+      className={cx(
+        isDarkMode ? Classes.DARK : null,
+        css`
+          max-width: 500px;
+          margin: 0 auto;
+        `,
+      )}>
       <div
         className={css`
           display: flex;
