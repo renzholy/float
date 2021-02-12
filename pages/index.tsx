@@ -23,12 +23,12 @@ import sum from 'lodash/sum'
 import { Popover2 } from '@blueprintjs/popover2'
 
 import { Price } from '../components/price'
-import { useAllItems } from '../hooks/use-api'
 import { Asset, AssetType } from '../libs/types'
 import type { WorkerApi } from '../workers/db.worker'
 import { formatNumber } from '../libs/formatter'
 import db from '../libs/db'
 import { useDarkMode } from '../hooks/use-dark-mode'
+import { useSearch } from '../hooks/use-api'
 
 const AssetSuggest = Suggest.ofType<Asset>()
 
@@ -78,7 +78,7 @@ export default function Index() {
   )
   const [total, setTotal] = useState<number[]>([])
   const isDarkMode = useDarkMode()
-  useAllItems()
+  useSearch(keyword)
 
   return (
     <div

@@ -2,8 +2,23 @@ import { useEffect, useRef } from 'react'
 import useSWR from 'swr'
 import * as Comlink from 'comlink'
 
-import { AssetType } from '../libs/types'
+import { Asset, AssetType } from '../libs/types'
 import { WorkerApi } from '../workers/db.worker'
+
+export function useSearch(keyword: string) {
+  return useSWR<{ [key in AssetType]?: Asset[] }>(
+    keyword ? ['search', keyword] : null,
+    async () => {
+      const results = await Promise.all([
+        fetch(
+          `/api/search?keyword=${encodeURIComponent(keyword)}`,
+        ).then((response) => response.json()),
+      ])
+      console.log(results)
+      return {}
+    },
+  )
+}
 
 export function useAllItems() {
   const workerRef = useRef<Worker>()
