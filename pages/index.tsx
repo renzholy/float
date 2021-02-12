@@ -174,6 +174,7 @@ export default function Index() {
         )}>
         {mine?.map((item, index) => (
           <Popover2
+            key={item.type + item.id}
             placement="top"
             className={css`
               width: 100%;
@@ -197,7 +198,6 @@ export default function Index() {
               </Menu>
             }>
             <MenuItem
-              key={item.type + item.id}
               icon={icons(item.type, true)}
               text={item.name}
               labelElement={
