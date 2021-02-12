@@ -1,19 +1,6 @@
 import useSWR from 'swr'
 
-import { Asset, AssetType } from '../libs/types'
-
-export function useSearch(keyword: string) {
-  return useSWR<Asset[]>(
-    keyword ? ['search', keyword] : null,
-    async () =>
-      fetch(
-        `/api/search?keyword=${encodeURIComponent(keyword)}`,
-      ).then((response) => response.json()),
-    {
-      revalidateOnFocus: false,
-    },
-  )
-}
+import { AssetType } from '../libs/types'
 
 export function usePrice(base: string, type: AssetType, id: string) {
   const { data: rates } = useSWR<{ rates: { [name: string]: number } }>(

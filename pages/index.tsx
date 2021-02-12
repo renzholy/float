@@ -26,7 +26,7 @@ import { Asset, AssetType } from '../libs/types'
 import { formatNumber } from '../libs/formatter'
 import db from '../libs/db'
 import { useDarkMode } from '../hooks/use-dark-mode'
-import { useSearch } from '../hooks/use-api'
+import { useSearch } from '../hooks/use-search'
 import useDebounce from '../hooks/use-debounce'
 
 const AssetSuggest = Suggest.ofType<Asset>()
@@ -94,7 +94,7 @@ export default function Index() {
           `}
           query={keyword}
           onQueryChange={setKeyword}
-          items={data || []}
+          items={data}
           noResults={
             keyword ? (
               <MenuItem
