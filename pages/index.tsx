@@ -27,6 +27,7 @@ import { formatNumber } from '../libs/formatter'
 import db from '../libs/db'
 import { useDarkMode } from '../hooks/use-dark-mode'
 import { useSearch } from '../hooks/use-api'
+import useDebounce from '../hooks/use-debounce'
 
 const AssetSuggest = Suggest.ofType<Asset>()
 
@@ -64,7 +65,8 @@ export default function Index() {
   )
   const [total, setTotal] = useState<number[]>([])
   const isDarkMode = useDarkMode()
-  const { data, isValidating } = useSearch(keyword)
+  const debouncedKeyword = useDebounce(keyword, 500)
+  const { data, isValidating } = useSearch(debouncedKeyword)
 
   return (
     <div
