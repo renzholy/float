@@ -64,7 +64,7 @@ export default function Index() {
   )
   const [total, setTotal] = useState<number[]>([])
   const isDarkMode = useDarkMode()
-  const { data } = useSearch(keyword)
+  const { data, isValidating } = useSearch(keyword)
 
   return (
     <div
@@ -95,7 +95,10 @@ export default function Index() {
           items={data || []}
           noResults={
             keyword ? (
-              <MenuItem disabled={true} text="No results." />
+              <MenuItem
+                disabled={true}
+                text={isValidating ? 'Loading...' : 'No results.'}
+              />
             ) : undefined
           }
           inputValueRenderer={(item) => item.name}
@@ -104,7 +107,7 @@ export default function Index() {
               key={item.type + item.id}
               icon={icons(item.type)}
               text={item.name}
-              label={item.symbol || item.id}
+              label={item.label}
               onClick={handleClick}
               disabled={modifiers.disabled}
               active={modifiers.active}

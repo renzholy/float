@@ -1,7 +1,7 @@
 import flatten from 'lodash/flatten'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { AssetType } from '../../libs/types'
+import { Asset, AssetType } from '../../libs/types'
 
 function unescapeUnicode(text?: string): string {
   return (
@@ -21,7 +21,7 @@ function parseText(text: string): string[][] {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { keyword } = req.query as { keyword: string }
-  const list = await Promise.all([
+  const list: Asset[][] = await Promise.all([
     fetch(
       `https://smartbox.gtimg.cn/s3/?v=2&q=${encodeURIComponent(keyword)}&t=gp`,
       {},
@@ -33,6 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           type: AssetType.STOCK_CN,
           id: item[1],
           name: unescapeUnicode(item[2]),
+          label: item[1],
         })),
       ),
     fetch(
@@ -46,6 +47,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           type: AssetType.STOCK_US,
           id: item[1].split('.')[0].toUpperCase(),
           name: unescapeUnicode(item[2]),
+          label: item[1].split('.')[0].toUpperCase(),
         })),
       ),
     fetch(
@@ -59,6 +61,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           type: AssetType.STOCK_HK,
           id: item[1],
           name: unescapeUnicode(item[2]),
+          label: item[1],
         })),
       ),
     fetch(
@@ -72,6 +75,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           type: AssetType.FUND,
           id: item[1],
           name: unescapeUnicode(item[2]),
+          label: item[1],
         })),
       ),
     fetch(
@@ -86,7 +90,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             type: AssetType.CRYPTO,
             id: item.id,
             name: item.name,
-            symbol: item.symbol,
+            label: item.symbol,
           }),
         ),
       ),
@@ -128,6 +132,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         type: AssetType.FOREX,
         id: item[0],
         name: item[1],
+        label: item[0],
       }))
       .filter((item) => item.id === keyword || item.name.includes(keyword)),
   ])
