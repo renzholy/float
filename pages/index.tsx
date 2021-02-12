@@ -1,5 +1,5 @@
-import { css, cx } from 'linaria'
-import { useEffect, useRef, useState } from 'react'
+import { css, cx } from '@linaria/core'
+import { useState } from 'react'
 import useSWR from 'swr'
 import { Suggest } from '@blueprintjs/select'
 import {
@@ -12,23 +12,22 @@ import {
 } from '@blueprintjs/core'
 import {
   RiBitCoinLine,
+  RiExchangeFundsLine,
   RiExchangeLine,
   RiFundsLine,
   RiMoneyCnyCircleLine,
-  RiStockLine,
 } from 'react-icons/ri'
-import * as Comlink from 'comlink'
 import produce from 'immer'
 import sum from 'lodash/sum'
 import { Popover2 } from '@blueprintjs/popover2'
 
 import { Price } from '../components/price'
-import { useAllItems } from '../hooks/use-api'
 import { Asset, AssetType } from '../libs/types'
-import type { WorkerApi } from '../workers/db.worker'
 import { formatNumber } from '../libs/formatter'
 import db from '../libs/db'
 import { useDarkMode } from '../hooks/use-dark-mode'
+import { useSearch } from '../hooks/use-search'
+import useDebounce from '../hooks/use-debounce'
 
 const AssetSuggest = Suggest.ofType<Asset>()
 
@@ -50,10 +49,10 @@ function icons(type: AssetType, large?: boolean) {
   return {
     [AssetType.FOREX]: <RiExchangeLine size={size} className={className} />,
     [AssetType.CRYPTO]: <RiBitCoinLine size={size} className={className} />,
-    [AssetType.STOCK_CN]: <RiStockLine size={size} className={className} />,
-    [AssetType.STOCK_HK]: <RiStockLine size={size} className={className} />,
-    [AssetType.STOCK_US]: <RiStockLine size={size} className={className} />,
-    [AssetType.FUND]: <RiFundsLine size={size} className={className} />,
+    [AssetType.STOCK_CN]: <RiFundsLine size={size} className={className} />,
+    [AssetType.STOCK_HK]: <RiFundsLine size={size} className={className} />,
+    [AssetType.STOCK_US]: <RiFundsLine size={size} className={className} />,
+    [AssetType.FUND]: <RiExchangeFundsLine size={size} className={className} />,
   }[type]
 }
 
@@ -61,24 +60,13 @@ export default function Index() {
   const [keyword, setKeyword] = useState('')
   const [amount, setAmount] = useState('')
   const [asset, setAsset] = useState<Asset | null>(null)
-  const workerRef = useRef<Worker>()
-  const comlinkWorkerRef = useRef<Comlink.Remote<WorkerApi>>()
-  useEffect(() => {
-    workerRef.current = new Worker('../workers/db.worker', {
-      type: 'module',
-    })
-    comlinkWorkerRef.current = Comlink.wrap<WorkerApi>(workerRef.current)
-    return workerRef.current?.terminate
-  }, [])
-  const { data } = useSWR(['asset', keyword], async () =>
-    keyword ? comlinkWorkerRef.current?.search?.(keyword) : [],
-  )
   const { data: mine, revalidate } = useSWR('mine', () =>
     db.mine.orderBy('order').reverse().toArray(),
   )
   const [total, setTotal] = useState<number[]>([])
   const isDarkMode = useDarkMode()
-  useAllItems()
+  const debouncedKeyword = useDebounce(keyword, 500)
+  const { data, isValidating } = useSearch(debouncedKeyword)
 
   return (
     <div
@@ -97,7 +85,7 @@ export default function Index() {
         <AssetSuggest
           inputProps={{
             large: true,
-            placeholder: 'Forex, Stock, Fund, Crypto',
+            placeholder: '股票、基金、外汇、数字货币',
             autoFocus: true,
           }}
           fill={true}
@@ -106,10 +94,13 @@ export default function Index() {
           `}
           query={keyword}
           onQueryChange={setKeyword}
-          items={data || []}
+          items={data}
           noResults={
             keyword ? (
-              <MenuItem disabled={true} text="No results." />
+              <MenuItem
+                disabled={true}
+                text={isValidating ? 'Loading...' : 'No results.'}
+              />
             ) : undefined
           }
           inputValueRenderer={(item) => item.name}
@@ -118,7 +109,7 @@ export default function Index() {
               key={item.type + item.id}
               icon={icons(item.type)}
               text={item.name}
-              label={item.symbol}
+              label={item.label}
               onClick={handleClick}
               disabled={modifiers.disabled}
               active={modifiers.active}
@@ -148,10 +139,11 @@ export default function Index() {
           onChange={(e) => {
             setAmount(e.target.value)
           }}
-          placeholder="Amount"
+          placeholder="数量"
         />
         <Button
           large={true}
+          icon="add"
           className={css`
             margin: 5px;
           `}
@@ -169,9 +161,8 @@ export default function Index() {
               })
               await revalidate()
             }
-          }}>
-          Add
-        </Button>
+          }}
+        />
       </div>
       <Menu
         large={true}
@@ -183,6 +174,7 @@ export default function Index() {
         )}>
         {mine?.map((item, index) => (
           <Popover2
+            key={item.type + item.id}
             placement="top"
             className={css`
               width: 100%;
@@ -206,7 +198,6 @@ export default function Index() {
               </Menu>
             }>
             <MenuItem
-              key={item.type + item.id}
               icon={icons(item.type, true)}
               text={item.name}
               labelElement={
@@ -231,7 +222,7 @@ export default function Index() {
           icon={
             <RiMoneyCnyCircleLine size={20} className={iconLargeClassName} />
           }
-          text="Total"
+          text="总计"
           label={formatNumber(sum(total))}
         />
       </Menu>

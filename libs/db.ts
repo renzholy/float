@@ -3,8 +3,6 @@ import Dexie from 'dexie/dist/dexie'
 import { Asset } from './types'
 
 class MyDatabase extends Dexie {
-  assets: Dexie.Table<Asset, string>
-
   mine: Dexie.Table<Asset & { amount: number; order: number }, number>
 
   constructor() {
@@ -13,7 +11,10 @@ class MyDatabase extends Dexie {
       assets: '&[type+id], name, symbol',
       mine: '++order',
     })
-    this.assets = this.table('assets')
+    this.version(2).stores({
+      assets: null,
+      mine: '++order',
+    })
     this.mine = this.table('mine')
   }
 }
