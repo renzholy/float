@@ -12,10 +12,10 @@ import {
 } from '@blueprintjs/core'
 import {
   RiBitCoinLine,
+  RiExchangeFundsLine,
   RiExchangeLine,
   RiFundsLine,
   RiMoneyCnyCircleLine,
-  RiStockLine,
 } from 'react-icons/ri'
 import produce from 'immer'
 import sum from 'lodash/sum'
@@ -49,10 +49,10 @@ function icons(type: AssetType, large?: boolean) {
   return {
     [AssetType.FOREX]: <RiExchangeLine size={size} className={className} />,
     [AssetType.CRYPTO]: <RiBitCoinLine size={size} className={className} />,
-    [AssetType.STOCK_CN]: <RiStockLine size={size} className={className} />,
-    [AssetType.STOCK_HK]: <RiStockLine size={size} className={className} />,
-    [AssetType.STOCK_US]: <RiStockLine size={size} className={className} />,
-    [AssetType.FUND]: <RiFundsLine size={size} className={className} />,
+    [AssetType.STOCK_CN]: <RiFundsLine size={size} className={className} />,
+    [AssetType.STOCK_HK]: <RiFundsLine size={size} className={className} />,
+    [AssetType.STOCK_US]: <RiFundsLine size={size} className={className} />,
+    [AssetType.FUND]: <RiExchangeFundsLine size={size} className={className} />,
   }[type]
 }
 
@@ -139,10 +139,11 @@ export default function Index() {
           onChange={(e) => {
             setAmount(e.target.value)
           }}
-          placeholder="Amount"
+          placeholder="数量"
         />
         <Button
           large={true}
+          icon="add"
           className={css`
             margin: 5px;
           `}
@@ -160,9 +161,8 @@ export default function Index() {
               })
               await revalidate()
             }
-          }}>
-          Add
-        </Button>
+          }}
+        />
       </div>
       <Menu
         large={true}
