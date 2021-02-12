@@ -1,3 +1,4 @@
+import flatten from 'lodash/flatten'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { AssetType } from '../../libs/types'
@@ -20,7 +21,7 @@ function parseText(text: string): string[][] {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { keyword } = req.query as { keyword: string }
-  const [stockCN, stockUS, stockHK, fund, crypto, forex] = await Promise.all([
+  const list = await Promise.all([
     fetch(
       `https://smartbox.gtimg.cn/s3/?v=2&q=${encodeURIComponent(keyword)}&t=gp`,
       {},
@@ -130,12 +131,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }))
       .filter((item) => item.id === keyword || item.name.includes(keyword)),
   ])
-  res.status(200).json({
-    [AssetType.STOCK_CN]: stockCN,
-    [AssetType.STOCK_US]: stockUS,
-    [AssetType.STOCK_HK]: stockHK,
-    [AssetType.FUND]: fund,
-    [AssetType.CRYPTO]: crypto,
-    [AssetType.FOREX]: forex,
-  })
+  res.status(200).json(flatten(list))
 }

@@ -11,5 +11,5 @@ export interface Asset {
   type: AssetType
   id: string
   name: string
-  symbol: string
+  symbol?: string
 }

@@ -1,5 +1,5 @@
 import { css, cx } from 'linaria'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import useSWR from 'swr'
 import { Suggest } from '@blueprintjs/select'
 import {
@@ -17,14 +17,12 @@ import {
   RiMoneyCnyCircleLine,
   RiStockLine,
 } from 'react-icons/ri'
-import * as Comlink from 'comlink'
 import produce from 'immer'
 import sum from 'lodash/sum'
 import { Popover2 } from '@blueprintjs/popover2'
 
 import { Price } from '../components/price'
 import { Asset, AssetType } from '../libs/types'
-import type { WorkerApi } from '../workers/db.worker'
 import { formatNumber } from '../libs/formatter'
 import db from '../libs/db'
 import { useDarkMode } from '../hooks/use-dark-mode'
@@ -61,24 +59,12 @@ export default function Index() {
   const [keyword, setKeyword] = useState('')
   const [amount, setAmount] = useState('')
   const [asset, setAsset] = useState<Asset | null>(null)
-  const workerRef = useRef<Worker>()
-  const comlinkWorkerRef = useRef<Comlink.Remote<WorkerApi>>()
-  useEffect(() => {
-    workerRef.current = new Worker('../workers/db.worker', {
-      type: 'module',
-    })
-    comlinkWorkerRef.current = Comlink.wrap<WorkerApi>(workerRef.current)
-    return workerRef.current?.terminate
-  }, [])
-  const { data } = useSWR(['asset', keyword], async () =>
-    keyword ? comlinkWorkerRef.current?.search?.(keyword) : [],
-  )
   const { data: mine, revalidate } = useSWR('mine', () =>
     db.mine.orderBy('order').reverse().toArray(),
   )
   const [total, setTotal] = useState<number[]>([])
   const isDarkMode = useDarkMode()
-  useSearch(keyword)
+  const { data } = useSearch(keyword)
 
   return (
     <div
@@ -118,7 +104,7 @@ export default function Index() {
               key={item.type + item.id}
               icon={icons(item.type)}
               text={item.name}
-              label={item.symbol}
+              label={item.symbol || item.id}
               onClick={handleClick}
               disabled={modifiers.disabled}
               active={modifiers.active}
