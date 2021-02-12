@@ -29,12 +29,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .then((response) => response.text())
       .then(parseText)
       .then((items) =>
-        items.map((item) => ({
-          type: AssetType.STOCK_CN,
-          id: item[1],
-          name: unescapeUnicode(item[2]),
-          label: item[1],
-        })),
+        items
+          .filter((item) => item[4].includes('GP'))
+          .map((item) => ({
+            type: AssetType.STOCK_CN,
+            id: item[1],
+            name: unescapeUnicode(item[2]),
+            label: item[1],
+          })),
       ),
     fetch(
       `https://smartbox.gtimg.cn/s3/?v=2&q=${encodeURIComponent(keyword)}&t=us`,

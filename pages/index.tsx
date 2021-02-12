@@ -83,7 +83,7 @@ export default function Index() {
         <AssetSuggest
           inputProps={{
             large: true,
-            placeholder: 'Forex, Stock, Fund, Crypto',
+            placeholder: '股票、基金、外汇、数字货币',
             autoFocus: true,
           }}
           fill={true}
@@ -220,7 +220,7 @@ export default function Index() {
           icon={
             <RiMoneyCnyCircleLine size={20} className={iconLargeClassName} />
           }
-          text="Total"
+          text="总计"
           label={formatNumber(sum(total))}
         />
       </Menu>
