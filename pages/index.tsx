@@ -1,4 +1,4 @@
-import { css, cx } from 'linaria'
+import { css, cx } from '@linaria/core'
 import { useState } from 'react'
 import useSWR from 'swr'
 import { Suggest } from '@blueprintjs/select'
