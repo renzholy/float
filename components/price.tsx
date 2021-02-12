@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { usePrice } from '../hooks/use-api'
+import { usePrice } from '../hooks/use-price'
 import { formatNumber } from '../libs/formatter'
 import { AssetType } from '../libs/types'
 

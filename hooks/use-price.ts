@@ -22,12 +22,9 @@ export function usePrice(base: string, type: AssetType, id: string) {
           .then((json: [{ close: number }]) => json[0].close / rates!.rates.USD)
       }
       if (type === AssetType.STOCK_CN) {
-        return fetch(`https://api.doctorxiong.club/v1/stock?code=${id}`)
-          .then((response) => response.json())
-          .then(
-            (json: { data: [{ price: string }] }) =>
-              parseFloat(json.data[0].price) / rates!.rates[base],
-          )
+        return fetch(`https://qt.gtimg.cn/q=${id}`)
+          .then((response) => response.text())
+          .then((text) => parseFloat(text.split('~')[3]))
       }
       if (type === AssetType.STOCK_HK) {
         return fetch(`https://qt.gtimg.cn/q=hk${id}`)
@@ -40,12 +37,9 @@ export function usePrice(base: string, type: AssetType, id: string) {
           .then((text) => parseFloat(text.split('~')[3]) / rates!.rates.USD)
       }
       if (type === AssetType.FUND) {
-        return fetch(`https://api.doctorxiong.club/v1/fund?code=${id}`)
-          .then((response) => response.json())
-          .then(
-            (json: { data: [{ netWorth: string }] }) =>
-              parseFloat(json.data[0].netWorth) / rates!.rates[base],
-          )
+        return fetch(`https://qt.gtimg.cn/q=jj${id}`)
+          .then((response) => response.text())
+          .then((text) => parseFloat(text.split('~')[3]))
       }
       return NaN
     },
