@@ -65,7 +65,7 @@ export default function Index() {
   )
   const [total, setTotal] = useState<number[]>([])
   const isDarkMode = useDarkMode()
-  const debouncedKeyword = useDebounce(keyword, 500)
+  const debouncedKeyword = useDebounce(keyword, 200)
   const { data, isValidating } = useSearch(debouncedKeyword)
 
   return (
