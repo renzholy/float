@@ -168,7 +168,7 @@ export default function Index() {
         large={true}
         className={cx(
           css`
-            margin: 10px;
+            margin: 5px 10px;
           `,
           Classes.ELEVATION_1,
         )}>
