@@ -23,9 +23,9 @@ export function Assets() {
       large={true}
       className={cx(
         css`
-          margin: 5px 10px;
+          margin: 5px 11px;
         `,
-        Classes.ELEVATION_1,
+        Classes.CARD,
       )}>
       {mine?.map((item, index) => (
         <Popover2
