@@ -10,51 +10,21 @@ import {
   Intent,
   InputGroup,
 } from '@blueprintjs/core'
-import {
-  RiBitCoinLine,
-  RiExchangeFundsLine,
-  RiExchangeLine,
-  RiFundsLine,
-  RiMoneyCnyCircleLine,
-} from 'react-icons/ri'
+import { RiMoneyCnyCircleLine } from 'react-icons/ri'
 import produce from 'immer'
 import sum from 'lodash/sum'
 import { Popover2 } from '@blueprintjs/popover2'
 
 import { Price } from '../components/Price'
-import { Asset, AssetType } from '../libs/types'
+import { Asset } from '../libs/types'
 import { formatNumber } from '../libs/formatter'
 import db from '../libs/db'
 import { useDarkMode } from '../hooks/use-dark-mode'
 import { useSearch } from '../hooks/use-search'
 import useDebounce from '../hooks/use-debounce'
+import { TypeIcon } from '../components/TypeIcon'
 
 const AssetSuggest = Suggest.ofType<Asset>()
-
-const iconClassName = css`
-  fill: #5c7080;
-  margin-top: 2px;
-  margin-right: 7px;
-`
-
-const iconLargeClassName = css`
-  fill: #5c7080;
-  margin-top: 1px;
-  margin-right: 7px;
-`
-
-function icons(type: AssetType, large?: boolean) {
-  const className = large ? iconLargeClassName : iconClassName
-  const size = large ? 20 : 16
-  return {
-    [AssetType.FOREX]: <RiExchangeLine size={size} className={className} />,
-    [AssetType.CRYPTO]: <RiBitCoinLine size={size} className={className} />,
-    [AssetType.STOCK_CN]: <RiFundsLine size={size} className={className} />,
-    [AssetType.STOCK_HK]: <RiFundsLine size={size} className={className} />,
-    [AssetType.STOCK_US]: <RiFundsLine size={size} className={className} />,
-    [AssetType.FUND]: <RiExchangeFundsLine size={size} className={className} />,
-  }[type]
-}
 
 export default function Index() {
   const [keyword, setKeyword] = useState('')
@@ -107,7 +77,7 @@ export default function Index() {
           itemRenderer={(item, { handleClick, modifiers }) => (
             <MenuItem
               key={item.type + item.id}
-              icon={icons(item.type)}
+              icon={<TypeIcon type={item.type} />}
               text={item.name}
               label={item.label}
               onClick={handleClick}
@@ -198,7 +168,7 @@ export default function Index() {
               </Menu>
             }>
             <MenuItem
-              icon={icons(item.type, true)}
+              icon={<TypeIcon type={item.type} large={true} />}
               text={item.name}
               labelElement={
                 <Price
@@ -220,7 +190,14 @@ export default function Index() {
         ))}
         <MenuItem
           icon={
-            <RiMoneyCnyCircleLine size={20} className={iconLargeClassName} />
+            <RiMoneyCnyCircleLine
+              size={20}
+              className={css`
+                fill: #5c7080;
+                margin-top: 1px;
+                margin-right: 7px;
+              `}
+            />
           }
           text="总计"
           label={formatNumber(sum(total))}
