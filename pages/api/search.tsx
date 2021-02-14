@@ -33,7 +33,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           .filter((item) => item[4].includes('GP'))
           .map((item) => ({
             type: AssetType.STOCK_CN,
-            id: item[1],
+            id: item[0] + item[1],
             name: unescapeUnicode(item[2]),
             label: item[1],
           })),
