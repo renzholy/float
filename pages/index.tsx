@@ -21,7 +21,7 @@ import produce from 'immer'
 import sum from 'lodash/sum'
 import { Popover2 } from '@blueprintjs/popover2'
 
-import { Price } from '../components/price'
+import { Price } from '../components/Price'
 import { Asset, AssetType } from '../libs/types'
 import { formatNumber } from '../libs/formatter'
 import db from '../libs/db'
