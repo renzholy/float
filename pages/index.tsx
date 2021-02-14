@@ -120,7 +120,6 @@ export default function Index() {
               await db.mine.add({
                 amount: parseFloat(amount),
                 ...asset,
-                order: mine.length,
               })
               await revalidate()
             }

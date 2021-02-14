@@ -3,7 +3,7 @@ import Dexie from 'dexie/dist/dexie'
 import { Asset } from './types'
 
 class MyDatabase extends Dexie {
-  mine: Dexie.Table<Asset & { amount: number; order: number }, number>
+  mine: Dexie.Table<Asset & { amount: number; order?: number }, number>
 
   constructor() {
     super('MyDatabase')

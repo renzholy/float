@@ -40,7 +40,7 @@ export function Assets() {
                 icon="trash"
                 intent={Intent.DANGER}
                 onClick={async () => {
-                  await db.mine.delete(item.order)
+                  await db.mine.delete(item.order!)
                   await revalidate()
                   setTotal((old) =>
                     produce(old, (draft) => {
