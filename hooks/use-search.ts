@@ -21,7 +21,7 @@ function useSearchClient(keyword: string) {
     keyword ? ['searchClient', keyword] : null,
     async () =>
       fetch(
-        `https://api.coinpaprika.com/v1/search?c=currencies&q=${encodeURIComponent(
+        `https://api.coinpaprika.com/v1/search?q=${encodeURIComponent(
           keyword,
         )}`,
       )
