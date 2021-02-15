@@ -27,7 +27,7 @@ function useSearchClient(keyword: string) {
       )
         .then((response) => response.json())
         .then((json) =>
-          [...json.currencies, ...json.icos].map(
+          json.currencies.map(
             (item: { id: string; name: string; symbol: string }) => ({
               type: AssetType.CRYPTO,
               id: item.id,
