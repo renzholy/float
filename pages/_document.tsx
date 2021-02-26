@@ -18,10 +18,9 @@ export default class extends Document {
   render() {
     return (
       <Html>
-        <Head />
-        <body>
-          <Main />
-          <NextScript />
+        <Head>
+          <meta charSet="UTF-8" />
+          <meta httpEquiv="x-dns-prefetch-control" content="on" />
           <script
             async
             src="https://www.googletagmanager.com/gtag/js?id=G-ME74X8YQ5V"
@@ -37,6 +36,10 @@ gtag('js', new Date());
 gtag('config', 'G-ME74X8YQ5V');`,
             }}
           />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
         </body>
       </Html>
     )
