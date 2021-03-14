@@ -4,22 +4,22 @@
 
 @media (prefers-color-scheme: light) {
   body {
-    background-color: #f5f8fa;
+    background-color: white;
   }
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #394b59;
+    background-color: #212529;
   }
 }
 
 @font-face {
   font-family: zpix;
-  src: url(/zpix.ttf) format('truetype');
   src: url(/zpix.woff2) format('woff2');
 }
 
 html * {
   font-family: zpix;
+  font-weight: bold;
 }

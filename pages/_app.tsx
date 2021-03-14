@@ -7,6 +7,7 @@ import Head from 'next/head'
 import 'normalize.css'
 import '@blueprintjs/core/lib/css/blueprint.css'
 import '@blueprintjs/popover2/lib/css/blueprint-popover2.css'
+import 'nes.css/css/nes.min.css'
 
 import './global.css'
 

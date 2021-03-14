@@ -40,6 +40,10 @@ export default function Index() {
           margin: 0 auto;
         `,
       )}>
+      <div className="nes-container">
+        <p className="title">总计</p>
+        <span className="nes-text is-primary">¥89999</span>
+      </div>
       <div
         className={css`
           display: flex;
