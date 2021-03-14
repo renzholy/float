@@ -56,6 +56,7 @@ export function ListItem(props: {
           'nes-pointer',
           css`
             line-height: 1.5;
+            word-break: break-all;
           `,
         )}
         onClick={props.onClick}>

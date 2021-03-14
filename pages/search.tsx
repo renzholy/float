@@ -72,45 +72,29 @@ export default function Search() {
             `,
           )}>
           <p className="title">搜索结果</p>
-          <ul
-            className={cx(
-              'nes-list is-circle',
-              css`
-                margin-left: -32px;
-                overflow-x: visible;
-                overflow-y: scroll;
-                height: 100%;
+          <div
+            className={css`
+              overflow-x: visible;
+              overflow-y: scroll;
+              height: 100%;
 
-                li + li {
-                  margin-top: 16px;
-                }
-              `,
-            )}>
+              & > div + div {
+                margin-top: 16px;
+              }
+            `}>
             {data.map((item) => (
-              <li
+              <div
                 className={cx(
                   css`
                     line-height: 1.5;
                     word-break: break-all;
 
-                    &::before {
-                      top: 4px !important;
+                    &:hover .item-hover {
+                      color: #209cee;
                     }
 
-                    &:hover::before {
-                      box-shadow: 8px 2px, 10px 2px, 6px 4px, 8px 4px, 10px 4px,
-                        12px 4px, 4px 6px, 6px 6px, 8px 6px, 10px 6px, 12px 6px,
-                        14px 6px, 4px 8px, 6px 8px, 8px 8px, 10px 8px, 12px 8px,
-                        14px 8px, 6px 10px, 8px 10px, 10px 10px, 12px 10px,
-                        8px 12px, 10px 12px !important;
-                    }
-
-                    &:active::before {
-                      box-shadow: 8px 2px, 10px 2px, 6px 4px, 8px 4px, 10px 4px,
-                        12px 4px, 4px 6px, 6px 6px, 8px 6px, 10px 6px, 12px 6px,
-                        14px 6px, 4px 8px, 6px 8px, 8px 8px, 10px 8px, 12px 8px,
-                        14px 8px, 6px 10px, 8px 10px, 10px 10px, 12px 10px,
-                        8px 12px, 10px 12px !important;
+                    &:active .item-hover {
+                      color: #006bb3;
                     }
                   `,
                   'nes-pointer',
@@ -125,16 +109,16 @@ export default function Search() {
                   ])
                   router.push('/')
                 }}>
-                {item.name}
+                <span className="item-hover">{item.name}</span>
                 <br />
                 <span className="nes-text is-disabled">
                   {item.type}
                   &nbsp;
                   {item.code}
                 </span>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       ) : null}
     </div>
