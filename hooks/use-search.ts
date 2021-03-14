@@ -29,10 +29,10 @@ function useSearchClient(keyword: string) {
         .then((json) =>
           json.currencies.map(
             (item: { id: string; name: string; symbol: string }) => ({
-              type: ItemType.CRYPTO,
               id: item.id,
+              type: ItemType.CRYPTO,
+              code: item.symbol,
               name: item.name,
-              label: item.symbol,
             }),
           ),
         ),
@@ -79,10 +79,10 @@ function useSearchLocal(keyword: string): SearchItem[] {
         AUD: '澳大利亚元',
       })
         .map((item) => ({
-          id: item[0],
           type: ItemType.FOREX,
-          name: item[1],
+          id: item[0],
           code: item[0],
+          name: item[1],
         }))
         .filter(
           (item) =>

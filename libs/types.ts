@@ -8,10 +8,10 @@ export enum ItemType {
 }
 
 export interface SearchItem {
-  id: string
   type: ItemType
-  name: string
+  id: string
   code: string
+  name: string
 }
 
 export interface Item extends SearchItem {

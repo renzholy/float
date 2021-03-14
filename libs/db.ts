@@ -8,9 +8,8 @@ class FloatDatabase extends Dexie {
   constructor() {
     super('FloatDatabase')
     this.version(1).stores({
-      items: '++order',
+      items: '[type+id]',
     })
-
     this.items = this.table('items')
   }
 }

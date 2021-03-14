@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
 import { css, cx } from '@linaria/core'
+import maxBy from 'lodash/maxBy'
 import { useRouter } from 'next/dist/client/router'
 import { useState } from 'react'
 
 import { useSearch } from '../hooks/use-search'
+import db from '../libs/db'
 
 export default function Search() {
   const router = useRouter()
@@ -44,7 +46,7 @@ export default function Search() {
               outline: none;
             `,
           )}
-          placeholder="搜索 股票、基金、外汇、数字货币"
+          placeholder="搜索 股票、基金、外汇、加密货币"
           value={keyword}
           onChange={(e) => {
             setKeyword(e.target.value)
@@ -75,7 +77,9 @@ export default function Search() {
                 <tr
                   key={item.id + item.type}
                   onClick={async () => {
-                    console.log(item)
+                    const items = await db.items.toArray()
+                    const order = (maxBy(items, 'order')?.order || 0) + 1
+                    await db.items.add({ ...item, order, amount: 1 })
                     router.push('/')
                   }}>
                   <td className="nes-pointer">

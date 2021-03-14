@@ -32,10 +32,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         items
           .filter((item) => item[4].includes('GP'))
           .map((item) => ({
-            id: item[0] + item[1],
             type: ItemType.STOCK_CN,
-            name: unescapeUnicode(item[2]),
+            id: item[0] + item[1],
             code: item[1],
+            name: unescapeUnicode(item[2]),
           })),
       ),
     fetch(
@@ -46,10 +46,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .then(parseText)
       .then((items) =>
         items.map((item) => ({
-          id: item[1].split('.')[0].toUpperCase(),
           type: ItemType.STOCK_US,
-          name: unescapeUnicode(item[2]),
+          id: item[1].split('.')[0].toUpperCase(),
           code: item[1].split('.')[0].toUpperCase(),
+          name: unescapeUnicode(item[2]),
         })),
       ),
     fetch(
@@ -60,10 +60,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .then(parseText)
       .then((items) =>
         items.map((item) => ({
-          id: item[1],
           type: ItemType.STOCK_HK,
-          name: unescapeUnicode(item[2]),
+          id: item[1],
           code: item[1],
+          name: unescapeUnicode(item[2]),
         })),
       ),
     fetch(
@@ -74,10 +74,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .then(parseText)
       .then((items) =>
         items.map((item) => ({
-          id: item[1],
           type: ItemType.FUND,
-          name: unescapeUnicode(item[2]),
+          id: item[1],
           code: item[1],
+          name: unescapeUnicode(item[2]),
         })),
       ),
   ])
