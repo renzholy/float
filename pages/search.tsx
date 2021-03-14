@@ -55,7 +55,7 @@ export default function Search() {
               outline: none;
             `,
           )}
-          placeholder="搜索 股票、基金、外汇、加密货币"
+          placeholder="股票 基金 外汇 加密货币"
           value={keyword}
           onChange={(e) => {
             setKeyword(e.target.value)
