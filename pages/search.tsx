@@ -84,7 +84,7 @@ export default function Search() {
                     <span className="nes-text is-disabled">
                       {item.type}
                       &nbsp;
-                      {item.label}
+                      {item.code}
                     </span>
                     <span
                       className={css`

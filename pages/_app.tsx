@@ -5,8 +5,6 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 // import whyDidYouRender from '@welldone-software/why-did-you-render'
 import 'normalize.css'
-import '@blueprintjs/core/lib/css/blueprint.css'
-import '@blueprintjs/popover2/lib/css/blueprint-popover2.css'
 import 'nes.css/css/nes.min.css'
 
 import './global.css'

@@ -2,11 +2,11 @@ import { useEffect } from 'react'
 
 import { usePrice } from '../hooks/use-price'
 import { formatNumber } from '../libs/formatter'
-import { AssetType } from '../libs/types'
+import { ItemType } from '../libs/types'
 
 export function Price(props: {
   amount: number
-  type: AssetType
+  type: ItemType
   id: string
   onPrice(price: number): void
 }) {

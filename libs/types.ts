@@ -1,4 +1,4 @@
-export enum AssetType {
+export enum ItemType {
   FOREX = '外汇',
   CRYPTO = '加密货币',
   STOCK_CN = 'A股',
@@ -7,9 +7,17 @@ export enum AssetType {
   FUND = '基金',
 }
 
-export interface Asset {
-  type: AssetType
+export interface SearchItem {
   id: string
+  type: ItemType
   name: string
-  label: string
+  code: string
+}
+
+export interface Item extends SearchItem {
+  amount: number
+  order: number
+  price?: number
+  cost?: number
+  comment?: string
 }

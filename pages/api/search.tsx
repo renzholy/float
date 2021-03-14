@@ -1,7 +1,7 @@
 import flatten from 'lodash/flatten'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { Asset, AssetType } from '../../libs/types'
+import { SearchItem, ItemType } from '../../libs/types'
 
 function unescapeUnicode(text?: string): string {
   return (
@@ -21,7 +21,7 @@ function parseText(text: string): string[][] {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { keyword } = req.query as { keyword: string }
-  const list: Asset[][] = await Promise.all([
+  const list: SearchItem[][] = await Promise.all([
     fetch(
       `https://smartbox.gtimg.cn/s3/?v=2&q=${encodeURIComponent(keyword)}&t=gp`,
       {},
@@ -32,10 +32,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         items
           .filter((item) => item[4].includes('GP'))
           .map((item) => ({
-            type: AssetType.STOCK_CN,
             id: item[0] + item[1],
+            type: ItemType.STOCK_CN,
             name: unescapeUnicode(item[2]),
-            label: item[1],
+            code: item[1],
           })),
       ),
     fetch(
@@ -46,10 +46,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .then(parseText)
       .then((items) =>
         items.map((item) => ({
-          type: AssetType.STOCK_US,
           id: item[1].split('.')[0].toUpperCase(),
+          type: ItemType.STOCK_US,
           name: unescapeUnicode(item[2]),
-          label: item[1].split('.')[0].toUpperCase(),
+          code: item[1].split('.')[0].toUpperCase(),
         })),
       ),
     fetch(
@@ -60,10 +60,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .then(parseText)
       .then((items) =>
         items.map((item) => ({
-          type: AssetType.STOCK_HK,
           id: item[1],
+          type: ItemType.STOCK_HK,
           name: unescapeUnicode(item[2]),
-          label: item[1],
+          code: item[1],
         })),
       ),
     fetch(
@@ -74,10 +74,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       .then(parseText)
       .then((items) =>
         items.map((item) => ({
-          type: AssetType.FUND,
           id: item[1],
+          type: ItemType.FUND,
           name: unescapeUnicode(item[2]),
-          label: item[1],
+          code: item[1],
         })),
       ),
   ])
