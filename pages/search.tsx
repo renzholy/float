@@ -79,7 +79,10 @@ export default function Search() {
                   onClick={async () => {
                     const items = await db.items.toArray()
                     const order = (maxBy(items, 'order')?.order || 0) + 1
-                    await db.items.put({ ...item, order }, [item.type, item.id])
+                    await db.items.put({ ...item, order, amount: 1 }, [
+                      item.type,
+                      item.id,
+                    ])
                     router.push('/')
                   }}>
                   <td className="nes-pointer">
