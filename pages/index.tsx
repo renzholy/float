@@ -110,14 +110,6 @@ export default function Index() {
         </button>
         <span>
           <a
-            href="https://web.okjike.com/u/d25026f2-18ce-48aa-9ea7-c05a25446368"
-            target="_black"
-            className={css`
-              margin-right: 16px;
-            `}>
-            <i className="nes-icon coin is-medium nes-pointer" />
-          </a>
-          <a
             href="https://twitter.com/RenzHoly"
             target="_black"
             className={css`
