@@ -15,7 +15,7 @@ import db from '../libs/db'
 export default function Search() {
   const router = useRouter()
   const [keyword, setKeyword] = useState('')
-  const { data } = useSearch(keyword)
+  const { data, isValidating } = useSearch(keyword)
   const handleKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value)
   }, [])
@@ -63,7 +63,7 @@ export default function Search() {
           onChange={handleKeyword}
         />
       </div>
-      {data.length ? (
+      {data.length || keyword ? (
         <div
           className={cx(
             'nes-container with-title',
@@ -72,7 +72,7 @@ export default function Search() {
               height: 0;
             `,
           )}>
-          <p className="title">搜索结果</p>
+          <p className="title">{isValidating ? '加载中...' : '搜索结果'}</p>
           <div
             className={css`
               overflow-x: visible;
