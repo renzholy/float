@@ -41,7 +41,6 @@ export function ListItem(props: {
           : undefined,
         css`
           margin-bottom: 24px;
-          line-height: 1.5;
 
           &:hover .item-hover {
             color: #209cee;
@@ -52,7 +51,14 @@ export function ListItem(props: {
           }
         `,
       )}>
-      <div className="nes-pointer" onClick={props.onClick}>
+      <div
+        className={cx(
+          'nes-pointer',
+          css`
+            line-height: 1.5;
+          `,
+        )}
+        onClick={props.onClick}>
         <span className="nes-text item-hover">{item.name}</span>
         {item.price === undefined ? null : (
           <span
@@ -62,9 +68,9 @@ export function ListItem(props: {
               `,
               'nes-text is-disabled',
             )}>
-            {item.cost === undefined
-              ? formatNumber(item.price)
-              : `(${formatNumber(item.price)} - ${formatNumber(item.cost)})`}
+            {item.cost
+              ? `(${formatNumber(item.price)} - ${formatNumber(item.cost)})`
+              : formatNumber(item.price)}
             &nbsp;x&nbsp;{formatNumber(item.amount)}
           </span>
         )}
@@ -155,7 +161,7 @@ export function ListItem(props: {
                 flex-shrink: 0;
               `,
               'nes-btn',
-              Number.isNaN(parseFloat(amount)) && Number.isNaN(parseFloat(cost))
+              Number.isNaN(parseFloat(amount)) || Number.isNaN(parseFloat(cost))
                 ? 'is-disabled'
                 : undefined,
             )}
