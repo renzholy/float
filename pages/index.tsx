@@ -40,83 +40,57 @@ export default function Index() {
       className={css`
         padding: 16px;
       `}>
-      <div className="nes-table-responsive">
-        <table
-          className={cx(
-            'nes-table is-bordered',
-            css`
-              width: -webkit-fill-available;
-              & td,
-              & th {
-                vertical-align: top;
-                line-height: 1.5;
-              }
-              & td:hover .item-hover {
-                color: #209cee;
-              }
-              & td:active .item-hover {
-                color: #006bb3;
-              }
-              & tbody tr:last-child td {
-                margin-bottom: -8px;
-              }
-            `,
-          )}>
-          <thead>
-            <tr>
-              <th>
-                <span className="nes-text">总计</span>
-                {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
-                  <span
-                    className={cx(
-                      css`
-                        float: right;
-                      `,
-                      'nes-text is-disabled',
-                    )}>
-                    {formatNumber(totalPrice)} - {formatNumber(totalCost)}
-                  </span>
-                )}
-                <br />
-                <span
-                  className={cx(
-                    'nes-text',
-                    totalPrice - totalCost === 0
-                      ? undefined
-                      : totalPrice - totalCost > 0
-                      ? 'is-error'
-                      : 'is-success',
-                    css`
-                      float: right;
-                    `,
-                  )}>
-                  {formatNumber(totalPrice - totalCost)}
-                </span>
-              </th>
-            </tr>
-          </thead>
-          {items?.length ? (
-            <tbody>
-              {items?.map((item) => (
-                <ListItem
-                  key={item.type + item.id}
-                  value={item}
-                  isExpanded={
-                    item.type === expanded?.[0] && item.id === expanded[1]
-                  }
-                  onClick={() => {
-                    setExpanded(
-                      item.type === expanded?.[0] && item.id === expanded[1]
-                        ? undefined
-                        : [item.type, item.id],
-                    )
-                    revalidate()
-                  }}
-                />
-              ))}
-            </tbody>
-          ) : null}
-        </table>
+      <div className="nes-container with-title">
+        <p className="title">Float - 浮动收益</p>
+        {items?.map((item) => (
+          <ListItem
+            key={item.type + item.id}
+            value={item}
+            isExpanded={item.type === expanded?.[0] && item.id === expanded[1]}
+            onClick={() => {
+              setExpanded(
+                item.type === expanded?.[0] && item.id === expanded[1]
+                  ? undefined
+                  : [item.type, item.id],
+              )
+              revalidate()
+            }}
+          />
+        ))}
+        <div
+          className={css`
+            line-height: 1.5;
+            margin-bottom: -8px !important;
+          `}>
+          <span className="nes-text">总计</span>
+          {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
+            <span
+              className={cx(
+                css`
+                  float: right;
+                `,
+                'nes-text is-disabled',
+              )}>
+              {formatNumber(totalPrice)} - {formatNumber(totalCost)}
+            </span>
+          )}
+          <br />
+          &nbsp;
+          <span
+            className={cx(
+              'nes-text',
+              totalPrice - totalCost === 0
+                ? undefined
+                : totalPrice - totalCost > 0
+                ? 'is-error'
+                : 'is-success',
+              css`
+                float: right;
+              `,
+            )}>
+            {formatNumber(totalPrice - totalCost)}
+          </span>
+        </div>
       </div>
       <button
         type="button"

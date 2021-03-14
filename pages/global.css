@@ -20,6 +20,7 @@
 }
 
 html * {
+  user-select: none;
   font-family: zpix;
   font-weight: bold;
   line-height: 1;
