@@ -18,11 +18,15 @@ export default function Index() {
       refreshInterval: 2000,
     },
   )
-  const total = useMemo(
+  const totalPrice = useMemo(
     () =>
       sumBy(items, (item) =>
         item.price === undefined ? NaN : item.amount * item.price,
       ),
+    [items],
+  )
+  const totalCost = useMemo(
+    () => sumBy(items, (item) => item.amount * (item.cost || 0)),
     [items],
   )
   const [expanded, setExpanded] = useState<[ItemType, string]>()
@@ -32,35 +36,63 @@ export default function Index() {
       className={css`
         padding: 16px;
       `}>
-      <div className="nes-container">
-        <p className="title">总计</p>
-        <span className="nes-text is-primary">¥{formatNumber(total)}</span>
-      </div>
-      {items?.length ? (
-        <div
+      <div
+        className={cx(
+          'nes-table-responsive',
+          css`
+            margin-top: 16px;
+          `,
+        )}>
+        <table
           className={cx(
-            'nes-table-responsive',
+            'nes-table is-bordered',
             css`
-              margin-top: 16px;
+              width: -webkit-fill-available;
+              & td,
+              & th {
+                vertical-align: top;
+                line-height: 1.25;
+              }
+              & td:hover {
+                color: #209cee;
+              }
+              & td:active {
+                color: #006bb3;
+              }
             `,
           )}>
-          <table
-            className={cx(
-              'nes-table is-bordered',
-              css`
-                width: -webkit-fill-available;
-                & td {
-                  vertical-align: top;
-                  line-height: 1.25;
-                }
-                & td:hover {
-                  color: #209cee;
-                }
-                & td:active {
-                  color: #006bb3;
-                }
-              `,
-            )}>
+          <thead>
+            <tr>
+              <th>
+                <span className="nes-text">总计</span>
+                <span
+                  className={cx(
+                    css`
+                      float: right;
+                    `,
+                    'nes-text is-disabled',
+                  )}>
+                  {formatNumber(totalPrice)} - {formatNumber(totalCost)}
+                </span>
+                <br />
+                <span
+                  className={cx(
+                    'nes-text',
+                    totalPrice - totalCost === 0
+                      ? undefined
+                      : totalPrice - totalCost > 0
+                      ? 'is-error'
+                      : 'is-success',
+                    css`
+                      float: right;
+                    `,
+                  )}>
+                  {formatNumber(totalPrice - totalCost)}
+                </span>
+              </th>
+            </tr>
+          </thead>
+          {items?.length ? (
             <tbody>
               {items?.map((item) => (
                 <ListItem
@@ -80,16 +112,16 @@ export default function Index() {
                 />
               ))}
             </tbody>
-          </table>
-        </div>
-      ) : null}
+          ) : null}
+        </table>
+      </div>
       <button
         type="button"
         className={cx(
           css`
             margin-top: 16px;
           `,
-          'nes-btn is-success',
+          'nes-btn',
         )}
         onClick={() => {
           router.push('/search')

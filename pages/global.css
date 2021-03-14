@@ -7,12 +7,12 @@
     background-color: white;
   }
 }
-
+/* 
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #212529;
   }
-}
+} */
 
 @font-face {
   font-family: zpix;

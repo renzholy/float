@@ -60,7 +60,8 @@ export default function Search() {
               'nes-table is-bordered',
               css`
                 width: -webkit-fill-available;
-                & td {
+                & td,
+                & th {
                   vertical-align: top;
                   line-height: 1.25;
                 }

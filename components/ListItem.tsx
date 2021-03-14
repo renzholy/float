@@ -31,7 +31,7 @@ export function ListItem(props: {
   return (
     <tr onClick={props.onClick}>
       <td>
-        {item.name}
+        <span className="nes-text">{item.name}</span>
         {item.price === undefined ? null : (
           <span
             className={cx(
@@ -40,11 +40,13 @@ export function ListItem(props: {
               `,
               'nes-text is-disabled',
             )}>
-            {formatNumber(item.amount)} x {formatNumber(item.price)}
+            {formatNumber(item.amount)}&nbsp;x&nbsp;
+            {item.cost === undefined
+              ? formatNumber(item.price)
+              : `(${formatNumber(item.price)} - ${formatNumber(item.cost)})`}
           </span>
         )}
         <br />
-
         {props.isExpanded ? (
           <div
             className={css`
@@ -98,7 +100,7 @@ export function ListItem(props: {
                 Number.isNaN(parseFloat(amount)) &&
                   Number.isNaN(parseFloat(cost))
                   ? 'is-disabled'
-                  : 'is-primary',
+                  : undefined,
               )}
               onClick={async () => {
                 await db.items.update([item.type, item.id], {
@@ -142,9 +144,8 @@ export function ListItem(props: {
               `}>
               {item.price === undefined
                 ? '-'
-                : formatNumber(item.amount * item.price)}
+                : formatNumber(item.amount * (item.price - (item.cost || 0)))}
             </span>
-            <br />
           </>
         )}
       </td>
