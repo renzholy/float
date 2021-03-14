@@ -93,19 +93,42 @@ export default function Index() {
           </span>
         </div>
       </div>
-      <button
-        type="button"
-        className={cx(
-          css`
-            margin-top: 16px;
-          `,
-          'nes-btn',
-        )}
-        onClick={() => {
-          router.push('/search')
-        }}>
-        添加
-      </button>
+      <div
+        className={css`
+          margin-top: 16px;
+          display: flex;
+          justify-content: space-between;
+        `}>
+        <button
+          type="button"
+          className="nes-btn"
+          onClick={() => {
+            router.push('/search')
+          }}>
+          添加
+        </button>
+        <span>
+          <a
+            href="https://web.okjike.com/u/d25026f2-18ce-48aa-9ea7-c05a25446368"
+            target="_black"
+            className={css`
+              margin-right: 16px;
+            `}>
+            <i className="nes-icon coin is-medium nes-pointer" />
+          </a>
+          <a
+            href="https://twitter.com/RenzHoly"
+            target="_black"
+            className={css`
+              margin-right: 16px;
+            `}>
+            <i className="nes-icon twitter is-medium nes-pointer" />
+          </a>
+          <a href="https://github.com/RenzHoly" target="_black">
+            <i className="nes-icon github is-medium nes-pointer" />
+          </a>
+        </span>
+      </div>
     </div>
   )
 }
