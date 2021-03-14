@@ -24,5 +24,10 @@ html * {
   font-family: zpix;
   font-weight: bold;
   font-smooth: never;
+  -webkit-font-smoothing: none;
   line-height: 1;
+}
+
+.nes-input {
+  text-indent: 1px;
 }
