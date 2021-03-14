@@ -1,11 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
 import { css, cx } from '@linaria/core'
+import { useRouter } from 'next/dist/client/router'
 import { useState } from 'react'
 
 import { useSearch } from '../hooks/use-search'
 
 export default function Search() {
+  const router = useRouter()
   const [keyword, setKeyword] = useState('')
   const { data } = useSearch(keyword)
 
@@ -17,8 +19,22 @@ export default function Search() {
       <div
         className={css`
           display: flex;
-          margin-bottom: 8px;
+          margin-bottom: 12px;
         `}>
+        <button
+          type="button"
+          className={cx(
+            'nes-btn',
+            css`
+              margin-right: 16px;
+              flex-shrink: 0;
+            `,
+          )}
+          onClick={() => {
+            router.push('/')
+          }}>
+          返回
+        </button>
         <input
           type="text"
           id="name_field"
@@ -28,24 +44,12 @@ export default function Search() {
               outline: none;
             `,
           )}
-          placeholder="股票、基金、外汇、数字货币"
+          placeholder="搜索 股票、基金、外汇、数字货币"
           value={keyword}
           onChange={(e) => {
             setKeyword(e.target.value)
           }}
         />
-        <button
-          type="button"
-          className={cx(
-            'nes-btn',
-            keyword ? 'is-primary' : 'is-disabled',
-            css`
-              margin-left: 12px;
-              flex-shrink: 0;
-            `,
-          )}>
-          搜索
-        </button>
       </div>
       {data.length ? (
         <div className="nes-table-responsive">
@@ -61,11 +65,19 @@ export default function Search() {
                 & td:hover {
                   color: #209cee;
                 }
+                & td:active {
+                  color: #006bb3;
+                }
               `,
             )}>
             <tbody>
               {data.map((item) => (
-                <tr key={item.id + item.type}>
+                <tr
+                  key={item.id + item.type}
+                  onClick={async () => {
+                    console.log(item)
+                    router.push('/')
+                  }}>
                   <td className="nes-pointer">
                     {item.name}
                     <br />

@@ -9,6 +9,7 @@ import {
   Intent,
   InputGroup,
 } from '@blueprintjs/core'
+import { useRouter } from 'next/router'
 
 import { Asset } from '../libs/types'
 import db from '../libs/db'
@@ -21,6 +22,7 @@ import { Assets } from '../components/Assets'
 const AssetSuggest = Suggest.ofType<Asset>()
 
 export default function Index() {
+  const router = useRouter()
   const [keyword, setKeyword] = useState('')
   const [amount, setAmount] = useState('')
   const [asset, setAsset] = useState<Asset | null>(null)
@@ -131,6 +133,14 @@ export default function Index() {
         />
       </div>
       <Assets />
+      <button
+        type="button"
+        className="nes-btn is-primary"
+        onClick={() => {
+          router.push('/search')
+        }}>
+        添加
+      </button>
     </div>
   )
 }
