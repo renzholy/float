@@ -63,7 +63,7 @@ export default function Search() {
                 & td,
                 & th {
                   vertical-align: top;
-                  line-height: 1.25;
+                  line-height: 1.5;
                 }
                 & td:hover {
                   color: #209cee;

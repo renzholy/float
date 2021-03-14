@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
@@ -30,8 +31,8 @@ export function ListItem(props: {
 
   return (
     <tr onClick={props.onClick}>
-      <td>
-        <span className="nes-text">{item.name}</span>
+      <td className={props.isExpanded ? undefined : 'nes-pointer'}>
+        <span className="nes-text item-hover">{item.name}</span>
         {item.price === undefined ? null : (
           <span
             className={cx(
@@ -49,51 +50,75 @@ export function ListItem(props: {
         <br />
         {props.isExpanded ? (
           <div
-            className={css`
-              margin-top: 8px;
-              display: flex;
-            `}
             onClick={(e) => {
               e.stopPropagation()
             }}>
-            <input
-              type="text"
+            <div
               className={cx(
-                'nes-input',
-                amount && Number.isNaN(parseFloat(amount))
-                  ? 'is-error'
-                  : undefined,
+                'nes-field',
                 css`
-                  outline: none;
+                  margin-top: 16px;
                 `,
-              )}
-              placeholder="数量"
-              value={amount}
-              onChange={(e) => {
-                setAmount(e.target.value)
-              }}
-            />
-            <input
-              type="text"
+              )}>
+              <label
+                className={css`
+                  white-space: nowrap;
+                `}>
+                数量
+              </label>
+              <input
+                type="text"
+                className={cx(
+                  'nes-input',
+                  amount && Number.isNaN(parseFloat(amount))
+                    ? 'is-error'
+                    : undefined,
+                  css`
+                    outline: none;
+                  `,
+                )}
+                placeholder="数量"
+                value={amount}
+                onChange={(e) => {
+                  setAmount(e.target.value)
+                }}
+              />
+            </div>
+            <div
               className={cx(
-                'nes-input',
-                cost && Number.isNaN(parseFloat(cost)) ? 'is-error' : undefined,
+                'nes-field',
                 css`
-                  outline: none;
-                  margin-left: 16px;
+                  margin-top: 16px;
                 `,
-              )}
-              placeholder="成本"
-              value={cost}
-              onChange={(e) => {
-                setCost(e.target.value)
-              }}
-            />
+              )}>
+              <label
+                className={css`
+                  white-space: nowrap;
+                `}>
+                成本
+              </label>
+              <input
+                type="text"
+                className={cx(
+                  'nes-input',
+                  cost && Number.isNaN(parseFloat(cost))
+                    ? 'is-error'
+                    : undefined,
+                  css`
+                    outline: none;
+                  `,
+                )}
+                value={cost}
+                onChange={(e) => {
+                  setCost(e.target.value)
+                }}
+              />
+            </div>
             <button
               type="button"
               className={cx(
                 css`
-                  margin-left: 16px;
+                  margin-top: 16px;
                   flex-shrink: 0;
                 `,
                 'nes-btn',
@@ -120,7 +145,9 @@ export function ListItem(props: {
               className={cx(
                 css`
                   margin-left: 16px;
+                  margin-top: 16px;
                   flex-shrink: 0;
+                  float: right;
                 `,
                 'nes-btn is-warning',
               )}

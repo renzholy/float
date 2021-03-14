@@ -36,13 +36,7 @@ export default function Index() {
       className={css`
         padding: 16px;
       `}>
-      <div
-        className={cx(
-          'nes-table-responsive',
-          css`
-            margin-top: 16px;
-          `,
-        )}>
+      <div className="nes-table-responsive">
         <table
           className={cx(
             'nes-table is-bordered',
@@ -51,13 +45,16 @@ export default function Index() {
               & td,
               & th {
                 vertical-align: top;
-                line-height: 1.25;
+                line-height: 1.5;
               }
-              & td:hover {
+              & td:hover .item-hover {
                 color: #209cee;
               }
-              & td:active {
+              & td:active .item-hover {
                 color: #006bb3;
+              }
+              & tbody tr:last-child td {
+                margin-bottom: -8px;
               }
             `,
           )}>
@@ -65,15 +62,17 @@ export default function Index() {
             <tr>
               <th>
                 <span className="nes-text">总计</span>
-                <span
-                  className={cx(
-                    css`
-                      float: right;
-                    `,
-                    'nes-text is-disabled',
-                  )}>
-                  {formatNumber(totalPrice)} - {formatNumber(totalCost)}
-                </span>
+                {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
+                  <span
+                    className={cx(
+                      css`
+                        float: right;
+                      `,
+                      'nes-text is-disabled',
+                    )}>
+                    {formatNumber(totalPrice)} - {formatNumber(totalCost)}
+                  </span>
+                )}
                 <br />
                 <span
                   className={cx(
