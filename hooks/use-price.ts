@@ -37,7 +37,7 @@ export function usePrice(base: string, type: ItemType, id: string) {
     if (type === ItemType.FUND) {
       return fetch(`https://qt.gtimg.cn/q=jj${id}`)
         .then((response) => response.text())
-        .then((text) => parseFloat(text.split('~')[6]))
+        .then((text) => parseFloat(text.split('~')[5]))
     }
     return NaN
   })
