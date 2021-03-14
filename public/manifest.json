@@ -1,6 +1,11 @@
 {
   "name": "Float",
   "short_name": "浮动收益",
+  "theme_color": "#212529",
+  "background_color": "#ffffff",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/android-icon-36x36.png",
@@ -38,10 +43,5 @@
       "type": "image/png",
       "density": "4.0"
     }
-  ],
-  "theme_color": "#212529",
-  "background_color": "#ffffff",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "portrait"
+  ]
 }
