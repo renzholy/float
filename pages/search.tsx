@@ -56,49 +56,30 @@ export default function Search() {
                 width: -webkit-fill-available;
                 & td {
                   vertical-align: top;
+                  line-height: 1.25;
+                }
+                & td:hover {
+                  color: #209cee;
                 }
               `,
             )}>
-            <thead>
-              <tr>
-                <th>名称</th>
-                <th>代码</th>
-                <th>类型</th>
-                <th
-                  className={css`
-                    white-space: nowrap;
-                  `}>
-                  操作
-                </th>
-              </tr>
-            </thead>
             <tbody>
               {data.map((item) => (
                 <tr key={item.id + item.type}>
-                  <td>{item.name}</td>
-                  <td
-                    className={css`
-                      white-space: nowrap;
-                    `}>
-                    {item.label}
-                  </td>
-                  <td
-                    className={css`
-                      white-space: nowrap;
-                    `}>
-                    {item.type}
-                  </td>
-                  <td
-                    align="center"
-                    className={cx(
-                      css`
-                        &:hover {
-                          color: #209cee;
-                        }
-                      `,
-                      'nes-pointer',
-                    )}>
-                    +
+                  <td className="nes-pointer">
+                    {item.name}
+                    <br />
+                    <span className="nes-text is-disabled">
+                      {item.type}
+                      &nbsp;
+                      {item.label}
+                    </span>
+                    <span
+                      className={css`
+                        float: right;
+                      `}>
+                      +
+                    </span>
                   </td>
                 </tr>
               ))}
