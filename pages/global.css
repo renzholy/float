@@ -23,5 +23,6 @@ html * {
   user-select: none;
   font-family: zpix;
   font-weight: bold;
+  font-smooth: never;
   line-height: 1;
 }

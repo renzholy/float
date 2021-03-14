@@ -4,8 +4,6 @@ import React from 'react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 // import whyDidYouRender from '@welldone-software/why-did-you-render'
-import 'normalize.css'
-import 'nes.css/css/nes.min.css'
 
 import './global.css'
 
