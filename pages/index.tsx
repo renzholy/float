@@ -72,7 +72,8 @@ export default function Index() {
                 `,
                 'nes-text is-disabled',
               )}>
-              {formatNumber(totalPrice)} - {formatNumber(totalCost)}
+              {formatNumber(totalPrice)}&nbsp;-&nbsp;{formatNumber(totalCost)}
+              &nbsp;=
             </span>
           )}
           <br />

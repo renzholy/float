@@ -79,7 +79,7 @@ export function ListItem(props: {
             {item.cost
               ? `(${formatNumber(item.price)} - ${formatNumber(item.cost)})`
               : formatNumber(item.price)}
-            &nbsp;x&nbsp;{formatNumber(item.amount)}
+            &nbsp;x&nbsp;{formatNumber(item.amount)}&nbsp;=
           </span>
         )}
         <br />
