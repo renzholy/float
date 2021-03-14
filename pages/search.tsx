@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
 import { css, cx } from '@linaria/core'
@@ -17,11 +20,16 @@ export default function Search() {
     <div
       className={css`
         padding: 16px;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
       `}>
       <div
         className={css`
           display: flex;
           margin-bottom: 12px;
+          flex-shrink: 0;
         `}>
         <button
           type="button"
@@ -54,57 +62,78 @@ export default function Search() {
         />
       </div>
       {data.length ? (
-        <div className="nes-table-responsive">
-          <table
+        <div
+          className={cx(
+            'nes-container with-title',
+            css`
+              flex: 1;
+              height: 0;
+            `,
+          )}>
+          <p className="title">搜索结果</p>
+          <ul
             className={cx(
-              'nes-table is-bordered',
+              'nes-list is-circle',
               css`
-                width: -webkit-fill-available;
-                & td,
-                & th {
-                  vertical-align: top;
-                  line-height: 1.5;
-                }
-                & td:hover {
-                  color: #209cee;
-                }
-                & td:active {
-                  color: #006bb3;
+                margin-left: -32px;
+                overflow-x: visible;
+                overflow-y: scroll;
+                height: 100%;
+
+                li + li {
+                  margin-top: 16px;
                 }
               `,
             )}>
-            <tbody>
-              {data.map((item) => (
-                <tr
-                  key={item.type + item.id}
-                  onClick={async () => {
-                    const items = await db.items.toArray()
-                    const order = (maxBy(items, 'order')?.order || 0) + 1
-                    await db.items.put({ ...item, order, amount: 1 }, [
-                      item.type,
-                      item.id,
-                    ])
-                    router.push('/')
-                  }}>
-                  <td className="nes-pointer">
-                    {item.name}
-                    <br />
-                    <span className="nes-text is-disabled">
-                      {item.type}
-                      &nbsp;
-                      {item.code}
-                    </span>
-                    <span
-                      className={css`
-                        float: right;
-                      `}>
-                      +
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            {data.map((item) => (
+              <li
+                className={cx(
+                  css`
+                    line-height: 1.5;
+                    word-break: break-all;
+
+                    &::before {
+                      top: 4px !important;
+                    }
+
+                    &:hover::before {
+                      box-shadow: 8px 2px, 10px 2px, 6px 4px, 8px 4px, 10px 4px,
+                        12px 4px, 4px 6px, 6px 6px, 8px 6px, 10px 6px, 12px 6px,
+                        14px 6px, 4px 8px, 6px 8px, 8px 8px, 10px 8px, 12px 8px,
+                        14px 8px, 6px 10px, 8px 10px, 10px 10px, 12px 10px,
+                        8px 12px, 10px 12px !important;
+                    }
+
+                    &:active::before {
+                      box-shadow: 8px 2px, 10px 2px, 6px 4px, 8px 4px, 10px 4px,
+                        12px 4px, 4px 6px, 6px 6px, 8px 6px, 10px 6px, 12px 6px,
+                        14px 6px, 4px 8px, 6px 8px, 8px 8px, 10px 8px, 12px 8px,
+                        14px 8px, 6px 10px, 8px 10px, 10px 10px, 12px 10px,
+                        8px 12px, 10px 12px !important;
+                    }
+                  `,
+                  'nes-pointer',
+                )}
+                key={item.type + item.id}
+                onClick={async () => {
+                  const items = await db.items.toArray()
+                  const order = (maxBy(items, 'order')?.order || 0) + 1
+                  await db.items.put({ ...item, order, amount: 1 }, [
+                    item.type,
+                    item.id,
+                  ])
+                  router.push('/')
+                }}>
+                {item.name}
+                <br />
+                <span className="nes-text is-disabled">
+                  {item.type}
+                  &nbsp;
+                  {item.code}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       ) : null}
     </div>
