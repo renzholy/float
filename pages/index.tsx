@@ -63,6 +63,7 @@ export default function Index() {
             margin-bottom: -8px !important;
           `}>
           <span className="nes-text">总计</span>
+          <br />
           {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
             <span
               className={cx(

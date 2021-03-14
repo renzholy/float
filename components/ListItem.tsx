@@ -40,7 +40,7 @@ export function ListItem(props: {
             `
           : undefined,
         css`
-          margin-bottom: 24px;
+          margin-bottom: 16px;
 
           &:hover .item-hover {
             color: #209cee;
@@ -60,6 +60,13 @@ export function ListItem(props: {
         )}
         onClick={props.onClick}>
         <span className="nes-text item-hover">{item.name}</span>
+        <br />
+        <span className="nes-text is-disabled">
+          {item.type}
+          &nbsp;
+          {item.code}
+        </span>
+        <br />
         {item.price === undefined ? null : (
           <span
             className={cx(
@@ -75,11 +82,6 @@ export function ListItem(props: {
           </span>
         )}
         <br />
-        <span className="nes-text is-disabled">
-          {item.type}
-          &nbsp;
-          {item.code}
-        </span>
         <span
           className={css`
             float: right;
@@ -88,6 +90,7 @@ export function ListItem(props: {
             ? '-'
             : formatNumber(item.amount * (item.price - (item.cost || 0)))}
         </span>
+        <br />
       </div>
       {props.isExpanded ? (
         <div
