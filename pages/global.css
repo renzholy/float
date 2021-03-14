@@ -21,7 +21,7 @@
 
 html * {
   user-select: none;
-  font-family: zpix;
+  font-family: zpix, 'Courier New', Courier, monospace;
   font-weight: bold;
   font-smooth: never;
   -webkit-font-smoothing: none;
