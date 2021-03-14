@@ -13,3 +13,13 @@
     background-color: #394b59;
   }
 }
+
+@font-face {
+  font-family: zpix;
+  src: url(/zpix.ttf) format('truetype');
+  src: url(/zpix.woff2) format('woff2');
+}
+
+html * {
+  font-family: zpix;
+}
