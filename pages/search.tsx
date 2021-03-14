@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -47,7 +48,7 @@ export default function Search() {
         </button>
         <input
           type="text"
-          id="name_field"
+          autoFocus={true}
           className={cx(
             'nes-input',
             css`
