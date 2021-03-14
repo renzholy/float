@@ -21,10 +21,6 @@ export default class extends Document {
         <Head>
           <meta charSet="UTF-8" />
           <meta httpEquiv="x-dns-prefetch-control" content="on" />
-          <link
-            rel="stylesheet"
-            href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css"
-          />
           <script
             async
             src="https://www.googletagmanager.com/gtag/js?id=G-ME74X8YQ5V"
