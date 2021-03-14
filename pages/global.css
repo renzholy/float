@@ -20,11 +20,16 @@
 }
 
 html * {
+  user-select: none;
   font-family: zpix;
   font-weight: bold;
   font-smooth: never;
   -webkit-font-smoothing: none;
   line-height: 1;
+}
+
+html input {
+  user-select: text;
 }
 
 .nes-input {
