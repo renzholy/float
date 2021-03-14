@@ -167,7 +167,7 @@ export function ListItem(props: {
               'nes-btn',
               Number.isNaN(parseFloat(amount)) || Number.isNaN(parseFloat(cost))
                 ? 'is-disabled'
-                : undefined,
+                : 'is-success',
             )}
             onClick={async () => {
               await db.items.update([item.type, item.id], {
@@ -191,7 +191,7 @@ export function ListItem(props: {
                 flex-shrink: 0;
                 float: right;
               `,
-              'nes-btn is-warning',
+              'nes-btn',
             )}
             onClick={async () => {
               await db.items.delete([item.type, item.id])
