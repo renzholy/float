@@ -7,7 +7,7 @@
 import { css, cx } from '@linaria/core'
 import maxBy from 'lodash/maxBy'
 import { useRouter } from 'next/dist/client/router'
-import { useState } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 
 import { useSearch } from '../hooks/use-search'
 import db from '../libs/db'
@@ -16,6 +16,9 @@ export default function Search() {
   const router = useRouter()
   const [keyword, setKeyword] = useState('')
   const { data } = useSearch(keyword)
+  const handleKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value)
+  }, [])
 
   return (
     <div
@@ -57,9 +60,7 @@ export default function Search() {
           )}
           placeholder="股票 基金 外汇 加密货币"
           value={keyword}
-          onChange={(e) => {
-            setKeyword(e.target.value)
-          }}
+          onChange={handleKeyword}
         />
       </div>
       {data.length ? (
