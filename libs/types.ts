@@ -15,8 +15,8 @@ export interface SearchItem {
 }
 
 export interface Item extends SearchItem {
-  amount: number
   order: number
+  amount?: number
   price?: number
   cost?: number
   comment?: string

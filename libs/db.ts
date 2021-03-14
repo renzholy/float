@@ -1,9 +1,9 @@
 import Dexie from 'dexie/dist/dexie'
 
-import { Item } from './types'
+import { Item, ItemType } from './types'
 
 class FloatDatabase extends Dexie {
-  items: Dexie.Table<Item, number>
+  items: Dexie.Table<Item, [ItemType, string]>
 
   constructor() {
     super('FloatDatabase')
