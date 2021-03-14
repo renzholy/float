@@ -11,9 +11,6 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@blueprintjs/core": "^3.41.0",
-    "@blueprintjs/popover2": "^0.3.3",
-    "@blueprintjs/select": "^3.15.8",
     "@linaria/core": "^3.0.0-beta.1",
     "dexie": "^3.0.3",
     "immer": "^8.0.1",
@@ -22,7 +19,6 @@
     "normalize.css": "^8.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-icons": "^4.2.0",
     "swr": "^0.5.3"
   },
   "devDependencies": {

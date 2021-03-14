@@ -1,132 +1,110 @@
 import { css, cx } from '@linaria/core'
-import { useState } from 'react'
+import orderBy from 'lodash/orderBy'
+import sumBy from 'lodash/sumBy'
+import { useRouter } from 'next/router'
+import { useMemo, useState } from 'react'
 import useSWR from 'swr'
-import { Suggest } from '@blueprintjs/select'
-import {
-  MenuItem,
-  Button,
-  Classes,
-  Intent,
-  InputGroup,
-} from '@blueprintjs/core'
 
-import { Asset } from '../libs/types'
+import { ListItem } from '../components/ListItem'
 import db from '../libs/db'
-import { useDarkMode } from '../hooks/use-dark-mode'
-import { useSearch } from '../hooks/use-search'
-import useDebounce from '../hooks/use-debounce'
-import { TypeIcon } from '../components/TypeIcon'
-import { Assets } from '../components/Assets'
-
-const AssetSuggest = Suggest.ofType<Asset>()
+import { formatNumber } from '../libs/formatter'
+import { ItemType } from '../libs/types'
 
 export default function Index() {
-  const [keyword, setKeyword] = useState('')
-  const [amount, setAmount] = useState('')
-  const [asset, setAsset] = useState<Asset | null>(null)
-  const { data: mine, revalidate } = useSWR('mine', () =>
-    db.mine.orderBy('order').reverse().toArray(),
+  const router = useRouter()
+  const { data: items, revalidate } = useSWR(
+    'items',
+    async () => {
+      const array = await db.items.toArray()
+      return orderBy(array, 'order')
+    },
+    {
+      refreshInterval: 2000,
+    },
   )
-  const isDarkMode = useDarkMode()
-  const debouncedKeyword = useDebounce(keyword, 200)
-  const { data, isValidating } = useSearch(debouncedKeyword)
+  const totalPrice = useMemo(
+    () =>
+      sumBy(items, (item) =>
+        item.price === undefined ? NaN : item.amount * item.price,
+      ),
+    [items],
+  )
+  const totalCost = useMemo(
+    () => sumBy(items, (item) => item.amount * (item.cost || 0)),
+    [items],
+  )
+  const [expanded, setExpanded] = useState<[ItemType, string]>()
 
   return (
     <div
-      className={cx(
-        isDarkMode ? Classes.DARK : null,
-        css`
-          max-width: 500px;
-          margin: 0 auto;
-        `,
-      )}>
-      <div
-        className={css`
-          display: flex;
-          margin: 5px;
-        `}>
-        <AssetSuggest
-          inputProps={{
-            large: true,
-            placeholder: '股票、基金、外汇、数字货币',
-            autoFocus: true,
-          }}
-          fill={true}
+      className={css`
+        padding: 16px;
+      `}>
+      <div className="nes-container with-title">
+        <p className="title">Float - 浮动收益</p>
+        {items?.map((item) => (
+          <ListItem
+            key={item.type + item.id}
+            value={item}
+            isExpanded={item.type === expanded?.[0] && item.id === expanded[1]}
+            onClick={() => {
+              setExpanded(
+                item.type === expanded?.[0] && item.id === expanded[1]
+                  ? undefined
+                  : [item.type, item.id],
+              )
+              revalidate()
+            }}
+          />
+        ))}
+        <div
           className={css`
-            margin: 5px;
-          `}
-          query={keyword}
-          onQueryChange={setKeyword}
-          items={data}
-          noResults={
-            keyword ? (
-              <MenuItem
-                disabled={true}
-                text={isValidating ? 'Loading...' : 'No results.'}
-              />
-            ) : undefined
-          }
-          inputValueRenderer={(item) => item.name}
-          itemRenderer={(item, { handleClick, modifiers }) => (
-            <MenuItem
-              key={item.type + item.id}
-              icon={<TypeIcon type={item.type} />}
-              text={item.name}
-              label={item.label}
-              onClick={handleClick}
-              disabled={modifiers.disabled}
-              active={modifiers.active}
-            />
+            line-height: 1.5;
+            margin-bottom: -8px !important;
+          `}>
+          <span className="nes-text">总计</span>
+          {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
+            <span
+              className={cx(
+                css`
+                  float: right;
+                `,
+                'nes-text is-disabled',
+              )}>
+              {formatNumber(totalPrice)} - {formatNumber(totalCost)}
+            </span>
           )}
-          selectedItem={asset}
-          activeItem={asset}
-          itemListPredicate={(_q, items) => items}
-          onItemSelect={setAsset}
-          openOnKeyDown={true}
-          popoverProps={{
-            minimal: true,
-            popoverClassName: css`
-              max-height: 400px;
-              overflow-y: auto;
-            `,
-          }}
-        />
-        <InputGroup
-          large={true}
-          className={css`
-            margin: 5px;
-            width: 80px;
-            flex-shrink: 0;
-          `}
-          value={amount}
-          onChange={(e) => {
-            setAmount(e.target.value)
-          }}
-          placeholder="数量"
-        />
-        <Button
-          large={true}
-          icon="add"
-          className={css`
-            margin: 5px;
-          `}
-          disabled={!asset || !amount}
-          intent={Intent.PRIMARY}
-          onClick={async () => {
-            if (asset && amount && mine) {
-              setAmount('')
-              setKeyword('')
-              setAsset(null)
-              await db.mine.add({
-                amount: parseFloat(amount),
-                ...asset,
-              })
-              await revalidate()
-            }
-          }}
-        />
+          <br />
+          &nbsp;
+          <span
+            className={cx(
+              'nes-text',
+              totalPrice - totalCost === 0
+                ? undefined
+                : totalPrice - totalCost > 0
+                ? 'is-error'
+                : 'is-success',
+              css`
+                float: right;
+              `,
+            )}>
+            {formatNumber(totalPrice - totalCost)}
+          </span>
+        </div>
       </div>
-      <Assets />
+      <button
+        type="button"
+        className={cx(
+          css`
+            margin-top: 16px;
+          `,
+          'nes-btn',
+        )}
+        onClick={() => {
+          router.push('/search')
+        }}>
+        添加
+      </button>
     </div>
   )
 }

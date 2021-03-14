@@ -1,24 +1,19 @@
 import Dexie from 'dexie/dist/dexie'
 
-import { Asset } from './types'
+import { Item, ItemType } from './types'
 
-class MyDatabase extends Dexie {
-  mine: Dexie.Table<Asset & { amount: number; order?: number }, number>
+class FloatDatabase extends Dexie {
+  items: Dexie.Table<Item, [ItemType, string]>
 
   constructor() {
-    super('MyDatabase')
+    super('FloatDatabase')
     this.version(1).stores({
-      assets: '&[type+id], name, symbol',
-      mine: '++order',
+      items: '[type+id]',
     })
-    this.version(2).stores({
-      assets: null,
-      mine: '++order',
-    })
-    this.mine = this.table('mine')
+    this.items = this.table('items')
   }
 }
 
-const db = new MyDatabase()
+const db = new FloatDatabase()
 
 export default db

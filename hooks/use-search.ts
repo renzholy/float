@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import useSWR from 'swr'
 
-import { Asset, AssetType } from '../libs/types'
+import { SearchItem, ItemType } from '../libs/types'
 
 function useSearchServer(keyword: string) {
-  return useSWR<Asset[]>(
+  return useSWR<SearchItem[]>(
     keyword ? ['searchServer', keyword] : null,
     async () =>
       fetch(
@@ -17,7 +17,7 @@ function useSearchServer(keyword: string) {
 }
 
 function useSearchClient(keyword: string) {
-  return useSWR<Asset[]>(
+  return useSWR<SearchItem[]>(
     keyword ? ['searchClient', keyword] : null,
     async () =>
       fetch(
@@ -29,10 +29,10 @@ function useSearchClient(keyword: string) {
         .then((json) =>
           json.currencies.map(
             (item: { id: string; name: string; symbol: string }) => ({
-              type: AssetType.CRYPTO,
               id: item.id,
+              type: ItemType.CRYPTO,
+              code: item.symbol,
               name: item.name,
-              label: item.symbol,
             }),
           ),
         ),
@@ -42,7 +42,7 @@ function useSearchClient(keyword: string) {
   )
 }
 
-function useSearchLocal(keyword: string): Asset[] {
+function useSearchLocal(keyword: string): SearchItem[] {
   return keyword
     ? Object.entries({
         GBP: '英镑',
@@ -79,10 +79,10 @@ function useSearchLocal(keyword: string): Asset[] {
         AUD: '澳大利亚元',
       })
         .map((item) => ({
-          type: AssetType.FOREX,
+          type: ItemType.FOREX,
           id: item[0],
+          code: item[0],
           name: item[1],
-          label: item[0],
         }))
         .filter(
           (item) =>
@@ -93,7 +93,7 @@ function useSearchLocal(keyword: string): Asset[] {
 
 export function useSearch(
   keyword: string,
-): { data: Asset[]; isValidating: boolean } {
+): { data: SearchItem[]; isValidating: boolean } {
   const {
     data: serverData = [],
     isValidating: serverIsValidating,
