@@ -1,5 +1,6 @@
 import { css, cx } from '@linaria/core'
-import { sumBy } from 'lodash'
+import orderBy from 'lodash/orderBy'
+import sumBy from 'lodash/sumBy'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
 import useSWR from 'swr'
@@ -13,7 +14,10 @@ export default function Index() {
   const router = useRouter()
   const { data: items, revalidate } = useSWR(
     'items',
-    () => db.items.toArray(),
+    async () => {
+      const array = await db.items.toArray()
+      return orderBy(array, 'order')
+    },
     {
       refreshInterval: 2000,
     },
