@@ -1,84 +1,53 @@
-/* eslint-disable jsx-a11y/no-autofocus */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 
 import { css, cx } from '@linaria/core'
 import maxBy from 'lodash/maxBy'
 import { useRouter } from 'next/dist/client/router'
-import { ChangeEvent, useCallback, useState } from 'react'
+import { useState } from 'react'
 
 import { useSearch } from '../hooks/use-search'
 import db from '../libs/db'
+import PixelInput from '../components/PixelInput'
+import PixelContainer from '../components/PixelContainer'
+import PixelButton from '../components/PixelButton'
 
 export default function Search() {
   const router = useRouter()
   const [keyword, setKeyword] = useState('')
   const { data, isValidating } = useSearch(keyword)
-  const handleKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value)
-  }, [])
 
   return (
     <div
       className={css`
-        padding: 16px;
-        height: 100vh;
-        width: 100vw;
-        display: flex;
-        flex-direction: column;
+        padding: 1em;
       `}>
       <div
         className={css`
           display: flex;
-          margin-bottom: 12px;
-          flex-shrink: 0;
+          margin-bottom: 1em;
         `}>
-        <button
-          type="button"
-          className={cx(
-            'nes-btn',
-            css`
-              margin-right: 16px;
-              flex-shrink: 0;
-            `,
-          )}
+        <PixelButton
+          className={css`
+            margin-right: 1em;
+            flex-shrink: 0;
+          `}
           onClick={() => {
             router.push('/')
           }}>
           返回
-        </button>
-        <input
-          type="text"
+        </PixelButton>
+        <PixelInput
           autoFocus={true}
-          className={cx(
-            'nes-input',
-            css`
-              outline: none;
-            `,
-          )}
           placeholder="股票 基金 外汇 加密货币"
           value={keyword}
-          onChange={handleKeyword}
+          onChange={setKeyword}
         />
       </div>
       {data.length || keyword ? (
-        <div
-          className={cx(
-            'nes-container with-title',
-            css`
-              flex: 1;
-              height: 0;
-            `,
-          )}>
-          <p className="title">{isValidating ? '加载中...' : '搜索结果'}</p>
+        <PixelContainer title={isValidating ? '加载中...' : '搜索结果'}>
           <div
             className={css`
-              overflow-x: visible;
-              overflow-y: scroll;
-              height: 100%;
-
               & > div + div {
                 margin-top: 16px;
               }
@@ -112,7 +81,10 @@ export default function Search() {
                 }}>
                 <span className="item-hover">{item.name}</span>
                 <br />
-                <span className="nes-text is-disabled">
+                <span
+                  className={css`
+                    color: #adafbc;
+                  `}>
                   {item.type}
                   &nbsp;
                   {item.code}
@@ -120,7 +92,7 @@ export default function Search() {
               </div>
             ))}
           </div>
-        </div>
+        </PixelContainer>
       ) : null}
     </div>
   )

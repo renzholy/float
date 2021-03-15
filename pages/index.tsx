@@ -1,11 +1,14 @@
-import { css, cx } from '@linaria/core'
+import { css } from '@linaria/core'
 import orderBy from 'lodash/orderBy'
 import sumBy from 'lodash/sumBy'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
 import useSWR from 'swr'
 
-import { ListItem } from '../components/ListItem'
+import ListItem from '../components/ListItem'
+import PixelContainer from '../components/PixelContainer'
+import PixelButton from '../components/PixelButton'
+import Price from '../components/Price'
 import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
@@ -38,10 +41,48 @@ export default function Index() {
   return (
     <div
       className={css`
-        padding: 16px;
+        padding: 1em;
       `}>
-      <div className="nes-container with-title">
-        <p className="title">Float - 浮动收益</p>
+      <div
+        className={css`
+          margin-bottom: 1em;
+          display: flex;
+          justify-content: space-between;
+        `}>
+        <PixelButton
+          onClick={() => {
+            router.push('/search')
+          }}>
+          添加
+        </PixelButton>
+        <span
+          className={css`
+            line-height: 0;
+          `}>
+          <a
+            href="https://twitter.com/RenzHoly"
+            target="_black"
+            className={css`
+              appearance: none;
+              display: inline-block;
+              line-height: 0;
+              margin-right: 1em;
+            `}>
+            <img src="/twitter.svg" alt="twitter" className="nes-pointer" />
+          </a>
+          <a
+            href="https://github.com/RenzHoly"
+            target="_black"
+            className={css`
+              appearance: none;
+              display: inline-block;
+              line-height: 0;
+            `}>
+            <img src="/github.svg" alt="github" className="nes-pointer" />
+          </a>
+        </span>
+      </div>
+      <PixelContainer title="Float - 浮动收益">
         {items?.map((item) => (
           <ListItem
             key={item.type + item.id}
@@ -62,66 +103,28 @@ export default function Index() {
             line-height: 1.5;
             margin-bottom: -8px !important;
           `}>
-          <span className="nes-text">总计</span>
+          <span>总计</span>
           <br />
           {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
             <span
-              className={cx(
-                css`
-                  float: right;
-                `,
-                'nes-text is-disabled',
-              )}>
+              className={css`
+                float: right;
+                color: #adafbc;
+              `}>
               {formatNumber(totalPrice)}&nbsp;-&nbsp;{formatNumber(totalCost)}
               &nbsp;=
             </span>
           )}
           <br />
           &nbsp;
-          <span
-            className={cx(
-              'nes-text',
-              totalPrice - totalCost === 0
-                ? undefined
-                : totalPrice - totalCost > 0
-                ? 'is-error'
-                : 'is-success',
-              css`
-                float: right;
-              `,
-            )}>
-            {formatNumber(totalPrice - totalCost)}
-          </span>
-        </div>
-      </div>
-      <div
-        className={css`
-          margin-top: 16px;
-          display: flex;
-          justify-content: space-between;
-        `}>
-        <button
-          type="button"
-          className="nes-btn"
-          onClick={() => {
-            router.push('/search')
-          }}>
-          添加
-        </button>
-        <span>
-          <a
-            href="https://twitter.com/RenzHoly"
-            target="_black"
+          <Price
+            value={totalPrice - totalCost}
             className={css`
-              margin-right: 16px;
-            `}>
-            <i className="nes-icon twitter is-medium nes-pointer" />
-          </a>
-          <a href="https://github.com/RenzHoly" target="_black">
-            <i className="nes-icon github is-medium nes-pointer" />
-          </a>
-        </span>
-      </div>
+              float: right;
+            `}
+          />
+        </div>
+      </PixelContainer>
     </div>
   )
 }

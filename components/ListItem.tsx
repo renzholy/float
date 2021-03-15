@@ -9,8 +9,11 @@ import { usePrice } from '../hooks/use-price'
 import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { Item } from '../libs/types'
+import PixelInput from './PixelInput'
+import PixelButton from './PixelButton'
+import Price from './Price'
 
-export function ListItem(props: {
+export default function ListItem(props: {
   value: Item
   isExpanded: boolean
   onClick(): void
@@ -57,40 +60,44 @@ export function ListItem(props: {
           css`
             line-height: 1.5;
             word-break: break-all;
+            display: flex;
+            flex-direction: column;
           `,
         )}
         onClick={props.onClick}>
-        <span className="nes-text item-hover">{item.name}</span>
-        <br />
-        <span className="nes-text is-disabled">
-          {item.type}
-          &nbsp;
-          {item.code}
-        </span>
-        <br />
-        {item.price === undefined ? null : (
+        <span className="item-hover">{item.name}</span>
+        <div>
           <span
-            className={cx(
-              css`
-                float: right;
-              `,
-              'nes-text is-disabled',
-            )}>
-            {item.cost
-              ? `(${formatNumber(item.price)} - ${formatNumber(item.cost)})`
-              : formatNumber(item.price)}
-            &nbsp;x&nbsp;{formatNumber(item.amount)}&nbsp;=
+            className={css`
+              color: #adafbc;
+            `}>
+            {item.type}
+            &nbsp;
+            {item.code}
           </span>
-        )}
-        <br />
-        <span
+          {item.price === undefined ? null : (
+            <span
+              className={css`
+                color: #adafbc;
+                float: right;
+              `}>
+              {item.cost
+                ? `(${formatNumber(item.price)} - ${formatNumber(item.cost)})`
+                : formatNumber(item.price)}
+              &nbsp;x&nbsp;{formatNumber(item.amount)}&nbsp;=
+            </span>
+          )}
+        </div>
+        <Price
           className={css`
-            float: right;
-          `}>
-          {item.price === undefined
-            ? '-'
-            : formatNumber(item.amount * (item.price - (item.cost || 0)))}
-        </span>
+            align-self: flex-end;
+          `}
+          value={
+            item.price === undefined
+              ? undefined
+              : item.amount * (item.price - (item.cost || 0))
+          }
+        />
         <br />
       </div>
       {props.isExpanded ? (
@@ -99,76 +106,51 @@ export function ListItem(props: {
             e.stopPropagation()
           }}>
           <div
-            className={cx(
-              'nes-field',
-              css`
-                margin-top: 16px;
-              `,
-            )}>
+            className={css`
+              margin-top: 16px;
+            `}>
             <label
               className={css`
                 white-space: nowrap;
+                margin-bottom: 0.25em;
+                display: block;
               `}>
               数量
             </label>
-            <input
-              type="text"
-              className={cx(
-                'nes-input',
-                amount && Number.isNaN(parseFloat(amount))
-                  ? 'is-error'
-                  : undefined,
-                css`
-                  outline: none;
-                `,
-              )}
+            <PixelInput
+              isError={!!amount && Number.isNaN(parseFloat(amount))}
               placeholder="数量"
               value={amount}
-              onChange={(e) => {
-                setAmount(e.target.value)
-              }}
+              onChange={setAmount}
             />
           </div>
           <div
-            className={cx(
-              'nes-field',
-              css`
-                margin-top: 16px;
-              `,
-            )}>
+            className={css`
+              margin-top: 16px;
+            `}>
             <label
               className={css`
                 white-space: nowrap;
+                margin-bottom: 0.25em;
+                display: block;
               `}>
               成本
             </label>
-            <input
-              type="text"
-              className={cx(
-                'nes-input',
-                cost && Number.isNaN(parseFloat(cost)) ? 'is-error' : undefined,
-                css`
-                  outline: none;
-                `,
-              )}
+            <PixelInput
+              isError={!!cost && Number.isNaN(parseFloat(cost))}
               value={cost}
-              onChange={(e) => {
-                setCost(e.target.value)
-              }}
+              onChange={setCost}
             />
           </div>
-          <button
-            type="button"
-            className={cx(
-              css`
-                margin-top: 16px;
-                flex-shrink: 0;
-              `,
-              'nes-btn',
+          <PixelButton
+            className={css`
+              margin-top: 16px;
+              flex-shrink: 0;
+            `}
+            disabled={
               Number.isNaN(parseFloat(amount)) || Number.isNaN(parseFloat(cost))
-                ? 'is-disabled'
-                : 'is-success',
-            )}
+            }
+            intent="success"
             onClick={async () => {
               await db.items.update([item.type, item.id], {
                 amount: Number.isNaN(parseFloat(amount))
@@ -181,24 +163,20 @@ export function ListItem(props: {
               props.onClick()
             }}>
             保存
-          </button>
-          <button
-            type="button"
-            className={cx(
-              css`
-                margin-left: 16px;
-                margin-top: 16px;
-                flex-shrink: 0;
-                float: right;
-              `,
-              'nes-btn',
-            )}
+          </PixelButton>
+          <PixelButton
+            className={css`
+              margin-left: 16px;
+              margin-top: 16px;
+              flex-shrink: 0;
+              float: right;
+            `}
             onClick={async () => {
               await db.items.delete([item.type, item.id])
               props.onClick()
             }}>
             移除
-          </button>
+          </PixelButton>
         </div>
       ) : null}
     </div>
