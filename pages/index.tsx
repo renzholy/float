@@ -3,8 +3,10 @@ import orderBy from 'lodash/orderBy'
 import sumBy from 'lodash/sumBy'
 import some from 'lodash/some'
 import { useRouter } from 'next/router'
-import { useMemo, useState } from 'react'
+import { ReactNode, useCallback, useMemo, useState } from 'react'
 import useSWR from 'swr'
+import { SortableContainer, SortableElement } from 'react-sortable-hoc'
+import arrayMove from 'array-move'
 
 import ListItem from '../components/ListItem'
 import PixelContainer from '../components/PixelContainer'
@@ -14,9 +16,16 @@ import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
 
+const SortableListItem = SortableElement(ListItem)
+
+const SortableListContainer = SortableContainer(
+  ({ children }: { children: ReactNode }) => <div>{children}</div>,
+)
+
 export default function Index() {
   const router = useRouter()
-  const { data: items, revalidate } = useSWR(
+  const [isSorting, setIsSorting] = useState(false)
+  const { data: items, revalidate, mutate } = useSWR(
     'items',
     async () => {
       const array = await db.items.toArray()
@@ -25,6 +34,7 @@ export default function Index() {
     {
       refreshInterval: 1000,
       dedupingInterval: 1000,
+      isPaused: () => isSorting,
     },
   )
   const totalPrice = useMemo(
@@ -42,6 +52,28 @@ export default function Index() {
     items,
   ])
   const [expanded, setExpanded] = useState<[ItemType, string]>()
+  const handleSortEnd = useCallback(
+    async ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
+      if (!items) {
+        setIsSorting(false)
+        return
+      }
+      try {
+        const newItems = arrayMove(items, oldIndex, newIndex)
+        await mutate(newItems)
+        await Promise.all(
+          newItems.map((item, index) =>
+            db.items.update([item.type, item.id], {
+              order: index + 1,
+            }),
+          ),
+        )
+      } finally {
+        setIsSorting(false)
+      }
+    },
+    [items, mutate],
+  )
 
   return (
     <div
@@ -108,21 +140,31 @@ export default function Index() {
         </span>
       </div>
       <PixelContainer title={isValidating ? '更新中...' : '浮动收益'}>
-        {items?.map((item) => (
-          <ListItem
-            key={item.type + item.id}
-            value={item}
-            isExpanded={item.type === expanded?.[0] && item.id === expanded[1]}
-            onClick={() => {
-              setExpanded(
+        <SortableListContainer
+          pressDelay={200}
+          onSortEnd={handleSortEnd}
+          onSortStart={() => {
+            setIsSorting(true)
+          }}>
+          {items?.map((item, index) => (
+            <SortableListItem
+              key={item.type + item.id}
+              index={index}
+              value={item}
+              isExpanded={
                 item.type === expanded?.[0] && item.id === expanded[1]
-                  ? undefined
-                  : [item.type, item.id],
-              )
-              revalidate()
-            }}
-          />
-        ))}
+              }
+              onClick={() => {
+                setExpanded(
+                  item.type === expanded?.[0] && item.id === expanded[1]
+                    ? undefined
+                    : [item.type, item.id],
+                )
+                revalidate()
+              }}
+            />
+          ))}
+        </SortableListContainer>
         <div
           className={css`
             line-height: 1.5;
