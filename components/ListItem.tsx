@@ -60,36 +60,37 @@ export default function ListItem(props: {
           css`
             line-height: 1.5;
             word-break: break-all;
+            display: flex;
+            flex-direction: column;
           `,
         )}
         onClick={props.onClick}>
         <span className="item-hover">{item.name}</span>
-        <br />
-        <span
-          className={css`
-            color: #d3d3d3;
-          `}>
-          {item.type}
-          &nbsp;
-          {item.code}
-        </span>
-        <br />
-        {item.price === undefined ? null : (
+        <div>
           <span
             className={css`
-              float: right;
               color: #d3d3d3;
             `}>
-            {item.cost
-              ? `(${formatNumber(item.price)} - ${formatNumber(item.cost)})`
-              : formatNumber(item.price)}
-            &nbsp;x&nbsp;{formatNumber(item.amount)}&nbsp;=
+            {item.type}
+            &nbsp;
+            {item.code}
           </span>
-        )}
-        <br />
+          {item.price === undefined ? null : (
+            <span
+              className={css`
+                color: #d3d3d3;
+                float: right;
+              `}>
+              {item.cost
+                ? `(${formatNumber(item.price)} - ${formatNumber(item.cost)})`
+                : formatNumber(item.price)}
+              &nbsp;x&nbsp;{formatNumber(item.amount)}&nbsp;=
+            </span>
+          )}
+        </div>
         <Price
           className={css`
-            float: right;
+            align-self: flex-end;
           `}
           value={
             item.price === undefined
