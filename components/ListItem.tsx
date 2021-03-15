@@ -43,7 +43,7 @@ export default function ListItem(props: {
             `
           : undefined,
         css`
-          margin-bottom: 16px;
+          margin-bottom: 1em;
 
           &:hover .item-hover {
             color: #209cee;
@@ -107,7 +107,7 @@ export default function ListItem(props: {
           }}>
           <div
             className={css`
-              margin-top: 16px;
+              margin-top: 1em;
             `}>
             <label
               className={css`
@@ -126,7 +126,7 @@ export default function ListItem(props: {
           </div>
           <div
             className={css`
-              margin-top: 16px;
+              margin-top: 1em;
             `}>
             <label
               className={css`
@@ -144,7 +144,7 @@ export default function ListItem(props: {
           </div>
           <PixelButton
             className={css`
-              margin-top: 16px;
+              margin-top: 1em;
               flex-shrink: 0;
             `}
             disabled={
@@ -166,8 +166,8 @@ export default function ListItem(props: {
           </PixelButton>
           <PixelButton
             className={css`
-              margin-left: 16px;
-              margin-top: 16px;
+              margin-left: 1em;
+              margin-top: 1em;
               flex-shrink: 0;
               float: right;
             `}

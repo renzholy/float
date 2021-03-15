@@ -1,4 +1,4 @@
-import { css } from '@linaria/core'
+import { css, cx } from '@linaria/core'
 import orderBy from 'lodash/orderBy'
 import sumBy from 'lodash/sumBy'
 import { useRouter } from 'next/router'
@@ -68,7 +68,17 @@ export default function Index() {
               line-height: 0;
               margin-right: 1em;
             `}>
-            <img src="/twitter.svg" alt="twitter" className="nes-pointer" />
+            <img
+              src="/twitter.svg"
+              alt="twitter"
+              className={cx(
+                'nes-pointer',
+                css`
+                  height: 3em;
+                  width: 3em;
+                `,
+              )}
+            />
           </a>
           <a
             href="https://github.com/RenzHoly"
@@ -78,7 +88,17 @@ export default function Index() {
               display: inline-block;
               line-height: 0;
             `}>
-            <img src="/github.svg" alt="github" className="nes-pointer" />
+            <img
+              src="/github.svg"
+              alt="github"
+              className={cx(
+                'nes-pointer',
+                css`
+                  height: 3em;
+                  width: 3em;
+                `,
+              )}
+            />
           </a>
         </span>
       </div>
@@ -101,7 +121,7 @@ export default function Index() {
         <div
           className={css`
             line-height: 1.5;
-            margin-bottom: -8px !important;
+            margin-bottom: -0.5em !important;
           `}>
           <span>总计</span>
           <br />

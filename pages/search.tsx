@@ -49,7 +49,7 @@ export default function Search() {
           <div
             className={css`
               & > div + div {
-                margin-top: 16px;
+                margin-top: 1em;
               }
             `}>
             {data.map((item) => (
