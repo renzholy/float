@@ -23,7 +23,8 @@ export default function PixelInput(props: {
     <input
       className={cx(
         css`
-          padding: 12px;
+          appearance: none;
+          padding: 0.75em;
           outline: none;
           width: 100%;
           text-indent: 1px;
@@ -31,10 +32,12 @@ export default function PixelInput(props: {
         `,
         props.isError
           ? css`
-              border-image: url('/border-error.png') 4 / 4px round;
+              border-image: url('/border-error.svg') 1 / 0.25em;
+              border-width: 0.25em;
             `
           : css`
-              border-image: url('/border.png') 4 / 4px round;
+              border-image: url('/border.svg') 1 / 0.25em;
+              border-width: 0.25em;
             `,
         props.className,
       )}

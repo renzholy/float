@@ -10,6 +10,7 @@ import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { Item } from '../libs/types'
 import PixelInput from './PixelInput'
+import PixelButton from './PixelButton'
 
 export function ListItem(props: {
   value: Item
@@ -100,12 +101,9 @@ export function ListItem(props: {
             e.stopPropagation()
           }}>
           <div
-            className={cx(
-              'nes-field',
-              css`
-                margin-top: 16px;
-              `,
-            )}>
+            className={css`
+              margin-top: 16px;
+            `}>
             <label
               className={css`
                 white-space: nowrap;
@@ -120,12 +118,9 @@ export function ListItem(props: {
             />
           </div>
           <div
-            className={cx(
-              'nes-field',
-              css`
-                margin-top: 16px;
-              `,
-            )}>
+            className={css`
+              margin-top: 16px;
+            `}>
             <label
               className={css`
                 white-space: nowrap;
@@ -138,18 +133,15 @@ export function ListItem(props: {
               onChange={setCost}
             />
           </div>
-          <button
-            type="button"
-            className={cx(
-              css`
-                margin-top: 16px;
-                flex-shrink: 0;
-              `,
-              'nes-btn',
+          <PixelButton
+            className={css`
+              margin-top: 16px;
+              flex-shrink: 0;
+            `}
+            disabled={
               Number.isNaN(parseFloat(amount)) || Number.isNaN(parseFloat(cost))
-                ? 'is-disabled'
-                : 'is-success',
-            )}
+            }
+            intent="success"
             onClick={async () => {
               await db.items.update([item.type, item.id], {
                 amount: Number.isNaN(parseFloat(amount))
@@ -162,24 +154,20 @@ export function ListItem(props: {
               props.onClick()
             }}>
             保存
-          </button>
-          <button
-            type="button"
-            className={cx(
-              css`
-                margin-left: 16px;
-                margin-top: 16px;
-                flex-shrink: 0;
-                float: right;
-              `,
-              'nes-btn',
-            )}
+          </PixelButton>
+          <PixelButton
+            className={css`
+              margin-left: 16px;
+              margin-top: 16px;
+              flex-shrink: 0;
+              float: right;
+            `}
             onClick={async () => {
               await db.items.delete([item.type, item.id])
               props.onClick()
             }}>
             移除
-          </button>
+          </PixelButton>
         </div>
       ) : null}
     </div>

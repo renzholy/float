@@ -7,6 +7,7 @@ import useSWR from 'swr'
 
 import { ListItem } from '../components/ListItem'
 import PixelContainer from '../components/PixelContainer'
+import PixelButton from '../components/PixelButton'
 import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
@@ -100,15 +101,16 @@ export default function Index() {
           display: flex;
           justify-content: space-between;
         `}>
-        <button
-          type="button"
-          className="nes-btn"
+        <PixelButton
           onClick={() => {
             router.push('/search')
           }}>
           添加
-        </button>
-        <span>
+        </PixelButton>
+        <div
+          className={css`
+            height: 48px;
+          `}>
           <a
             href="https://twitter.com/RenzHoly"
             target="_black"
@@ -120,7 +122,7 @@ export default function Index() {
           <a href="https://github.com/RenzHoly" target="_black">
             <i className="nes-icon github is-medium nes-pointer" />
           </a>
-        </span>
+        </div>
       </div>
     </div>
   )

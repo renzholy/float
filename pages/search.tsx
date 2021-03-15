@@ -12,6 +12,7 @@ import { useSearch } from '../hooks/use-search'
 import db from '../libs/db'
 import PixelInput from '../components/PixelInput'
 import PixelContainer from '../components/PixelContainer'
+import PixelButton from '../components/PixelButton'
 
 export default function Search() {
   const router = useRouter()
@@ -33,20 +34,16 @@ export default function Search() {
           margin-bottom: 12px;
           flex-shrink: 0;
         `}>
-        <button
-          type="button"
-          className={cx(
-            'nes-btn',
-            css`
-              margin-right: 16px;
-              flex-shrink: 0;
-            `,
-          )}
+        <PixelButton
+          className={css`
+            margin-right: 16px;
+            flex-shrink: 0;
+          `}
           onClick={() => {
             router.push('/')
           }}>
           返回
-        </button>
+        </PixelButton>
         <PixelInput
           autoFocus={true}
           placeholder="股票 基金 外汇 加密货币"
