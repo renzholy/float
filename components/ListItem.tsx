@@ -105,43 +105,36 @@ export default function ListItem(props: {
           onClick={(e) => {
             e.stopPropagation()
           }}>
-          <div
+          <label
             className={css`
-              margin-top: 1em;
+              white-space: nowrap;
+              margin-top: -1em;
+              margin-bottom: 0.25em;
+              display: block;
             `}>
-            <label
-              className={css`
-                white-space: nowrap;
-                margin-bottom: 0.25em;
-                display: block;
-              `}>
-              数量
-            </label>
-            <PixelInput
-              isError={!!amount && Number.isNaN(parseFloat(amount))}
-              placeholder="数量"
-              value={amount}
-              onChange={setAmount}
-            />
-          </div>
-          <div
+            数量
+          </label>
+          <PixelInput
+            isError={!!amount && Number.isNaN(parseFloat(amount))}
+            placeholder="数量"
+            value={amount}
+            onChange={setAmount}
+          />
+
+          <label
             className={css`
+              white-space: nowrap;
               margin-top: 1em;
+              margin-bottom: 0.25em;
+              display: block;
             `}>
-            <label
-              className={css`
-                white-space: nowrap;
-                margin-bottom: 0.25em;
-                display: block;
-              `}>
-              成本
-            </label>
-            <PixelInput
-              isError={!!cost && Number.isNaN(parseFloat(cost))}
-              value={cost}
-              onChange={setCost}
-            />
-          </div>
+            成本
+          </label>
+          <PixelInput
+            isError={!!cost && Number.isNaN(parseFloat(cost))}
+            value={cost}
+            onChange={setCost}
+          />
           <PixelButton
             className={css`
               margin-top: 1em;
