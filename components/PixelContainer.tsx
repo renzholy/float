@@ -18,9 +18,9 @@ export default function PixelContainer(props: {
       {props.title ? (
         <span
           className={css`
-            margin-top: -2.25em;
-            margin-bottom: 1em;
-            padding: 0 0.5em;
+            margin-top: -2.75em;
+            margin-bottom: 0.5em;
+            padding: 0.5em;
             background-color: white;
             display: block;
             width: fit-content;
