@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react'
 import useSWR from 'swr'
 
 import { ListItem } from '../components/ListItem'
+import PixelContainer from '../components/PixelContainer'
 import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
@@ -40,8 +41,7 @@ export default function Index() {
       className={css`
         padding: 16px;
       `}>
-      <div className="nes-container with-title">
-        <p className="title">Float - 浮动收益</p>
+      <PixelContainer title="Float - 浮动收益">
         {items?.map((item) => (
           <ListItem
             key={item.type + item.id}
@@ -93,7 +93,7 @@ export default function Index() {
             {formatNumber(totalPrice - totalCost)}
           </span>
         </div>
-      </div>
+      </PixelContainer>
       <div
         className={css`
           margin-top: 16px;

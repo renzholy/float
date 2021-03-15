@@ -11,6 +11,7 @@ import { useState } from 'react'
 import { useSearch } from '../hooks/use-search'
 import db from '../libs/db'
 import PixelInput from '../components/PixelInput'
+import PixelContainer from '../components/PixelContainer'
 
 export default function Search() {
   const router = useRouter()
@@ -54,15 +55,12 @@ export default function Search() {
         />
       </div>
       {data.length || keyword ? (
-        <div
-          className={cx(
-            'nes-container with-title',
-            css`
-              flex: 1;
-              height: 0;
-            `,
-          )}>
-          <p className="title">{isValidating ? '加载中...' : '搜索结果'}</p>
+        <PixelContainer
+          className={css`
+            flex: 1;
+            height: 0;
+          `}
+          title={isValidating ? '加载中...' : '搜索结果'}>
           <div
             className={css`
               overflow-x: visible;
@@ -110,7 +108,7 @@ export default function Search() {
               </div>
             ))}
           </div>
-        </div>
+        </PixelContainer>
       ) : null}
     </div>
   )
