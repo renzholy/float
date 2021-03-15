@@ -105,40 +105,54 @@ export default function ListItem(props: {
           onClick={(e) => {
             e.stopPropagation()
           }}>
-          <label
+          <div
             className={css`
-              white-space: nowrap;
               margin-top: -1em;
-              margin-bottom: 0.25em;
-              display: block;
+              display: flex;
             `}>
-            数量
-          </label>
-          <PixelInput
-            isError={!!amount && Number.isNaN(parseFloat(amount))}
-            placeholder="数量"
-            value={amount}
-            onChange={setAmount}
-          />
-
-          <label
-            className={css`
-              white-space: nowrap;
-              margin-top: 1em;
-              margin-bottom: 0.25em;
-              display: block;
-            `}>
-            成本
-          </label>
-          <PixelInput
-            isError={!!cost && Number.isNaN(parseFloat(cost))}
-            value={cost}
-            onChange={setCost}
-          />
+            <div
+              className={css`
+                flex: 1;
+                margin-right: 0.25em;
+              `}>
+              <label
+                className={css`
+                  white-space: nowrap;
+                  margin-bottom: 0.5em;
+                  display: block;
+                `}>
+                数量
+              </label>
+              <PixelInput
+                isError={!!amount && Number.isNaN(parseFloat(amount))}
+                placeholder="数量"
+                value={amount}
+                onChange={setAmount}
+              />
+            </div>
+            <div
+              className={css`
+                flex: 1;
+                margin-left: 0.25em;
+              `}>
+              <label
+                className={css`
+                  white-space: nowrap;
+                  margin-bottom: 0.5em;
+                  display: block;
+                `}>
+                成本
+              </label>
+              <PixelInput
+                isError={!!cost && Number.isNaN(parseFloat(cost))}
+                value={cost}
+                onChange={setCost}
+              />
+            </div>
+          </div>
           <PixelButton
             className={css`
-              margin-top: 1em;
-              flex-shrink: 0;
+              margin-top: 0.5em;
             `}
             disabled={
               Number.isNaN(parseFloat(amount)) || Number.isNaN(parseFloat(cost))
@@ -159,9 +173,7 @@ export default function ListItem(props: {
           </PixelButton>
           <PixelButton
             className={css`
-              margin-left: 1em;
-              margin-top: 1em;
-              flex-shrink: 0;
+              margin-top: 0.5em;
               float: right;
             `}
             onClick={async () => {
