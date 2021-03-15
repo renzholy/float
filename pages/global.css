@@ -14,7 +14,6 @@
 }
 
 html * {
-  font-size: 16px;
   box-sizing: border-box;
   user-select: none;
   font-family: zpix, 'Courier New', Courier, monospace;
@@ -30,8 +29,21 @@ html {
 
 html body {
   margin: 0;
-  max-width: 640px;
+  max-width: 900px;
   margin: 0 auto;
+  font-size: 12px;
+}
+
+@media screen and (min-width: 450px) {
+  html body {
+    font-size: 16px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  html body {
+    font-size: 24px;
+  }
 }
 
 .nes-pointer {
