@@ -29,18 +29,18 @@ html {
 
 html body {
   margin: 0;
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
   font-size: 12px;
 }
 
-@media screen and (min-width: 450px) {
+@media screen and (min-width: 480px) {
   html body {
     font-size: 16px;
   }
 }
 
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 960px) {
   html body {
     font-size: 24px;
   }
