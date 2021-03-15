@@ -9,6 +9,7 @@ import { usePrice } from '../hooks/use-price'
 import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { Item } from '../libs/types'
+import PixelInput from './PixelInput'
 
 export function ListItem(props: {
   value: Item
@@ -111,22 +112,11 @@ export function ListItem(props: {
               `}>
               数量
             </label>
-            <input
-              type="text"
-              className={cx(
-                'nes-input',
-                amount && Number.isNaN(parseFloat(amount))
-                  ? 'is-error'
-                  : undefined,
-                css`
-                  outline: none;
-                `,
-              )}
+            <PixelInput
+              isError={!!amount && Number.isNaN(parseFloat(amount))}
               placeholder="数量"
               value={amount}
-              onChange={(e) => {
-                setAmount(e.target.value)
-              }}
+              onChange={setAmount}
             />
           </div>
           <div
@@ -142,19 +132,10 @@ export function ListItem(props: {
               `}>
               成本
             </label>
-            <input
-              type="text"
-              className={cx(
-                'nes-input',
-                cost && Number.isNaN(parseFloat(cost)) ? 'is-error' : undefined,
-                css`
-                  outline: none;
-                `,
-              )}
+            <PixelInput
+              isError={!!cost && Number.isNaN(parseFloat(cost))}
               value={cost}
-              onChange={(e) => {
-                setCost(e.target.value)
-              }}
+              onChange={setCost}
             />
           </div>
           <button

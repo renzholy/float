@@ -27,11 +27,3 @@ html * {
   -webkit-font-smoothing: none;
   line-height: 1;
 }
-
-html input {
-  user-select: text;
-}
-
-.nes-input {
-  text-indent: 1px;
-}

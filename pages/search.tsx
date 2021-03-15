@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-autofocus */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -7,18 +6,16 @@
 import { css, cx } from '@linaria/core'
 import maxBy from 'lodash/maxBy'
 import { useRouter } from 'next/dist/client/router'
-import { ChangeEvent, useCallback, useState } from 'react'
+import { useState } from 'react'
 
 import { useSearch } from '../hooks/use-search'
 import db from '../libs/db'
+import PixelInput from '../components/PixelInput'
 
 export default function Search() {
   const router = useRouter()
   const [keyword, setKeyword] = useState('')
   const { data, isValidating } = useSearch(keyword)
-  const handleKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value)
-  }, [])
 
   return (
     <div
@@ -49,18 +46,11 @@ export default function Search() {
           }}>
           返回
         </button>
-        <input
-          type="text"
+        <PixelInput
           autoFocus={true}
-          className={cx(
-            'nes-input',
-            css`
-              outline: none;
-            `,
-          )}
           placeholder="股票 基金 外汇 加密货币"
           value={keyword}
-          onChange={handleKeyword}
+          onChange={setKeyword}
         />
       </div>
       {data.length || keyword ? (
