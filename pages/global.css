@@ -7,12 +7,6 @@
     background-color: white;
   }
 }
-/* 
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #212529;
-  }
-} */
 
 @font-face {
   font-family: zpix;
@@ -35,6 +29,8 @@ html {
 
 html body {
   margin: 0;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 .nes-pointer {
