@@ -11,8 +11,9 @@ import { formatNumber } from '../libs/formatter'
 import { Item } from '../libs/types'
 import PixelInput from './PixelInput'
 import PixelButton from './PixelButton'
+import Price from './Price'
 
-export function ListItem(props: {
+export default function ListItem(props: {
   value: Item
   isExpanded: boolean
   onClick(): void
@@ -86,14 +87,16 @@ export function ListItem(props: {
           </span>
         )}
         <br />
-        <span
+        <Price
           className={css`
             float: right;
-          `}>
-          {item.price === undefined
-            ? '-'
-            : formatNumber(item.amount * (item.price - (item.cost || 0)))}
-        </span>
+          `}
+          value={
+            item.price === undefined
+              ? undefined
+              : item.amount * (item.price - (item.cost || 0))
+          }
+        />
         <br />
       </div>
       {props.isExpanded ? (

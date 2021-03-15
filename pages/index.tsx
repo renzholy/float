@@ -1,13 +1,14 @@
-import { css, cx } from '@linaria/core'
+import { css } from '@linaria/core'
 import orderBy from 'lodash/orderBy'
 import sumBy from 'lodash/sumBy'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
 import useSWR from 'swr'
 
-import { ListItem } from '../components/ListItem'
+import ListItem from '../components/ListItem'
 import PixelContainer from '../components/PixelContainer'
 import PixelButton from '../components/PixelButton'
+import Price from '../components/Price'
 import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
@@ -77,23 +78,12 @@ export default function Index() {
           )}
           <br />
           &nbsp;
-          <span
-            className={cx(
-              totalPrice - totalCost === 0
-                ? undefined
-                : totalPrice - totalCost > 0
-                ? css`
-                    color: #e76e55;
-                  `
-                : css`
-                    color: #92cc41;
-                  `,
-              css`
-                float: right;
-              `,
-            )}>
-            {formatNumber(totalPrice - totalCost)}
-          </span>
+          <Price
+            value={totalPrice - totalCost}
+            className={css`
+              float: right;
+            `}
+          />
         </div>
       </PixelContainer>
       <div
