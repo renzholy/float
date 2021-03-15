@@ -20,4 +20,5 @@ export interface Item extends SearchItem {
   cost: number
   price?: number
   comment?: string
+  isValidating?: boolean
 }

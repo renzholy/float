@@ -19,10 +19,15 @@ export default function ListItem(props: {
   onClick(): void
 }) {
   const item = props.value
-  const { data: price } = usePrice('CNY', item.type, item.id)
+  const { data: price, isValidating } = usePrice('CNY', item.type, item.id)
   useEffect(() => {
-    db.items.update([item.type, item.id], { price })
+    if (price !== undefined) {
+      db.items.update([item.type, item.id], { price })
+    }
   }, [item.id, item.type, price])
+  useEffect(() => {
+    db.items.update([item.type, item.id], { isValidating })
+  }, [item.id, item.type, isValidating])
   const [amount, setAmount] = useState('')
   const [cost, setCost] = useState('')
   useEffect(() => {

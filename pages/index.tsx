@@ -1,6 +1,7 @@
 import { css, cx } from '@linaria/core'
 import orderBy from 'lodash/orderBy'
 import sumBy from 'lodash/sumBy'
+import some from 'lodash/some'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
 import useSWR from 'swr'
@@ -22,7 +23,8 @@ export default function Index() {
       return orderBy(array, 'order')
     },
     {
-      refreshInterval: 2000,
+      refreshInterval: 1000,
+      dedupingInterval: 1000,
     },
   )
   const totalPrice = useMemo(
@@ -36,6 +38,9 @@ export default function Index() {
     () => sumBy(items, (item) => item.amount * (item.cost || 0)),
     [items],
   )
+  const isValidating = useMemo(() => some(items, (item) => item.isValidating), [
+    items,
+  ])
   const [expanded, setExpanded] = useState<[ItemType, string]>()
 
   return (
@@ -102,7 +107,7 @@ export default function Index() {
           </a>
         </span>
       </div>
-      <PixelContainer title="浮动收益">
+      <PixelContainer title={isValidating ? '更新中...' : '浮动收益'}>
         {items?.map((item) => (
           <ListItem
             key={item.type + item.id}
