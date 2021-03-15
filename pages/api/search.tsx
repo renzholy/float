@@ -35,7 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             type: ItemType.STOCK_CN,
             id: item[0] + item[1],
             code: item[1],
-            name: unescapeUnicode(item[2]),
+            name: unescapeUnicode(item[2].split(',')[0]),
           })),
       ),
     fetch(
@@ -49,7 +49,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           type: ItemType.STOCK_US,
           id: item[1].split('.')[0].toUpperCase(),
           code: item[1].split('.')[0].toUpperCase(),
-          name: unescapeUnicode(item[2]),
+          name: unescapeUnicode(item[2].split(',')[0]),
         })),
       ),
     fetch(
@@ -63,7 +63,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           type: ItemType.STOCK_HK,
           id: item[1],
           code: item[1],
-          name: unescapeUnicode(item[2]),
+          name: unescapeUnicode(item[2].split(',')[0]),
         })),
       ),
     fetch(
@@ -77,7 +77,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           type: ItemType.FUND,
           id: item[1],
           code: item[1],
-          name: unescapeUnicode(item[2]),
+          name: unescapeUnicode(item[2].split(',')[0]),
         })),
       ),
   ])
