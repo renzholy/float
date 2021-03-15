@@ -99,7 +99,7 @@ export default function Search() {
                 <br />
                 <span
                   className={css`
-                    color: #d3d3d3;
+                    color: #adafbc;
                   `}>
                   {item.type}
                   &nbsp;

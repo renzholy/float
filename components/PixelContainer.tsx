@@ -10,6 +10,7 @@ export default function PixelContainer(props: {
     <div
       className={cx(
         css`
+          color: #212529;
           border: 0.25em solid #212529;
           padding: 2em;
         `,

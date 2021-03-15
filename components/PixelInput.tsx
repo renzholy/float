@@ -23,6 +23,7 @@ export default function PixelInput(props: {
     <input
       className={cx(
         css`
+          color: #212529;
           font-size: 1em;
           appearance: none;
           padding: 0.75em;
@@ -30,6 +31,10 @@ export default function PixelInput(props: {
           width: 100%;
           text-indent: 1px;
           user-select: text;
+
+          &::placeholder {
+            color: #d3d3d3;
+          }
         `,
         props.isError
           ? css`

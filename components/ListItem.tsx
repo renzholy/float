@@ -69,7 +69,7 @@ export default function ListItem(props: {
         <div>
           <span
             className={css`
-              color: #d3d3d3;
+              color: #adafbc;
             `}>
             {item.type}
             &nbsp;
@@ -78,7 +78,7 @@ export default function ListItem(props: {
           {item.price === undefined ? null : (
             <span
               className={css`
-                color: #d3d3d3;
+                color: #adafbc;
                 float: right;
               `}>
               {item.cost

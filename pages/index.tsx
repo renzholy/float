@@ -70,7 +70,7 @@ export default function Index() {
             <span
               className={css`
                 float: right;
-                color: #d3d3d3;
+                color: #adafbc;
               `}>
               {formatNumber(totalPrice)}&nbsp;-&nbsp;{formatNumber(totalCost)}
               &nbsp;=
