@@ -23,6 +23,7 @@ export default function PixelInput(props: {
     <input
       className={cx(
         css`
+          font-size: 1em;
           appearance: none;
           padding: 0.75em;
           outline: none;

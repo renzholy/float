@@ -4,7 +4,7 @@ export default function PixelButton(props: {
   className?: string
   intent?: 'success'
   disabled?: boolean
-  onClick(): void
+  onClick?(): void
   children: string
 }) {
   return (
@@ -12,7 +12,9 @@ export default function PixelButton(props: {
       type="button"
       disabled={props.disabled}
       className={cx(
+        'nes-pointer',
         css`
+          font-size: 1em;
           outline: none !important;
           appearance: none;
           border-image: url('/border.svg') 1 / 0.25em;

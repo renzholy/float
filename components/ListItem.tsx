@@ -62,9 +62,12 @@ export function ListItem(props: {
           `,
         )}
         onClick={props.onClick}>
-        <span className="nes-text item-hover">{item.name}</span>
+        <span className="item-hover">{item.name}</span>
         <br />
-        <span className="nes-text is-disabled">
+        <span
+          className={css`
+            color: #d3d3d3;
+          `}>
           {item.type}
           &nbsp;
           {item.code}
@@ -72,12 +75,10 @@ export function ListItem(props: {
         <br />
         {item.price === undefined ? null : (
           <span
-            className={cx(
-              css`
-                float: right;
-              `,
-              'nes-text is-disabled',
-            )}>
+            className={css`
+              float: right;
+              color: #d3d3d3;
+            `}>
             {item.cost
               ? `(${formatNumber(item.price)} - ${formatNumber(item.cost)})`
               : formatNumber(item.price)}
@@ -107,6 +108,8 @@ export function ListItem(props: {
             <label
               className={css`
                 white-space: nowrap;
+                margin-bottom: 0.25em;
+                display: block;
               `}>
               数量
             </label>
@@ -124,6 +127,8 @@ export function ListItem(props: {
             <label
               className={css`
                 white-space: nowrap;
+                margin-bottom: 0.25em;
+                display: block;
               `}>
               成本
             </label>

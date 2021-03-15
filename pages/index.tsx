@@ -63,16 +63,14 @@ export default function Index() {
             line-height: 1.5;
             margin-bottom: -8px !important;
           `}>
-          <span className="nes-text">总计</span>
+          <span>总计</span>
           <br />
           {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
             <span
-              className={cx(
-                css`
-                  float: right;
-                `,
-                'nes-text is-disabled',
-              )}>
+              className={css`
+                float: right;
+                color: #d3d3d3;
+              `}>
               {formatNumber(totalPrice)}&nbsp;-&nbsp;{formatNumber(totalCost)}
               &nbsp;=
             </span>
@@ -81,12 +79,15 @@ export default function Index() {
           &nbsp;
           <span
             className={cx(
-              'nes-text',
               totalPrice - totalCost === 0
                 ? undefined
                 : totalPrice - totalCost > 0
-                ? 'is-error'
-                : 'is-success',
+                ? css`
+                    color: #e76e55;
+                  `
+                : css`
+                    color: #92cc41;
+                  `,
               css`
                 float: right;
               `,
@@ -107,22 +108,32 @@ export default function Index() {
           }}>
           添加
         </PixelButton>
-        <div
+        <span
           className={css`
-            height: 48px;
+            line-height: 0;
           `}>
           <a
             href="https://twitter.com/RenzHoly"
             target="_black"
             className={css`
-              margin-right: 16px;
+              appearance: none;
+              display: inline-block;
+              line-height: 0;
+              margin-right: 1em;
             `}>
-            <i className="nes-icon twitter is-medium nes-pointer" />
+            <img src="/twitter.svg" alt="twitter" className="nes-pointer" />
           </a>
-          <a href="https://github.com/RenzHoly" target="_black">
-            <i className="nes-icon github is-medium nes-pointer" />
+          <a
+            href="https://github.com/RenzHoly"
+            target="_black"
+            className={css`
+              appearance: none;
+              display: inline-block;
+              line-height: 0;
+            `}>
+            <img src="/github.svg" alt="github" className="nes-pointer" />
           </a>
-        </div>
+        </span>
       </div>
     </div>
   )

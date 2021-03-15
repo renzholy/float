@@ -97,7 +97,10 @@ export default function Search() {
                 }}>
                 <span className="item-hover">{item.name}</span>
                 <br />
-                <span className="nes-text is-disabled">
+                <span
+                  className={css`
+                    color: #d3d3d3;
+                  `}>
                   {item.type}
                   &nbsp;
                   {item.code}
