@@ -22,21 +22,16 @@ export default function Search() {
   return (
     <div
       className={css`
-        padding: 16px;
-        height: 100vh;
-        width: 100vw;
-        display: flex;
-        flex-direction: column;
+        padding: 1em;
       `}>
       <div
         className={css`
           display: flex;
-          margin-bottom: 12px;
-          flex-shrink: 0;
+          margin-bottom: 1em;
         `}>
         <PixelButton
           className={css`
-            margin-right: 16px;
+            margin-right: 1em;
             flex-shrink: 0;
           `}
           onClick={() => {
@@ -52,18 +47,9 @@ export default function Search() {
         />
       </div>
       {data.length || keyword ? (
-        <PixelContainer
-          className={css`
-            flex: 1;
-            height: 0;
-          `}
-          title={isValidating ? '加载中...' : '搜索结果'}>
+        <PixelContainer title={isValidating ? '加载中...' : '搜索结果'}>
           <div
             className={css`
-              overflow-x: visible;
-              overflow-y: scroll;
-              height: 100%;
-
               & > div + div {
                 margin-top: 16px;
               }

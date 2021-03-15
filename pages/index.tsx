@@ -41,8 +41,47 @@ export default function Index() {
   return (
     <div
       className={css`
-        padding: 16px;
+        padding: 1em;
       `}>
+      <div
+        className={css`
+          margin-bottom: 1em;
+          display: flex;
+          justify-content: space-between;
+        `}>
+        <PixelButton
+          onClick={() => {
+            router.push('/search')
+          }}>
+          添加
+        </PixelButton>
+        <span
+          className={css`
+            line-height: 0;
+          `}>
+          <a
+            href="https://twitter.com/RenzHoly"
+            target="_black"
+            className={css`
+              appearance: none;
+              display: inline-block;
+              line-height: 0;
+              margin-right: 1em;
+            `}>
+            <img src="/twitter.svg" alt="twitter" className="nes-pointer" />
+          </a>
+          <a
+            href="https://github.com/RenzHoly"
+            target="_black"
+            className={css`
+              appearance: none;
+              display: inline-block;
+              line-height: 0;
+            `}>
+            <img src="/github.svg" alt="github" className="nes-pointer" />
+          </a>
+        </span>
+      </div>
       <PixelContainer title="Float - 浮动收益">
         {items?.map((item) => (
           <ListItem
@@ -86,45 +125,6 @@ export default function Index() {
           />
         </div>
       </PixelContainer>
-      <div
-        className={css`
-          margin-top: 16px;
-          display: flex;
-          justify-content: space-between;
-        `}>
-        <PixelButton
-          onClick={() => {
-            router.push('/search')
-          }}>
-          添加
-        </PixelButton>
-        <span
-          className={css`
-            line-height: 0;
-          `}>
-          <a
-            href="https://twitter.com/RenzHoly"
-            target="_black"
-            className={css`
-              appearance: none;
-              display: inline-block;
-              line-height: 0;
-              margin-right: 1em;
-            `}>
-            <img src="/twitter.svg" alt="twitter" className="nes-pointer" />
-          </a>
-          <a
-            href="https://github.com/RenzHoly"
-            target="_black"
-            className={css`
-              appearance: none;
-              display: inline-block;
-              line-height: 0;
-            `}>
-            <img src="/github.svg" alt="github" className="nes-pointer" />
-          </a>
-        </span>
-      </div>
     </div>
   )
 }
