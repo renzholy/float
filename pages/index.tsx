@@ -102,7 +102,7 @@ export default function Index() {
           </a>
         </span>
       </div>
-      <PixelContainer title="Float - 浮动收益">
+      <PixelContainer title="浮动收益">
         {items?.map((item) => (
           <ListItem
             key={item.type + item.id}
