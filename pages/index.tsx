@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import { css, cx } from '@linaria/core'
 import orderBy from 'lodash/orderBy'
 import sumBy from 'lodash/sumBy'
@@ -120,15 +123,21 @@ export default function Index() {
             line-height: 0;
             display: flex;
           `}>
-          <PixelButton
-            className={css`
-              margin-right: 1em;
-            `}
+          <img
+            src={inverseColor ? 'price-color-inverse.svg' : '/price-color.svg'}
+            alt="price-color"
+            className={cx(
+              'nes-pointer',
+              css`
+                height: 3em;
+                width: 3em;
+                margin-right: 1em;
+              `,
+            )}
             onClick={() => {
               setInverseColor((old) => !old)
-            }}>
-            {inverseColor ? '绿涨红跌' : '红涨绿跌'}
-          </PixelButton>
+            }}
+          />
           <PixelButton
             className={css`
               margin-right: 1em;
