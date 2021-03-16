@@ -32,6 +32,7 @@ export default function PixelInput(props: {
           width: 100%;
           text-indent: 1px;
           user-select: text;
+          margin: 0;
 
           &::placeholder {
             color: #d3d3d3;
