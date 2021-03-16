@@ -24,6 +24,7 @@ html * {
 
 html {
   cursor: url(/icons/cursor-default.png), auto;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html body {
