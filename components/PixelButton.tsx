@@ -7,14 +7,12 @@ import { SVG2DataURI } from '../libs/svg'
 
 export default function PixelButton(props: {
   className?: string
-  disabled?: boolean
   onClick?(): void
   icon: ReactElement
 }) {
   return (
     <button
       type="button"
-      disabled={props.disabled}
       className={cx(
         'nes-pointer',
         css`
@@ -32,6 +30,8 @@ export default function PixelButton(props: {
           height: 3em;
           color: #212529;
           background-color: #ffffff;
+          border-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAUSURBVHgBY2AAAkVVzf8MyAwMAQBqbwW5b8ntjAAAAABJRU5ErkJggg==)
+            1 / 0.25em;
           &:hover {
             background-color: #e7e7e7;
             box-shadow: inset -0.25em -0.25em #adafbc;
@@ -40,7 +40,6 @@ export default function PixelButton(props: {
             background-color: #e7e7e7;
             box-shadow: inset 0.25em 0.25em #adafbc;
           }
-
           &:disabled {
             cursor: not-allowed;
             opacity: 0.6;
@@ -53,9 +52,6 @@ export default function PixelButton(props: {
       onClick={props.onClick}
       style={{
         backgroundImage: SVG2DataURI(props.icon),
-        borderImage: `url(/icons/border${
-          props.disabled ? '-disabled' : ''
-        }.png) 1 / 0.25em`,
       }}
     />
   )

@@ -33,25 +33,22 @@ export default function PixelInput(props: {
           text-indent: 1px;
           user-select: text;
           margin: 0;
-
+          border-width: 0.25em;
           &::placeholder {
             color: #d3d3d3;
           }
         `,
         props.isError
           ? css`
-              border-width: 0.25em;
+              border-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAUSURBVHgBY2AAgud5of8ZkBkYAgDPRwqlfIp/NgAAAABJRU5ErkJggg==)
+                1 / 0.25em space;
             `
           : css`
-              border-width: 0.25em;
+              border-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAUSURBVHgBY2AAAkVVzf8MyAwMAQBqbwW5b8ntjAAAAABJRU5ErkJggg==)
+                1 / 0.25em space;
             `,
         props.className,
       )}
-      style={{
-        borderImage: `url(/icons/border${
-          props.isError ? '-error' : ''
-        }.png) 1 / 0.25em space`,
-      }}
       placeholder={props.placeholder}
       autoFocus={props.autoFocus}
       value={props.value}
