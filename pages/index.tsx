@@ -3,7 +3,7 @@ import orderBy from 'lodash/orderBy'
 import sumBy from 'lodash/sumBy'
 import some from 'lodash/some'
 import { useRouter } from 'next/router'
-import { ReactNode, useCallback, useMemo, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import arrayMove from 'array-move'
@@ -78,7 +78,25 @@ export default function Index() {
     [items, mutate],
   )
   const [inverseColor, setInverseColor] = useAtom(inverseColorAtom)
-  const [hidePrice, setDisplayMode] = useAtom(hidePriceAtom)
+  const [hidePrice, setHidePrice] = useAtom(hidePriceAtom)
+  useEffect(() => {
+    db.config.toArray().then((configs) =>
+      configs.map((config) => {
+        if (config.key === 'inverseColor') {
+          setInverseColor(config.value)
+        } else if (config.key === 'hidePrice') {
+          setHidePrice(config.value)
+        }
+        return undefined
+      }),
+    )
+  }, [setInverseColor, setHidePrice])
+  useEffect(() => {
+    db.config.put({ key: 'inverseColor', value: inverseColor })
+  }, [inverseColor])
+  useEffect(() => {
+    db.config.put({ key: 'hidePrice', value: hidePrice })
+  }, [hidePrice])
 
   return (
     <div
@@ -116,7 +134,7 @@ export default function Index() {
               margin-right: 1em;
             `}
             onClick={() => {
-              setDisplayMode((old) => !old)
+              setHidePrice((old) => !old)
             }}>
             {hidePrice ? 'hide' : 'show'}
           </PixelButton>
