@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -182,8 +183,10 @@ export default function ListItem(props: {
               float: right;
             `}
             onClick={async () => {
-              await db.items.delete([item.type, item.id])
-              props.onClick()
+              if (window.confirm('确认移除？')) {
+                await db.items.delete([item.type, item.id])
+                props.onClick()
+              }
             }}>
             移除
           </PixelButton>
