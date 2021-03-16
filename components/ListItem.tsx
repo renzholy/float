@@ -157,6 +157,7 @@ export default function ListItem(props: {
             </div>
           </div>
           <PixelButton
+            icon="add"
             className={css`
               margin-top: 0.5em;
             `}
@@ -174,10 +175,10 @@ export default function ListItem(props: {
                   : parseFloat(cost),
               })
               props.onClick()
-            }}>
-            保存
-          </PixelButton>
+            }}
+          />
           <PixelButton
+            icon="close"
             className={css`
               margin-top: 0.5em;
               float: right;
@@ -187,9 +188,8 @@ export default function ListItem(props: {
                 await db.items.delete([item.type, item.id])
                 props.onClick()
               }
-            }}>
-            移除
-          </PixelButton>
+            }}
+          />
         </div>
       ) : null}
     </div>

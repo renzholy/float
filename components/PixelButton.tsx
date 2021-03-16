@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
+
 import { css, cx } from '@linaria/core'
 
 export default function PixelButton(props: {
@@ -5,7 +7,7 @@ export default function PixelButton(props: {
   intent?: 'success'
   disabled?: boolean
   onClick?(): void
-  children: string
+  icon: string
 }) {
   return (
     <button
@@ -17,10 +19,16 @@ export default function PixelButton(props: {
           font-size: 1em;
           outline: none !important;
           appearance: none;
-          border-image: url('/border.svg') 1 / 0.25em;
+          border-image: url('/icons/border.svg') 1 / 0.25em;
           border-width: 0.25em;
-          padding: 0.75em;
+          padding: 0.25em;
           background-clip: padding-box;
+          line-height: 0;
+          background-size: 2em;
+          background-position: 50%;
+          background-repeat: no-repeat;
+          width: 3em;
+          height: 3em;
 
           &:disabled {
             cursor: not-allowed;
@@ -35,30 +43,28 @@ export default function PixelButton(props: {
           success: css`
             color: #fff;
             background-color: #92cc41;
-            box-shadow: inset -0.25em -0.25em #4aa52e;
             &:hover {
               background-color: #76c442;
             }
             &:active {
-              box-shadow: inset 0.25em 0.25em #4aa52e;
+              background-color: #4aa52e;
             }
           `,
         }[props.intent!] ||
           css`
             color: #212529;
             background-color: #ffffff;
-            box-shadow: inset -0.25em -0.25em #adafbc;
             &:hover {
               background-color: #e7e7e7;
             }
             &:active {
-              box-shadow: inset 0.25em 0.25em #adafbc;
+              background-color: #adafbc;
             }
           `,
         props.className,
       )}
-      onClick={props.onClick}>
-      {props.children}
-    </button>
+      onClick={props.onClick}
+      style={{ backgroundImage: `url(/icons/${props.icon}.svg)` }}
+    />
   )
 }
