@@ -11,6 +11,7 @@ import db from '../libs/db'
 import PixelInput from '../components/PixelInput'
 import PixelContainer from '../components/PixelContainer'
 import PixelButton from '../components/PixelButton'
+import { IconClose } from '../assets/icons'
 
 export default function Search() {
   const router = useRouter()
@@ -28,7 +29,7 @@ export default function Search() {
           margin-bottom: 1em;
         `}>
         <PixelButton
-          icon="close"
+          icon={<IconClose />}
           className={css`
             margin-right: 1em;
             flex-shrink: 0;

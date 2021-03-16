@@ -1,5 +1,5 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable jsx-a11y/control-has-associated-label */
 
 import { css, cx } from '@linaria/core'
 import orderBy from 'lodash/orderBy'
@@ -21,6 +21,16 @@ import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
 import { hidePriceAtom, inverseColorAtom } from '../libs/atoms'
 import Calculation from '../components/Calculation'
+import {
+  IconAdd,
+  IconGithub,
+  IconInvisible,
+  IconPriceColor,
+  IconPriceColorInverse,
+  IconTwitter,
+  IconVisible,
+} from '../assets/icons'
+import { SVG2DataURI } from '../libs/svg'
 
 const SortableListItem = SortableElement(ListItem)
 
@@ -28,6 +38,15 @@ const SortableListContainer = SortableContainer(
   ({ children }: { children: ReactNode }) => <div>{children}</div>,
 )
 
+const logoClassName = css`
+  appearance: none;
+  display: inline-block;
+  line-height: 0;
+  background-size: 3em;
+  background-repeat: no-repeat;
+  height: 3em;
+  width: 3em;
+`
 export default function Index() {
   const router = useRouter()
   const [isSorting, setIsSorting] = useState(false)
@@ -113,7 +132,7 @@ export default function Index() {
           justify-content: space-between;
         `}>
         <PixelButton
-          icon="add"
+          icon={<IconAdd />}
           onClick={() => {
             router.push('/search')
           }}
@@ -124,7 +143,7 @@ export default function Index() {
             display: flex;
           `}>
           <PixelButton
-            icon={inverseColor ? 'price-color-inverse' : 'price-color'}
+            icon={inverseColor ? <IconPriceColorInverse /> : <IconPriceColor />}
             className={cx(
               'nes-pointer',
               css`
@@ -138,7 +157,7 @@ export default function Index() {
             }}
           />
           <PixelButton
-            icon={hidePrice ? 'invisible' : 'visible'}
+            icon={hidePrice ? <IconInvisible /> : <IconVisible />}
             className={cx(
               'nes-pointer',
               css`
@@ -213,44 +232,21 @@ export default function Index() {
         <a
           href="https://twitter.com/RenzHoly"
           target="_black"
-          className={css`
-            appearance: none;
-            display: inline-block;
-            line-height: 0;
-            margin-right: 1em;
-          `}>
-          <img
-            src="/icons/twitter.svg"
-            alt="twitter"
-            className={cx(
-              'nes-pointer',
-              css`
-                height: 3em;
-                width: 3em;
-              `,
-            )}
-          />
-        </a>
+          className={cx(
+            logoClassName,
+            css`
+              margin-right: 1em;
+            `,
+            'nes-pointer',
+          )}
+          style={{ backgroundImage: SVG2DataURI(<IconTwitter />) }}
+        />
         <a
           href="https://github.com/RenzHoly"
           target="_black"
-          className={css`
-            appearance: none;
-            display: inline-block;
-            line-height: 0;
-          `}>
-          <img
-            src="/icons/github.svg"
-            alt="github"
-            className={cx(
-              'nes-pointer',
-              css`
-                height: 3em;
-                width: 3em;
-              `,
-            )}
-          />
-        </a>
+          className={cx(logoClassName, 'nes-pointer')}
+          style={{ backgroundImage: SVG2DataURI(<IconGithub />) }}
+        />
       </div>
     </div>
   )

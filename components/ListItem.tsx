@@ -15,6 +15,7 @@ import PixelInput from './PixelInput'
 import PixelButton from './PixelButton'
 import Price from './Price'
 import Calculation from './Calculation'
+import { IconTrash } from '../assets/icons'
 
 export default function ListItem(props: {
   value: Item
@@ -169,7 +170,7 @@ export default function ListItem(props: {
             />
           </div>
           <PixelButton
-            icon="trash"
+            icon={<IconTrash />}
             className={css`
               flex-shrink: 0;
             `}
