@@ -7,7 +7,8 @@ class FloatDatabase extends Dexie {
 
   config: Dexie.Table<
     | { key: 'inverseColor'; value: boolean }
-    | { key: 'hidePrice'; value: boolean },
+    | { key: 'hidePrice'; value: boolean }
+    | { key: 'largeFont'; value: boolean },
     string
   >
 

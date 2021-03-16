@@ -3,13 +3,8 @@
 import React from 'react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-// import whyDidYouRender from '@welldone-software/why-did-you-render'
 
 import './global.css'
-
-// if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
-//   whyDidYouRender(React, { trackAllPureComponents: true })
-// }
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

@@ -21,9 +21,11 @@ import Calculation from '../components/Calculation'
 import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
-import { hidePriceAtom, inverseColorAtom } from '../libs/atoms'
+import { hidePriceAtom, inverseColorAtom, largeFontAtom } from '../libs/atoms'
 import {
   IconAdd,
+  IconFontSize,
+  IconFontSizeLarge,
   IconGithub,
   IconInvisible,
   IconPriceColor,
@@ -31,6 +33,7 @@ import {
   IconTwitter,
   IconVisible,
 } from '../assets/icons'
+import { getFontClassName } from '../libs/font'
 
 const SortableListItem = SortableElement(ListItem)
 
@@ -92,6 +95,7 @@ export default function Index() {
   )
   const [inverseColor, setInverseColor] = useAtom(inverseColorAtom)
   const [hidePrice, setHidePrice] = useAtom(hidePriceAtom)
+  const [largeFont, setLargeFont] = useAtom(largeFontAtom)
   useEffect(() => {
     db.config.toArray().then((configs) =>
       configs.map((config) => {
@@ -99,23 +103,32 @@ export default function Index() {
           setInverseColor(config.value)
         } else if (config.key === 'hidePrice') {
           setHidePrice(config.value)
+        } else if (config.key === 'largeFont') {
+          setLargeFont(config.value)
         }
         return undefined
       }),
     )
-  }, [setInverseColor, setHidePrice])
+  }, [setInverseColor, setHidePrice, setLargeFont])
   useEffect(() => {
     db.config.put({ key: 'inverseColor', value: inverseColor })
   }, [inverseColor])
   useEffect(() => {
     db.config.put({ key: 'hidePrice', value: hidePrice })
   }, [hidePrice])
+  useEffect(() => {
+    db.config.put({ key: 'largeFont', value: largeFont })
+  }, [largeFont])
+  const fontClassName = getFontClassName(largeFont)
 
   return (
     <div
-      className={css`
-        padding: 1em;
-      `}>
+      className={cx(
+        css`
+          padding: 1em;
+        `,
+        fontClassName,
+      )}>
       <div
         className={css`
           margin-bottom: 1em;
@@ -133,6 +146,20 @@ export default function Index() {
             line-height: 0;
             display: flex;
           `}>
+          <PixelButton
+            icon={largeFont ? <IconFontSizeLarge /> : <IconFontSize />}
+            className={cx(
+              'nes-pointer',
+              css`
+                height: 3em;
+                width: 3em;
+                margin-right: 1em;
+              `,
+            )}
+            onClick={() => {
+              setLargeFont((old) => !old)
+            }}
+          />
           <PixelButton
             icon={inverseColor ? <IconPriceColorInverse /> : <IconPriceColor />}
             className={cx(

@@ -2,6 +2,8 @@
 
 import IconAdd from './add.svg'
 import IconClose from './close.svg'
+import IconFontSizeLarge from './font-size-large.svg'
+import IconFontSize from './font-size.svg'
 import IconGithub from './github.svg'
 import IconInvisible from './invisible.svg'
 import IconPriceColorInverse from './price-color-inverse.svg'
@@ -13,6 +15,8 @@ import IconVisible from './visible.svg'
 export {
   IconAdd,
   IconClose,
+  IconFontSizeLarge,
+  IconFontSize,
   IconGithub,
   IconInvisible,
   IconPriceColorInverse,

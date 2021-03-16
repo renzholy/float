@@ -5,6 +5,7 @@ import { css, cx } from '@linaria/core'
 import maxBy from 'lodash/maxBy'
 import { useRouter } from 'next/dist/client/router'
 import { useState } from 'react'
+import { useAtom } from 'jotai'
 
 import { useSearch } from '../hooks/use-search'
 import db from '../libs/db'
@@ -12,17 +13,24 @@ import PixelInput from '../components/PixelInput'
 import PixelContainer from '../components/PixelContainer'
 import PixelButton from '../components/PixelButton'
 import { IconClose } from '../assets/icons'
+import { getFontClassName } from '../libs/font'
+import { largeFontAtom } from '../libs/atoms'
 
 export default function Search() {
   const router = useRouter()
   const [keyword, setKeyword] = useState('')
   const { data, isValidating } = useSearch(keyword)
+  const [largeFont] = useAtom(largeFontAtom)
+  const fontClassName = getFontClassName(largeFont)
 
   return (
     <div
-      className={css`
-        padding: 1em;
-      `}>
+      className={cx(
+        css`
+          padding: 1em;
+        `,
+        fontClassName,
+      )}>
       <div
         className={css`
           display: flex;
