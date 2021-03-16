@@ -22,6 +22,7 @@ export default function PixelInput(props: {
   return (
     <input
       className={cx(
+        'nes-text',
         css`
           color: #212529;
           font-size: 1em;

@@ -51,3 +51,9 @@ html body {
       14 0,
     pointer;
 }
+
+.nes-text {
+  cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABoSURBVHgB7ZdBCgAhDAPbZf//5expRRAlAaEoybnIZPDQZvBBaElm6InivCEGWIvIpIq3lBtQcIfqv41J6/v+QN8IxAyVcgMGMIABDGAAAxjAAAZQdkKIM2dsxfJdIFxGlxrY/Xa5gQ8qURBDHwYv5QAAAABJRU5ErkJggg==)
+      16 16,
+    text;
+}
