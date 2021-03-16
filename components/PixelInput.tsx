@@ -32,6 +32,7 @@ export default function PixelInput(props: {
           width: 100%;
           text-indent: 1px;
           user-select: text;
+          margin: 0;
 
           &::placeholder {
             color: #d3d3d3;
@@ -39,11 +40,11 @@ export default function PixelInput(props: {
         `,
         props.isError
           ? css`
-              border-image: url('/border-error.svg') 1 / 0.25em;
+              border-image: url('/icons/border-error.svg') 1 / 0.25em;
               border-width: 0.25em;
             `
           : css`
-              border-image: url('/border.svg') 1 / 0.25em;
+              border-image: url('/icons/border.svg') 1 / 0.25em;
               border-width: 0.25em;
             `,
         props.className,

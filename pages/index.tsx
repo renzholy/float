@@ -113,19 +113,18 @@ export default function Index() {
           justify-content: space-between;
         `}>
         <PixelButton
+          icon="add"
           onClick={() => {
             router.push('/search')
-          }}>
-          添加
-        </PixelButton>
+          }}
+        />
         <span
           className={css`
             line-height: 0;
             display: flex;
           `}>
-          <img
-            src={inverseColor ? 'price-color-inverse.svg' : '/price-color.svg'}
-            alt="price-color"
+          <PixelButton
+            icon={inverseColor ? 'price-color-inverse' : 'price-color'}
             className={cx(
               'nes-pointer',
               css`
@@ -138,9 +137,8 @@ export default function Index() {
               setInverseColor((old) => !old)
             }}
           />
-          <img
-            src={hidePrice ? 'invisible.svg' : '/visible.svg'}
-            alt="visible"
+          <PixelButton
+            icon={hidePrice ? 'invisible' : 'visible'}
             className={cx(
               'nes-pointer',
               css`
@@ -222,7 +220,7 @@ export default function Index() {
             margin-right: 1em;
           `}>
           <img
-            src="/twitter.svg"
+            src="/icons/twitter.svg"
             alt="twitter"
             className={cx(
               'nes-pointer',
@@ -242,7 +240,7 @@ export default function Index() {
             line-height: 0;
           `}>
           <img
-            src="/github.svg"
+            src="/icons/github.svg"
             alt="github"
             className={cx(
               'nes-pointer',

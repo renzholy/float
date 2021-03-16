@@ -28,15 +28,15 @@ export default function Search() {
           margin-bottom: 1em;
         `}>
         <PixelButton
+          icon="close"
           className={css`
             margin-right: 1em;
             flex-shrink: 0;
           `}
           onClick={() => {
             router.push('/')
-          }}>
-          返回
-        </PixelButton>
+          }}
+        />
         <PixelInput
           autoFocus={true}
           placeholder="股票 基金 外汇 加密货币"

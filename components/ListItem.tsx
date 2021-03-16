@@ -5,6 +5,7 @@
 
 import { css, cx } from '@linaria/core'
 import { useEffect, useState } from 'react'
+import throttle from 'lodash/throttle'
 
 import { usePrice } from '../hooks/use-price'
 import db from '../libs/db'
@@ -38,6 +39,18 @@ export default function ListItem(props: {
       setCost(item.cost.toString())
     }
   }, [item.amount, item.cost])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(
+    throttle(() => {
+      db.items.update([item.type, item.id], {
+        amount: Number.isNaN(parseFloat(amount))
+          ? undefined
+          : parseFloat(amount),
+        cost: Number.isNaN(parseFloat(cost)) ? undefined : parseFloat(cost),
+      })
+    }, 500),
+    [amount, cost, item.id, item.type],
+  )
 
   return (
     <div
@@ -108,88 +121,65 @@ export default function ListItem(props: {
       </div>
       {props.isExpanded ? (
         <div
+          className={css`
+            margin-top: -1em;
+            display: flex;
+            align-items: flex-end;
+          `}
           onClick={(e) => {
             e.stopPropagation()
           }}>
           <div
             className={css`
-              margin-top: -1em;
-              display: flex;
+              flex: 1;
+              margin-right: 0.5em;
             `}>
-            <div
+            <label
               className={css`
-                flex: 1;
-                margin-right: 0.25em;
+                white-space: nowrap;
+                margin-bottom: 0.5em;
+                display: block;
               `}>
-              <label
-                className={css`
-                  white-space: nowrap;
-                  margin-bottom: 0.5em;
-                  display: block;
-                `}>
-                数量
-              </label>
-              <PixelInput
-                isError={!!amount && Number.isNaN(parseFloat(amount))}
-                placeholder="数量"
-                value={amount}
-                onChange={setAmount}
-              />
-            </div>
-            <div
+              数量
+            </label>
+            <PixelInput
+              isError={!!amount && Number.isNaN(parseFloat(amount))}
+              placeholder="数量"
+              value={amount}
+              onChange={setAmount}
+            />
+          </div>
+          <div
+            className={css`
+              flex: 1;
+              margin-right: 0.5em;
+            `}>
+            <label
               className={css`
-                flex: 1;
-                margin-left: 0.25em;
+                white-space: nowrap;
+                margin-bottom: 0.5em;
+                display: block;
               `}>
-              <label
-                className={css`
-                  white-space: nowrap;
-                  margin-bottom: 0.5em;
-                  display: block;
-                `}>
-                成本
-              </label>
-              <PixelInput
-                isError={!!cost && Number.isNaN(parseFloat(cost))}
-                value={cost}
-                onChange={setCost}
-              />
-            </div>
+              成本
+            </label>
+            <PixelInput
+              isError={!!cost && Number.isNaN(parseFloat(cost))}
+              value={cost}
+              onChange={setCost}
+            />
           </div>
           <PixelButton
+            icon="trash"
             className={css`
-              margin-top: 0.5em;
-            `}
-            disabled={
-              Number.isNaN(parseFloat(amount)) || Number.isNaN(parseFloat(cost))
-            }
-            intent="success"
-            onClick={async () => {
-              await db.items.update([item.type, item.id], {
-                amount: Number.isNaN(parseFloat(amount))
-                  ? undefined
-                  : parseFloat(amount),
-                cost: Number.isNaN(parseFloat(cost))
-                  ? undefined
-                  : parseFloat(cost),
-              })
-              props.onClick()
-            }}>
-            保存
-          </PixelButton>
-          <PixelButton
-            className={css`
-              margin-top: 0.5em;
-              float: right;
+              flex-shrink: 0;
             `}
             onClick={async () => {
               if (window.confirm('确认移除？')) {
                 await db.items.delete([item.type, item.id])
                 props.onClick()
               }
-            }}>
-            移除
-          </PixelButton>
+            }}
+          />
         </div>
       ) : null}
     </div>
