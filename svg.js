@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+
 const fsWalk = require('@nodelib/fs.walk')
 const fs = require('fs')
 const _ = require('lodash')
@@ -10,7 +12,6 @@ function rename(path) {
   )
 }
 
-// eslint-disable-next-line node/handle-callback-err
 fsWalk.walk('assets/icons', (error, entries) => {
   if (error) {
     console.error(error)

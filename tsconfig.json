@@ -19,5 +19,5 @@
     "target": "esnext"
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "next.config.js", "workers"]
+  "include": ["**/*.ts", "**/*.tsx", "next.config.js", "svg.js"]
 }
