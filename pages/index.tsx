@@ -1,12 +1,16 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import { css, cx } from '@linaria/core'
 import orderBy from 'lodash/orderBy'
 import sumBy from 'lodash/sumBy'
 import some from 'lodash/some'
 import { useRouter } from 'next/router'
-import { ReactNode, useCallback, useMemo, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import arrayMove from 'array-move'
+import { useAtom } from 'jotai'
 
 import ListItem from '../components/ListItem'
 import PixelContainer from '../components/PixelContainer'
@@ -15,6 +19,8 @@ import Price from '../components/Price'
 import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
+import { hidePriceAtom, inverseColorAtom } from '../libs/atoms'
+import Calculation from '../components/Calculation'
 
 const SortableListItem = SortableElement(ListItem)
 
@@ -74,6 +80,26 @@ export default function Index() {
     },
     [items, mutate],
   )
+  const [inverseColor, setInverseColor] = useAtom(inverseColorAtom)
+  const [hidePrice, setHidePrice] = useAtom(hidePriceAtom)
+  useEffect(() => {
+    db.config.toArray().then((configs) =>
+      configs.map((config) => {
+        if (config.key === 'inverseColor') {
+          setInverseColor(config.value)
+        } else if (config.key === 'hidePrice') {
+          setHidePrice(config.value)
+        }
+        return undefined
+      }),
+    )
+  }, [setInverseColor, setHidePrice])
+  useEffect(() => {
+    db.config.put({ key: 'inverseColor', value: inverseColor })
+  }, [inverseColor])
+  useEffect(() => {
+    db.config.put({ key: 'hidePrice', value: hidePrice })
+  }, [hidePrice])
 
   return (
     <div
@@ -95,48 +121,37 @@ export default function Index() {
         <span
           className={css`
             line-height: 0;
+            display: flex;
           `}>
-          <a
-            href="https://twitter.com/RenzHoly"
-            target="_black"
-            className={css`
-              appearance: none;
-              display: inline-block;
-              line-height: 0;
-              margin-right: 1em;
-            `}>
-            <img
-              src="/twitter.svg"
-              alt="twitter"
-              className={cx(
-                'nes-pointer',
-                css`
-                  height: 3em;
-                  width: 3em;
-                `,
-              )}
-            />
-          </a>
-          <a
-            href="https://github.com/RenzHoly"
-            target="_black"
-            className={css`
-              appearance: none;
-              display: inline-block;
-              line-height: 0;
-            `}>
-            <img
-              src="/github.svg"
-              alt="github"
-              className={cx(
-                'nes-pointer',
-                css`
-                  height: 3em;
-                  width: 3em;
-                `,
-              )}
-            />
-          </a>
+          <img
+            src={inverseColor ? 'price-color-inverse.svg' : '/price-color.svg'}
+            alt="price-color"
+            className={cx(
+              'nes-pointer',
+              css`
+                height: 3em;
+                width: 3em;
+                margin-right: 1em;
+              `,
+            )}
+            onClick={() => {
+              setInverseColor((old) => !old)
+            }}
+          />
+          <img
+            src={hidePrice ? 'invisible.svg' : '/visible.svg'}
+            alt="visible"
+            className={cx(
+              'nes-pointer',
+              css`
+                height: 3em;
+                width: 3em;
+              `,
+            )}
+            onClick={() => {
+              setHidePrice((old) => !old)
+            }}
+          />
         </span>
       </div>
       <PixelContainer title={isValidating ? '更新中...' : '浮动收益'}>
@@ -173,14 +188,13 @@ export default function Index() {
           <span>总计</span>
           <br />
           {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
-            <span
+            <Calculation
               className={css`
                 float: right;
-                color: #d3d3d3;
               `}>
               {formatNumber(totalPrice)}&nbsp;-&nbsp;{formatNumber(totalCost)}
               &nbsp;=
-            </span>
+            </Calculation>
           )}
           <br />
           &nbsp;
@@ -192,6 +206,54 @@ export default function Index() {
           />
         </div>
       </PixelContainer>
+      <div
+        className={css`
+          margin-top: 1em;
+          display: flex;
+          justify-content: flex-end;
+        `}>
+        <a
+          href="https://twitter.com/RenzHoly"
+          target="_black"
+          className={css`
+            appearance: none;
+            display: inline-block;
+            line-height: 0;
+            margin-right: 1em;
+          `}>
+          <img
+            src="/twitter.svg"
+            alt="twitter"
+            className={cx(
+              'nes-pointer',
+              css`
+                height: 3em;
+                width: 3em;
+              `,
+            )}
+          />
+        </a>
+        <a
+          href="https://github.com/RenzHoly"
+          target="_black"
+          className={css`
+            appearance: none;
+            display: inline-block;
+            line-height: 0;
+          `}>
+          <img
+            src="/github.svg"
+            alt="github"
+            className={cx(
+              'nes-pointer',
+              css`
+                height: 3em;
+                width: 3em;
+              `,
+            )}
+          />
+        </a>
+      </div>
     </div>
   )
 }
