@@ -7,6 +7,7 @@ import { ReactNode, useCallback, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import arrayMove from 'array-move'
+import { useAtom } from 'jotai'
 
 import ListItem from '../components/ListItem'
 import PixelContainer from '../components/PixelContainer'
@@ -15,6 +16,7 @@ import Price from '../components/Price'
 import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
+import { inverseColorAtom } from '../libs/atoms'
 
 const SortableListItem = SortableElement(ListItem)
 
@@ -74,6 +76,7 @@ export default function Index() {
     },
     [items, mutate],
   )
+  const [inverseColor, setInverseColor] = useAtom(inverseColorAtom)
 
   return (
     <div
@@ -95,7 +98,17 @@ export default function Index() {
         <span
           className={css`
             line-height: 0;
+            display: flex;
           `}>
+          <PixelButton
+            className={css`
+              margin-right: 1em;
+            `}
+            onClick={() => {
+              setInverseColor((old) => !old)
+            }}>
+            {inverseColor ? '绿涨红跌' : '红涨绿跌'}
+          </PixelButton>
           <a
             href="https://twitter.com/RenzHoly"
             target="_black"

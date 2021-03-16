@@ -1,8 +1,12 @@
 import { css, cx } from '@linaria/core'
+import { useAtom } from 'jotai'
 
+import { inverseColorAtom } from '../libs/atoms'
 import { formatNumber } from '../libs/formatter'
 
 export default function Price(props: { className?: string; value?: number }) {
+  const [inverseColor] = useAtom(inverseColorAtom)
+
   return (
     <span
       className={cx(
@@ -13,6 +17,14 @@ export default function Price(props: { className?: string; value?: number }) {
               color: #212529;
             `
           : props.value > 0
+          ? inverseColor
+            ? css`
+                color: #92cc41;
+              `
+            : css`
+                color: #e76e55;
+              `
+          : inverseColor
           ? css`
               color: #e76e55;
             `
