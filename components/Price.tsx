@@ -1,11 +1,12 @@
 import { css, cx } from '@linaria/core'
 import { useAtom } from 'jotai'
 
-import { inverseColorAtom } from '../libs/atoms'
+import { hidePriceAtom, inverseColorAtom } from '../libs/atoms'
 import { formatNumber } from '../libs/formatter'
 
 export default function Price(props: { className?: string; value?: number }) {
   const [inverseColor] = useAtom(inverseColorAtom)
+  const [hidePrice] = useAtom(hidePriceAtom)
 
   return (
     <span
@@ -14,7 +15,7 @@ export default function Price(props: { className?: string; value?: number }) {
           formatNumber(props.value) === '0.00' ||
           formatNumber(props.value) === '-0.00'
           ? css`
-              color: #212529;
+              color: #adafbc;
             `
           : props.value > 0
           ? inverseColor
@@ -34,7 +35,13 @@ export default function Price(props: { className?: string; value?: number }) {
         props.className,
       )}>
       {props.value !== undefined && props.value > 0 ? '+' : null}
-      {props.value === undefined ? '-' : formatNumber(props.value)}
+      {props.value === undefined
+        ? '-'
+        : hidePrice
+        ? props.value < 0
+          ? '-***'
+          : '***'
+        : formatNumber(props.value)}
     </span>
   )
 }

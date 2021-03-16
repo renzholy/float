@@ -13,6 +13,7 @@ import { Item } from '../libs/types'
 import PixelInput from './PixelInput'
 import PixelButton from './PixelButton'
 import Price from './Price'
+import Calculation from './Calculation'
 
 export default function ListItem(props: {
   value: Item
@@ -82,16 +83,15 @@ export default function ListItem(props: {
             {item.code}
           </span>
           {item.price === undefined ? null : (
-            <span
+            <Calculation
               className={css`
-                color: #d3d3d3;
                 float: right;
               `}>
               {item.cost
                 ? `(${formatNumber(item.price)} - ${formatNumber(item.cost)})`
                 : formatNumber(item.price)}
               &nbsp;x&nbsp;{formatNumber(item.amount)}&nbsp;=
-            </span>
+            </Calculation>
           )}
         </div>
         <Price

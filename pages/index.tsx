@@ -16,7 +16,8 @@ import Price from '../components/Price'
 import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
-import { inverseColorAtom } from '../libs/atoms'
+import { hidePriceAtom, inverseColorAtom } from '../libs/atoms'
+import Calculation from '../components/Calculation'
 
 const SortableListItem = SortableElement(ListItem)
 
@@ -77,6 +78,7 @@ export default function Index() {
     [items, mutate],
   )
   const [inverseColor, setInverseColor] = useAtom(inverseColorAtom)
+  const [hidePrice, setDisplayMode] = useAtom(hidePriceAtom)
 
   return (
     <div
@@ -108,6 +110,15 @@ export default function Index() {
               setInverseColor((old) => !old)
             }}>
             {inverseColor ? '绿涨红跌' : '红涨绿跌'}
+          </PixelButton>
+          <PixelButton
+            className={css`
+              margin-right: 1em;
+            `}
+            onClick={() => {
+              setDisplayMode((old) => !old)
+            }}>
+            {hidePrice ? 'hide' : 'show'}
           </PixelButton>
           <a
             href="https://twitter.com/RenzHoly"
@@ -186,14 +197,13 @@ export default function Index() {
           <span>总计</span>
           <br />
           {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
-            <span
+            <Calculation
               className={css`
                 float: right;
-                color: #d3d3d3;
               `}>
               {formatNumber(totalPrice)}&nbsp;-&nbsp;{formatNumber(totalCost)}
               &nbsp;=
-            </span>
+            </Calculation>
           )}
           <br />
           &nbsp;
