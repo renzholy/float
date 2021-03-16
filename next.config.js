@@ -42,7 +42,7 @@ module.exports = (nextConfig = {}) => ({
       exclude: /node_modules/,
       use: [
         {
-          loader: require.resolve('@linaria/webpack5-loader'),
+          loader: require.resolve('@linaria/webpack4-loader'),
           options: {
             sourceMap: process.env.NODE_ENV !== 'production',
             ...(nextConfig.linaria || {}),
@@ -61,8 +61,5 @@ module.exports = (nextConfig = {}) => ({
       return nextConfig.webpack(config, options)
     }
     return config
-  },
-  future: {
-    webpack5: true,
   },
 })
