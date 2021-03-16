@@ -32,9 +32,11 @@ export default function PixelButton(props: {
           background-color: #ffffff;
           &:hover {
             background-color: #e7e7e7;
+            box-shadow: inset -0.25em -0.25em #adafbc;
           }
           &:active {
-            background-color: #adafbc;
+            background-color: #e7e7e7;
+            box-shadow: inset 0.25em 0.25em #adafbc;
           }
 
           &:disabled {
@@ -42,7 +44,7 @@ export default function PixelButton(props: {
             opacity: 0.6;
             background-color: #d3d3d3;
             border-image: url('/icons/border-disabled.svg') 1 / 0.25em;
-            box-shadow: inset -0.25em -0.25em #adafbc;
+            box-shadow: none;
           }
         `,
         props.className,
