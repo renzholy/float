@@ -31,7 +31,7 @@ export default function PixelButton(props: {
           color: #212529;
           background-color: #ffffff;
           border-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAUSURBVHgBY2AAAkVVzf8MyAwMAQBqbwW5b8ntjAAAAABJRU5ErkJggg==)
-            1 / 0.25em;
+            1 / 0.25em space;
           &:hover {
             background-color: #e7e7e7;
             box-shadow: inset -0.25em -0.25em #adafbc;
