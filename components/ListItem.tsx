@@ -164,7 +164,6 @@ export default function ListItem(props: {
             disabled={
               Number.isNaN(parseFloat(amount)) || Number.isNaN(parseFloat(cost))
             }
-            intent="success"
             onClick={async () => {
               await db.items.update([item.type, item.id], {
                 amount: Number.isNaN(parseFloat(amount))
