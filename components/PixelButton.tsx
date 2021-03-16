@@ -3,7 +3,6 @@
 import { css, cx } from '@linaria/core'
 import { ReactElement } from 'react'
 
-import { IconBorder, IconBorderDisabled } from '../assets/icons'
 import { SVG2DataURI } from '../libs/svg'
 
 export default function PixelButton(props: {
@@ -54,9 +53,9 @@ export default function PixelButton(props: {
       onClick={props.onClick}
       style={{
         backgroundImage: SVG2DataURI(props.icon),
-        borderImage: `${SVG2DataURI(
-          props.disabled ? <IconBorderDisabled /> : <IconBorder />,
-        )} 1 / 0.25em`,
+        borderImage: `url(/icons/border${
+          props.disabled ? '-disabled' : ''
+        }.png) 1 / 0.25em`,
       }}
     />
   )

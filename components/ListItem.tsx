@@ -35,19 +35,17 @@ export default function ListItem(props: {
   const [amount, setAmount] = useState('')
   const [cost, setCost] = useState('')
   useEffect(() => {
-    setAmount(item.amount.toString())
+    setAmount(item.amount?.toString())
     if (item.cost !== undefined) {
-      setCost(item.cost.toString())
+      setCost(item.cost?.toString())
     }
   }, [item.amount, item.cost])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     throttle(() => {
       db.items.update([item.type, item.id], {
-        amount: Number.isNaN(parseFloat(amount))
-          ? undefined
-          : parseFloat(amount),
-        cost: Number.isNaN(parseFloat(cost)) ? undefined : parseFloat(cost),
+        amount: Number.isNaN(parseFloat(amount)) ? 1 : parseFloat(amount),
+        cost: Number.isNaN(parseFloat(cost)) ? 0 : parseFloat(cost),
       })
     }, 500),
     [amount, cost, item.id, item.type],

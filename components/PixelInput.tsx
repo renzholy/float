@@ -3,9 +3,6 @@
 import { css, cx } from '@linaria/core'
 import { ChangeEvent, useCallback } from 'react'
 
-import { IconBorder, IconBorderError } from '../assets/icons'
-import { SVG2DataURI } from '../libs/svg'
-
 export default function PixelInput(props: {
   className?: string
   placeholder?: string
@@ -51,9 +48,9 @@ export default function PixelInput(props: {
         props.className,
       )}
       style={{
-        borderImage: `${SVG2DataURI(
-          props.isError ? <IconBorderError /> : <IconBorder />,
-        )} 1 / 0.25em`,
+        borderImage: `url(/icons/border${
+          props.isError ? '-error' : ''
+        }.png) 1 / 0.25em space`,
       }}
       placeholder={props.placeholder}
       autoFocus={props.autoFocus}
