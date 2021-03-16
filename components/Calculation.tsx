@@ -1,12 +1,19 @@
 import { cx, css } from '@linaria/core'
 import { useAtom } from 'jotai'
-import { ReactNode } from 'react'
 
 import { hidePriceAtom } from '../libs/atoms'
+import { formatNumber } from '../libs/formatter'
 
+/**
+ * (x - y) * z =
+ * x - y =
+ * x * z =
+ */
 export default function Calculation(props: {
   className?: string
-  children: ReactNode
+  x: number
+  y: number
+  z?: number
 }) {
   const [hidePrice] = useAtom(hidePriceAtom)
 
@@ -18,7 +25,15 @@ export default function Calculation(props: {
         `,
         props.className,
       )}>
-      {hidePrice ? null : props.children}
+      {hidePrice
+        ? null
+        : 'z' in props && props.z !== undefined
+        ? props.y === 0
+          ? `${formatNumber(props.x)} x ${formatNumber(props.z)} =`
+          : `(${formatNumber(props.x)} - ${formatNumber(
+              props.y,
+            )}) x ${formatNumber(props.z)} =`
+        : `${formatNumber(props.x)} - ${formatNumber(props.y)} =`}
     </span>
   )
 }

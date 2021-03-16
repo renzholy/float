@@ -9,7 +9,6 @@ import throttle from 'lodash/throttle'
 
 import { usePrice } from '../hooks/use-price'
 import db from '../libs/db'
-import { formatNumber } from '../libs/formatter'
 import { Item } from '../libs/types'
 import PixelInput from './PixelInput'
 import PixelButton from './PixelButton'
@@ -110,12 +109,11 @@ export default function ListItem(props: {
             <Calculation
               className={css`
                 float: right;
-              `}>
-              {item.cost
-                ? `(${formatNumber(item.price)} - ${formatNumber(item.cost)})`
-                : formatNumber(item.price)}
-              &nbsp;x&nbsp;{formatNumber(item.amount)}&nbsp;=
-            </Calculation>
+              `}
+              x={item.price}
+              y={item.cost}
+              z={item.amount}
+            />
           )}
         </div>
         <Price
