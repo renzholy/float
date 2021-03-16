@@ -41,12 +41,10 @@ export default function ListItem(props: {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     throttle(() => {
-      if (!Number.isNaN(parseFloat(amount))) {
-        db.items.update([item.type, item.id], {
-          amount: parseFloat(amount),
-        })
-      }
-    }, 500),
+      db.items.update([item.type, item.id], {
+        amount: Number.isNaN(parseFloat(amount)) ? 1 : parseFloat(amount),
+      })
+    }, 300),
     [amount, item.id, item.type],
   )
   const [cost, setCost] = useState('')
@@ -58,12 +56,10 @@ export default function ListItem(props: {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     throttle(() => {
-      if (!Number.isNaN(parseFloat(cost))) {
-        db.items.update([item.type, item.id], {
-          cost: parseFloat(cost),
-        })
-      }
-    }, 500),
+      db.items.update([item.type, item.id], {
+        cost: Number.isNaN(parseFloat(cost)) ? 0 : parseFloat(cost),
+      })
+    }, 300),
     [cost, item.id, item.type],
   )
 

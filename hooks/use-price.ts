@@ -9,7 +9,7 @@ export function usePrice(base: string, type: ItemType, id: string) {
       fetch(
         `https://api.ratesapi.io/api/latest?base=${base}`,
       ).then((response) => response.json()),
-    { refreshInterval: 30 * 1000 },
+    { refreshInterval: 10 * 1000 },
   )
   return useSWR<number>(
     rates ? ['price', type, id, rates] : null,
@@ -44,6 +44,6 @@ export function usePrice(base: string, type: ItemType, id: string) {
       }
       return NaN
     },
-    { refreshInterval: 30 * 1000 },
+    { refreshInterval: 10 * 1000 },
   )
 }
