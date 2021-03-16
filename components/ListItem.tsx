@@ -35,9 +35,11 @@ export default function ListItem(props: {
   const [amount, setAmount] = useState('')
   const [cost, setCost] = useState('')
   useEffect(() => {
-    setAmount(item.amount?.toString())
+    if (item.amount !== undefined) {
+      setAmount(item.amount.toString())
+    }
     if (item.cost !== undefined) {
-      setCost(item.cost?.toString())
+      setCost(item.cost.toString())
     }
   }, [item.amount, item.cost])
   // eslint-disable-next-line react-hooks/exhaustive-deps
