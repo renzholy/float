@@ -189,7 +189,7 @@ export default function ListItem(props: {
               flex-shrink: 0;
             `}
             onClick={async () => {
-              if (window.confirm('确认移除？')) {
+              if (window.confirm(`确认删除「${item.name}」？`)) {
                 await db.items.delete([item.type, item.id])
                 props.onClick()
               }
