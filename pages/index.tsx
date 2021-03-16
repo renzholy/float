@@ -16,11 +16,12 @@ import ListItem from '../components/ListItem'
 import PixelContainer from '../components/PixelContainer'
 import PixelButton from '../components/PixelButton'
 import Price from '../components/Price'
+import PixelLogo from '../components/PixelLogo'
+import Calculation from '../components/Calculation'
 import db from '../libs/db'
 import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
 import { hidePriceAtom, inverseColorAtom } from '../libs/atoms'
-import Calculation from '../components/Calculation'
 import {
   IconAdd,
   IconGithub,
@@ -30,7 +31,6 @@ import {
   IconTwitter,
   IconVisible,
 } from '../assets/icons'
-import { SVG2DataURI } from '../libs/svg'
 
 const SortableListItem = SortableElement(ListItem)
 
@@ -38,15 +38,6 @@ const SortableListContainer = SortableContainer(
   ({ children }: { children: ReactNode }) => <div>{children}</div>,
 )
 
-const logoClassName = css`
-  appearance: none;
-  display: inline-block;
-  line-height: 0;
-  background-size: 3em;
-  background-repeat: no-repeat;
-  height: 3em;
-  width: 3em;
-`
 export default function Index() {
   const router = useRouter()
   const [isSorting, setIsSorting] = useState(false)
@@ -229,24 +220,14 @@ export default function Index() {
           display: flex;
           justify-content: flex-end;
         `}>
-        <a
+        <PixelLogo
           href="https://twitter.com/RenzHoly"
-          target="_black"
-          className={cx(
-            logoClassName,
-            css`
-              margin-right: 1em;
-            `,
-            'nes-pointer',
-          )}
-          style={{ backgroundImage: SVG2DataURI(<IconTwitter />) }}
+          className={css`
+            margin-right: 1em;
+          `}
+          icon={<IconTwitter />}
         />
-        <a
-          href="https://github.com/RenzHoly"
-          target="_black"
-          className={cx(logoClassName, 'nes-pointer')}
-          style={{ backgroundImage: SVG2DataURI(<IconGithub />) }}
-        />
+        <PixelLogo icon={<IconGithub />} href="https://github.com/RenzHoly" />
       </div>
     </div>
   )
