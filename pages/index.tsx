@@ -146,54 +146,12 @@ export default function Index() {
               css`
                 height: 3em;
                 width: 3em;
-                margin-right: 1em;
               `,
             )}
             onClick={() => {
               setHidePrice((old) => !old)
             }}
           />
-          <a
-            href="https://twitter.com/RenzHoly"
-            target="_black"
-            className={css`
-              appearance: none;
-              display: inline-block;
-              line-height: 0;
-              margin-right: 1em;
-            `}>
-            <img
-              src="/twitter.svg"
-              alt="twitter"
-              className={cx(
-                'nes-pointer',
-                css`
-                  height: 3em;
-                  width: 3em;
-                `,
-              )}
-            />
-          </a>
-          <a
-            href="https://github.com/RenzHoly"
-            target="_black"
-            className={css`
-              appearance: none;
-              display: inline-block;
-              line-height: 0;
-            `}>
-            <img
-              src="/github.svg"
-              alt="github"
-              className={cx(
-                'nes-pointer',
-                css`
-                  height: 3em;
-                  width: 3em;
-                `,
-              )}
-            />
-          </a>
         </span>
       </div>
       <PixelContainer title={isValidating ? '更新中...' : '浮动收益'}>
@@ -248,6 +206,54 @@ export default function Index() {
           />
         </div>
       </PixelContainer>
+      <div
+        className={css`
+          margin-top: 1em;
+          display: flex;
+          justify-content: flex-end;
+        `}>
+        <a
+          href="https://twitter.com/RenzHoly"
+          target="_black"
+          className={css`
+            appearance: none;
+            display: inline-block;
+            line-height: 0;
+            margin-right: 1em;
+          `}>
+          <img
+            src="/twitter.svg"
+            alt="twitter"
+            className={cx(
+              'nes-pointer',
+              css`
+                height: 3em;
+                width: 3em;
+              `,
+            )}
+          />
+        </a>
+        <a
+          href="https://github.com/RenzHoly"
+          target="_black"
+          className={css`
+            appearance: none;
+            display: inline-block;
+            line-height: 0;
+          `}>
+          <img
+            src="/github.svg"
+            alt="github"
+            className={cx(
+              'nes-pointer',
+              css`
+                height: 3em;
+                width: 3em;
+              `,
+            )}
+          />
+        </a>
+      </div>
     </div>
   )
 }

@@ -18,7 +18,7 @@ export default function Calculation(props: {
         `,
         props.className,
       )}>
-      {hidePrice ? '*** x *** =' : props.children}
+      {hidePrice ? null : props.children}
     </span>
   )
 }
