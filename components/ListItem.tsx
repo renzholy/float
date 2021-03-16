@@ -33,15 +33,11 @@ export default function ListItem(props: {
     db.items.update([item.type, item.id], { isValidating })
   }, [item.id, item.type, isValidating])
   const [amount, setAmount] = useState('')
-  const [cost, setCost] = useState('')
   useEffect(() => {
     if (item.amount !== undefined) {
       setAmount(item.amount.toString())
     }
-    if (item.cost !== undefined) {
-      setCost(item.cost.toString())
-    }
-  }, [item.amount, item.cost])
+  }, [item.amount])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     throttle(() => {
@@ -50,13 +46,25 @@ export default function ListItem(props: {
           amount: parseFloat(amount),
         })
       }
+    }, 500),
+    [amount, item.id, item.type],
+  )
+  const [cost, setCost] = useState('')
+  useEffect(() => {
+    if (item.cost !== undefined) {
+      setCost(item.cost.toString())
+    }
+  }, [item.cost])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(
+    throttle(() => {
       if (!Number.isNaN(parseFloat(cost))) {
         db.items.update([item.type, item.id], {
           cost: parseFloat(cost),
         })
       }
     }, 500),
-    [amount, cost, item.id, item.type],
+    [cost, item.id, item.type],
   )
 
   return (
