@@ -23,7 +23,7 @@ export default function PixelButton(props: {
           padding: 0.25em;
           background-clip: padding-box;
           line-height: 0;
-          background-size: 2em;
+          background-size: 2.5em;
           background-position: 50%;
           background-repeat: no-repeat;
           width: 3em;
