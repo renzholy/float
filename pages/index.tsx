@@ -138,15 +138,21 @@ export default function Index() {
               setInverseColor((old) => !old)
             }}
           />
-          <PixelButton
-            className={css`
-              margin-right: 1em;
-            `}
+          <img
+            src={hidePrice ? 'invisible.svg' : '/visible.svg'}
+            alt="visible"
+            className={cx(
+              'nes-pointer',
+              css`
+                height: 3em;
+                width: 3em;
+                margin-right: 1em;
+              `,
+            )}
             onClick={() => {
               setHidePrice((old) => !old)
-            }}>
-            {hidePrice ? 'hide' : 'show'}
-          </PixelButton>
+            }}
+          />
           <a
             href="https://twitter.com/RenzHoly"
             target="_black"
