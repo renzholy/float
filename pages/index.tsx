@@ -19,7 +19,6 @@ import Price from '../components/Price'
 import PixelLogo from '../components/PixelLogo'
 import Calculation from '../components/Calculation'
 import db from '../libs/db'
-import { formatNumber } from '../libs/formatter'
 import { ItemType } from '../libs/types'
 import { hidePriceAtom, inverseColorAtom, largeFontAtom } from '../libs/atoms'
 import {
@@ -191,6 +190,7 @@ export default function Index() {
       </div>
       <PixelContainer title={isValidating ? '更新中...' : '浮动收益'}>
         <SortableListContainer
+          helperClass="hoc-helper"
           pressDelay={200}
           onSortEnd={handleSortEnd}
           onSortStart={() => {
@@ -226,10 +226,10 @@ export default function Index() {
             <Calculation
               className={css`
                 float: right;
-              `}>
-              {formatNumber(totalPrice)}&nbsp;-&nbsp;{formatNumber(totalCost)}
-              &nbsp;=
-            </Calculation>
+              `}
+              x={totalPrice}
+              y={totalCost}
+            />
           )}
           <br />
           &nbsp;
