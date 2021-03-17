@@ -190,6 +190,8 @@ export default function Index() {
       </div>
       <PixelContainer title={isValidating ? '更新中...' : '浮动收益'}>
         <SortableListContainer
+          axis="y"
+          lockAxis="y"
           helperClass={fontClassName}
           pressDelay={200}
           onSortEnd={handleSortEnd}
