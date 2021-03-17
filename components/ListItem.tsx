@@ -9,12 +9,13 @@ import throttle from 'lodash/throttle'
 
 import { usePrice } from '../hooks/use-price'
 import db from '../libs/db'
-import { Item } from '../libs/types'
+import { Currency, Item } from '../libs/types'
 import PixelInput from './PixelInput'
 import PixelButton from './PixelButton'
 import Profit from './Profit'
 import Calculation from './Calculation'
 import { IconTrash } from '../assets/icons'
+import { useRates } from '../hooks/use-rates'
 
 export default function ListItem(props: {
   value: Item
@@ -22,7 +23,12 @@ export default function ListItem(props: {
   onClick(): void
 }) {
   const item = props.value
-  const { data: price, isValidating } = usePrice('CNY', item.type, item.id)
+  const rates = useRates()
+  const { data: price, isValidating } = usePrice(
+    props.value.currency,
+    item.type,
+    item.id,
+  )
   useEffect(() => {
     if (price !== undefined) {
       db.items.update([item.type, item.id], { price })
@@ -31,6 +37,7 @@ export default function ListItem(props: {
   useEffect(() => {
     db.items.update([item.type, item.id], { isValidating })
   }, [item.id, item.type, isValidating])
+  // Amount
   const [amount, setAmount] = useState('')
   useEffect(() => {
     if (item.amount !== undefined) {
@@ -39,16 +46,24 @@ export default function ListItem(props: {
   }, [item.amount])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
-    throttle(() => {
-      if (!props.isExpanded) {
-        return
-      }
-      db.items.update([item.type, item.id], {
-        amount: Number.isNaN(parseFloat(amount)) ? 1 : parseFloat(amount),
-      })
-    }, 300),
+    throttle(
+      () => {
+        if (!props.isExpanded) {
+          return
+        }
+        db.items.update([item.type, item.id], {
+          amount: Number.isNaN(parseFloat(amount)) ? 1 : parseFloat(amount),
+        })
+      },
+      300,
+      {
+        leading: true,
+        trailing: true,
+      },
+    ),
     [amount, item.id, item.type, props.isExpanded],
   )
+  // Cost
   const [cost, setCost] = useState('')
   useEffect(() => {
     if (item.cost !== undefined) {
@@ -57,16 +72,36 @@ export default function ListItem(props: {
   }, [item.cost])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
-    throttle(() => {
-      if (!props.isExpanded) {
-        return
-      }
-      db.items.update([item.type, item.id], {
-        cost: Number.isNaN(parseFloat(cost)) ? 0 : parseFloat(cost),
-      })
-    }, 300),
+    throttle(
+      () => {
+        if (!props.isExpanded) {
+          return
+        }
+        db.items.update([item.type, item.id], {
+          cost: Number.isNaN(parseFloat(cost)) ? 0 : parseFloat(cost),
+        })
+      },
+      300,
+      {
+        leading: true,
+        trailing: true,
+      },
+    ),
     [cost, item.id, item.type, props.isExpanded],
   )
+  // Currency
+  const [currency, setCurrency] = useState<Currency>('CNY')
+  useEffect(() => {
+    setCurrency(item.currency || 'CNY')
+  }, [item.currency])
+  useEffect(() => {
+    if (!props.isExpanded) {
+      return
+    }
+    db.items.update([item.type, item.id], {
+      currency,
+    })
+  }, [currency, item.id, item.type, props.isExpanded])
 
   return (
     <div
@@ -118,6 +153,7 @@ export default function ListItem(props: {
             price={item.price}
             cost={item.cost}
             amount={item.amount}
+            currency={item.currency}
           />
         </div>
         <Profit
@@ -127,6 +163,7 @@ export default function ListItem(props: {
           price={item.price}
           cost={item.cost}
           amount={item.amount}
+          currency={item.currency}
         />
         <br />
       </div>
@@ -171,7 +208,39 @@ export default function ListItem(props: {
                 margin-bottom: 0.5em;
                 display: block;
               `}>
-              成本
+              成本&nbsp;
+              <span
+                className={cx(
+                  'nes-pointer',
+                  css`
+                    text-align: center;
+                    color: #adafbc;
+                    &:hover {
+                      box-shadow: 0 0.125em 0 #d3d3d3;
+                    }
+                    &:active {
+                      box-shadow: 0 0.125em 0 #adafbc;
+                    }
+                  `,
+                )}
+                onClick={() => {
+                  setCurrency(
+                    (old) =>
+                      ({ CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[old] as Currency),
+                  )
+                  setCost((old) =>
+                    (
+                      (parseFloat(old) / rates[currency]) *
+                      rates[
+                        { CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[
+                          currency
+                        ] as Currency
+                      ]
+                    ).toString(),
+                  )
+                }}>
+                {currency}
+              </span>
             </label>
             <PixelInput
               isError={!!cost && Number.isNaN(parseFloat(cost))}

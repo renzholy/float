@@ -1,9 +1,11 @@
 import { atom } from 'jotai'
 
-export const inverseColorAtom = atom(false)
+import { Currency, ProfitMode } from './types'
 
-export type ProfitMode = 'SHOW' | 'HIDE' | 'PERCENTAGE'
+export const inverseColorAtom = atom(false)
 
 export const profitModeAtom = atom<ProfitMode>('SHOW')
 
 export const largeFontAtom = atom(false)
+
+export const currencyAtom = atom<Currency>('CNY')

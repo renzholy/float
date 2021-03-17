@@ -1,3 +1,7 @@
+export type Currency = 'CNY' | 'USD' | 'HKD'
+
+export type ProfitMode = 'SHOW' | 'HIDE' | 'PERCENTAGE'
+
 export enum ItemType {
   FOREX = '外汇',
   CRYPTO = '加密货币',
@@ -18,6 +22,7 @@ export interface Item extends SearchItem {
   order: number
   amount: number
   cost: number
+  currency: Currency
   price?: number
   comment?: string
   isValidating?: boolean

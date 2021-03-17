@@ -15,6 +15,7 @@ import PixelButton from '../components/PixelButton'
 import { IconClose } from '../assets/icons'
 import { getFontClassName } from '../libs/font'
 import { largeFontAtom } from '../libs/atoms'
+import { Currency, ItemType } from '../libs/types'
 
 export default function Search() {
   const router = useRouter()
@@ -82,10 +83,23 @@ export default function Search() {
                 onClick={async () => {
                   const items = await db.items.toArray()
                   const order = (maxBy(items, 'order')?.order || 0) + 1
-                  await db.items.put({ ...item, order, amount: 1, cost: 0 }, [
-                    item.type,
-                    item.id,
-                  ])
+                  await db.items.put(
+                    {
+                      ...item,
+                      order,
+                      amount: 1,
+                      cost: 0,
+                      currency: {
+                        [ItemType.FOREX]: 'CNY',
+                        [ItemType.CRYPTO]: 'USD',
+                        [ItemType.STOCK_CN]: 'CNY',
+                        [ItemType.STOCK_HK]: 'HKD',
+                        [ItemType.STOCK_US]: 'USD',
+                        [ItemType.FUND]: 'CNY',
+                      }[item.type] as Currency,
+                    },
+                    [item.type, item.id],
+                  )
                   router.push('/')
                 }}>
                 <span className="item-hover">{item.name}</span>

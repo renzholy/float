@@ -1,20 +1,24 @@
 import { useAtom } from 'jotai'
 import { useMemo } from 'react'
+import { useRate } from '../hooks/use-rate'
 
 import { profitModeAtom, inverseColorAtom } from '../libs/atoms'
 import { formatNumber } from '../libs/formatter'
+import { Currency } from '../libs/types'
 
 export default function Profit(props: {
   className?: string
   price?: number
   cost: number
   amount: number
+  currency: Currency
 }) {
+  const rate = useRate(props.currency)
   const [inverseColor] = useAtom(inverseColorAtom)
   const [profitMode] = useAtom(profitModeAtom)
   const color = useMemo(() => {
     if (props.price === undefined) {
-      return undefined
+      return '#adafbc'
     }
     if (props.price - props.cost >= 0) {
       return inverseColor ? '#92cc41' : '#e76e55'
@@ -23,9 +27,9 @@ export default function Profit(props: {
   }, [inverseColor, props.cost, props.price])
   const profit = useMemo(() => {
     if (props.price === undefined) {
-      return null
+      return '-'
     }
-    const num = (props.price - props.cost) * props.amount
+    const num = (props.price - props.cost) * rate * props.amount
     if (profitMode === 'SHOW') {
       return num >= 0 ? `+${formatNumber(num)}` : formatNumber(num)
     }
@@ -40,7 +44,7 @@ export default function Profit(props: {
       return percentage >= 0 ? `+${percentage}%` : `${percentage}%`
     }
     return null
-  }, [profitMode, props.amount, props.cost, props.price])
+  }, [profitMode, props.amount, props.cost, props.price, rate])
 
   return (
     <span className={props.className} style={{ color }}>
