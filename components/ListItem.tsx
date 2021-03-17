@@ -111,16 +111,14 @@ export default function ListItem(props: {
             &nbsp;
             {item.code}
           </span>
-          {item.price === undefined ? null : (
-            <Calculation
-              className={css`
-                float: right;
-              `}
-              x={item.price}
-              y={item.cost}
-              z={item.amount}
-            />
-          )}
+          <Calculation
+            className={css`
+              float: right;
+            `}
+            price={item.price}
+            cost={item.cost}
+            amount={item.amount}
+          />
         </div>
         <Price
           className={css`

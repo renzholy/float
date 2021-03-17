@@ -260,8 +260,8 @@ export default function Index() {
                 className={css`
                   align-self: flex-end;
                 `}
-                x={totalPrice}
-                y={totalCost}
+                price={totalPrice}
+                cost={totalCost}
               />
             )}
           </div>
