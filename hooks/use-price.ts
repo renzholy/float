@@ -28,7 +28,7 @@ export function usePrice(base: Currency, type: ItemType, id: string) {
     rates ? ['price', type, id, rates] : null,
     () => {
       if (type === ItemType.FOREX) {
-        return rates!.rates[id.toUpperCase()]
+        return 1 / rates!.rates[id.toUpperCase()]
       }
       if (type === ItemType.CRYPTO) {
         return fetch(`https://api.coinpaprika.com/v1/coins/${id}/ohlcv/today`)
