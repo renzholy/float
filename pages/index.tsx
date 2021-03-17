@@ -220,25 +220,40 @@ export default function Index() {
         <div
           className={css`
             line-height: 1.5;
-            margin-bottom: -0.5em !important;
+            margin-bottom: -0.5em;
+            display: flex;
+            flex-direction: column;
           `}>
           <span>总计</span>
-          <br />
-          {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
-            <Calculation
+          <div
+            className={css`
+              display: flex;
+              justify-content: space-between;
+            `}>
+            <span
               className={css`
-                float: right;
-              `}
-              x={totalPrice}
-              y={totalCost}
-            />
-          )}
-          <br />
-          &nbsp;
+                color: #adafbc;
+                &:hover {
+                  box-shadow: 0 0.125em 0 #adafbc;
+                  cursor: url(/icons/cursor-pointer.png) 14 0, pointer;
+                }
+              `}>
+              RMB
+            </span>
+            {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
+              <Calculation
+                className={css`
+                  align-self: flex-end;
+                `}
+                x={totalPrice}
+                y={totalCost}
+              />
+            )}
+          </div>
           <Price
             value={totalPrice - totalCost}
             className={css`
-              float: right;
+              align-self: flex-end;
             `}
           />
         </div>
