@@ -2,7 +2,7 @@ import { cx, css } from '@linaria/core'
 import { useAtom } from 'jotai'
 import { useMemo } from 'react'
 
-import { priceModeAtom } from '../libs/atoms'
+import { profitModeAtom } from '../libs/atoms'
 import { formatNumber } from '../libs/formatter'
 
 /**
@@ -16,12 +16,15 @@ export default function Calculation(props: {
   cost: number
   amount?: number
 }) {
-  const [priceMode] = useAtom(priceModeAtom)
+  const [profitMode] = useAtom(profitModeAtom)
   const text = useMemo(() => {
     if (props.price === undefined) {
       return null
     }
-    if (priceMode === 'SHOW') {
+    if (Number.isNaN(props.price) || Number.isNaN(props.cost)) {
+      return null
+    }
+    if (profitMode === 'SHOW') {
       return 'amount' in props && props.amount !== undefined
         ? props.cost === 0
           ? `${formatNumber(props.price)} x ${formatNumber(props.amount)} =`
@@ -30,16 +33,8 @@ export default function Calculation(props: {
             )}) x ${formatNumber(props.amount)} =`
         : `${formatNumber(props.price)} - ${formatNumber(props.cost)} =`
     }
-    if (priceMode === 'HIDE') {
-      return null
-    }
-    if (priceMode === 'PERCENTAGE') {
-      return props.cost === 0
-        ? '100%'
-        : `${formatNumber(((props.price - props.cost) / props.cost) * 100)}%`
-    }
     return null
-  }, [priceMode, props])
+  }, [profitMode, props])
 
   return (
     <span

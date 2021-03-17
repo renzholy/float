@@ -15,16 +15,16 @@ import { useAtom } from 'jotai'
 import ListItem from '../components/ListItem'
 import PixelContainer from '../components/PixelContainer'
 import PixelButton from '../components/PixelButton'
-import Price from '../components/Price'
+import Profit from '../components/Price'
 import PixelLogo from '../components/PixelLogo'
 import Calculation from '../components/Calculation'
 import db from '../libs/db'
 import { ItemType } from '../libs/types'
 import {
-  priceModeAtom,
+  profitModeAtom,
   inverseColorAtom,
   largeFontAtom,
-  PriceMode,
+  ProfitMode,
 } from '../libs/atoms'
 import {
   IconAdd,
@@ -99,19 +99,19 @@ export default function Index() {
     [items, mutate],
   )
   const [inverseColor, setInverseColor] = useAtom(inverseColorAtom)
-  const [priceMode, setPriceMode] = useAtom(priceModeAtom)
+  const [profitMode, setProfitMode] = useAtom(profitModeAtom)
   const [largeFont, setLargeFont] = useAtom(largeFontAtom)
   useEffect(() => {
     setInverseColor(localStorage.getItem('inverseColor') === 'true')
-    setPriceMode((localStorage.getItem('priceMode') || 'SHOW') as PriceMode)
+    setProfitMode((localStorage.getItem('profitMode') || 'SHOW') as ProfitMode)
     setLargeFont(localStorage.getItem('largeFont') === 'true')
-  }, [setInverseColor, setPriceMode, setLargeFont])
+  }, [setInverseColor, setProfitMode, setLargeFont])
   useEffect(() => {
     localStorage.setItem('inverseColor', inverseColor ? 'true' : 'false')
   }, [inverseColor])
   useEffect(() => {
-    localStorage.setItem('priceMode', priceMode)
-  }, [priceMode])
+    localStorage.setItem('profitMode', profitMode)
+  }, [profitMode])
   useEffect(() => {
     localStorage.setItem('largeFont', largeFont ? 'true' : 'false')
   }, [largeFont])
@@ -182,7 +182,7 @@ export default function Index() {
                 SHOW: <IconVisible />,
                 HIDE: <IconInvisible />,
                 PERCENTAGE: <IconPercentage />,
-              }[priceMode]
+              }[profitMode]
             }
             className={cx(
               'nes-pointer',
@@ -192,13 +192,13 @@ export default function Index() {
               `,
             )}
             onClick={() => {
-              setPriceMode(
+              setProfitMode(
                 (old) =>
                   ({
                     SHOW: 'HIDE',
                     HIDE: 'PERCENTAGE',
                     PERCENTAGE: 'SHOW',
-                  }[old] as PriceMode),
+                  }[old] as ProfitMode),
               )
             }}
           />
@@ -255,18 +255,17 @@ export default function Index() {
               `}>
               RMB
             </span>
-            {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
-              <Calculation
-                className={css`
-                  align-self: flex-end;
-                `}
-                price={totalPrice}
-                cost={totalCost}
-              />
-            )}
+            <Calculation
+              className={css`
+                align-self: flex-end;
+              `}
+              price={totalPrice}
+              cost={totalCost}
+            />
           </div>
-          <Price
-            value={totalPrice - totalCost}
+          <Profit
+            price={totalPrice}
+            cost={totalCost}
             className={css`
               align-self: flex-end;
             `}

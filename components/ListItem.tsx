@@ -12,7 +12,7 @@ import db from '../libs/db'
 import { Item } from '../libs/types'
 import PixelInput from './PixelInput'
 import PixelButton from './PixelButton'
-import Price from './Price'
+import Profit from './Price'
 import Calculation from './Calculation'
 import { IconTrash } from '../assets/icons'
 
@@ -120,15 +120,13 @@ export default function ListItem(props: {
             amount={item.amount}
           />
         </div>
-        <Price
+        <Profit
           className={css`
             align-self: flex-end;
           `}
-          value={
-            item.price === undefined
-              ? undefined
-              : item.amount * (item.price - (item.cost || 0))
-          }
+          price={item.price}
+          cost={item.cost}
+          amount={item.amount}
         />
         <br />
       </div>
