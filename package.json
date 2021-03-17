@@ -10,8 +10,9 @@
     "format": "prettier --config .prettierrc.json --write .",
     "lint": "eslint .",
     "svg": "node svg.js",
-    "test": "lint-staged",
-    "prepare": "husky install"
+    "test": "exit 0",
+    "prepare": "husky install",
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "@linaria/core": "^3.0.0-beta.1",
