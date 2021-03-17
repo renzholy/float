@@ -40,11 +40,14 @@ export default function ListItem(props: {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     throttle(() => {
+      if (!props.isExpanded) {
+        return
+      }
       db.items.update([item.type, item.id], {
         amount: Number.isNaN(parseFloat(amount)) ? 1 : parseFloat(amount),
       })
     }, 300),
-    [amount, item.id, item.type],
+    [amount, item.id, item.type, props.isExpanded],
   )
   const [cost, setCost] = useState('')
   useEffect(() => {
@@ -55,11 +58,14 @@ export default function ListItem(props: {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     throttle(() => {
+      if (!props.isExpanded) {
+        return
+      }
       db.items.update([item.type, item.id], {
         cost: Number.isNaN(parseFloat(cost)) ? 0 : parseFloat(cost),
       })
     }, 300),
-    [cost, item.id, item.type],
+    [cost, item.id, item.type, props.isExpanded],
   )
 
   return (
