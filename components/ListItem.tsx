@@ -9,12 +9,13 @@ import throttle from 'lodash/throttle'
 
 import { usePrice } from '../hooks/use-price'
 import db from '../libs/db'
-import { Item } from '../libs/types'
+import { Currency, Item } from '../libs/types'
 import PixelInput from './PixelInput'
 import PixelButton from './PixelButton'
 import Profit from './Profit'
 import Calculation from './Calculation'
 import { IconTrash } from '../assets/icons'
+import { useRates } from '../hooks/use-rates'
 
 export default function ListItem(props: {
   value: Item
@@ -22,6 +23,7 @@ export default function ListItem(props: {
   onClick(): void
 }) {
   const item = props.value
+  const rates = useRates()
   const { data: price, isValidating } = usePrice('CNY', item.type, item.id)
   useEffect(() => {
     if (price !== undefined) {
@@ -31,6 +33,7 @@ export default function ListItem(props: {
   useEffect(() => {
     db.items.update([item.type, item.id], { isValidating })
   }, [item.id, item.type, isValidating])
+  // Amount
   const [amount, setAmount] = useState('')
   useEffect(() => {
     if (item.amount !== undefined) {
@@ -49,6 +52,7 @@ export default function ListItem(props: {
     }, 300),
     [amount, item.id, item.type, props.isExpanded],
   )
+  // Cost
   const [cost, setCost] = useState('')
   useEffect(() => {
     if (item.cost !== undefined) {
@@ -67,6 +71,19 @@ export default function ListItem(props: {
     }, 300),
     [cost, item.id, item.type, props.isExpanded],
   )
+  // Currency
+  const [currency, setCurrency] = useState<Currency>('CNY')
+  useEffect(() => {
+    setCurrency(item.currency || 'CNY')
+  }, [item.currency])
+  useEffect(() => {
+    if (!props.isExpanded) {
+      return
+    }
+    db.items.update([item.type, item.id], {
+      currency,
+    })
+  }, [currency, item.id, item.type, props.isExpanded])
 
   return (
     <div
@@ -173,7 +190,35 @@ export default function ListItem(props: {
                 margin-bottom: 0.5em;
                 display: block;
               `}>
-              成本
+              成本&nbsp;
+              <span
+                className={cx(
+                  'nes-pointer',
+                  css`
+                    color: #adafbc;
+                    &:hover {
+                      box-shadow: 0 0.125em 0 #adafbc;
+                    }
+                  `,
+                )}
+                onClick={() => {
+                  setCurrency(
+                    (old) =>
+                      ({ CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[old] as Currency),
+                  )
+                  setCost((old) =>
+                    (
+                      (parseFloat(old) / rates[currency]) *
+                      rates[
+                        { CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[
+                          currency
+                        ] as Currency
+                      ]
+                    ).toString(),
+                  )
+                }}>
+                {currency}
+              </span>
             </label>
             <PixelInput
               isError={!!cost && Number.isNaN(parseFloat(cost))}
