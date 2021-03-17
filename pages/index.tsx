@@ -110,6 +110,12 @@ export default function Index() {
     localStorage.setItem('largeFont', largeFont ? 'true' : 'false')
   }, [largeFont])
   const fontClassName = getFontClassName(largeFont)
+  useEffect(() => {
+    setExpanded(undefined)
+    return () => {
+      setExpanded(undefined)
+    }
+  }, [])
 
   return (
     <div
