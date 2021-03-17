@@ -96,27 +96,18 @@ export default function Index() {
   const [hidePrice, setHidePrice] = useAtom(hidePriceAtom)
   const [largeFont, setLargeFont] = useAtom(largeFontAtom)
   useEffect(() => {
-    db.config.toArray().then((configs) =>
-      configs.map((config) => {
-        if (config.key === 'inverseColor') {
-          setInverseColor(config.value)
-        } else if (config.key === 'hidePrice') {
-          setHidePrice(config.value)
-        } else if (config.key === 'largeFont') {
-          setLargeFont(config.value)
-        }
-        return undefined
-      }),
-    )
+    setInverseColor(localStorage.getItem('inverseColor') === 'true')
+    setHidePrice(localStorage.getItem('hidePrice') === 'true')
+    setLargeFont(localStorage.getItem('largeFont') === 'true')
   }, [setInverseColor, setHidePrice, setLargeFont])
   useEffect(() => {
-    db.config.put({ key: 'inverseColor', value: inverseColor })
+    localStorage.setItem('inverseColor', inverseColor ? 'true' : 'false')
   }, [inverseColor])
   useEffect(() => {
-    db.config.put({ key: 'hidePrice', value: hidePrice })
+    localStorage.setItem('hidePrice', hidePrice ? 'true' : 'false')
   }, [hidePrice])
   useEffect(() => {
-    db.config.put({ key: 'largeFont', value: largeFont })
+    localStorage.setItem('largeFont', largeFont ? 'true' : 'false')
   }, [largeFont])
   const fontClassName = getFontClassName(largeFont)
 
