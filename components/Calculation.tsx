@@ -1,7 +1,7 @@
 import { cx, css } from '@linaria/core'
 import { useAtom } from 'jotai'
 
-import { hidePriceAtom } from '../libs/atoms'
+import { priceModeAtom } from '../libs/atoms'
 import { formatNumber } from '../libs/formatter'
 
 /**
@@ -15,7 +15,7 @@ export default function Calculation(props: {
   y: number
   z?: number
 }) {
-  const [hidePrice] = useAtom(hidePriceAtom)
+  const [priceMode] = useAtom(priceModeAtom)
 
   return (
     <span
@@ -25,7 +25,7 @@ export default function Calculation(props: {
         `,
         props.className,
       )}>
-      {hidePrice
+      {priceMode === 'SHOW'
         ? null
         : 'z' in props && props.z !== undefined
         ? props.y === 0

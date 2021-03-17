@@ -20,13 +20,19 @@ import PixelLogo from '../components/PixelLogo'
 import Calculation from '../components/Calculation'
 import db from '../libs/db'
 import { ItemType } from '../libs/types'
-import { hidePriceAtom, inverseColorAtom, largeFontAtom } from '../libs/atoms'
+import {
+  priceModeAtom,
+  inverseColorAtom,
+  largeFontAtom,
+  PriceMode,
+} from '../libs/atoms'
 import {
   IconAdd,
   IconFontSize,
   IconFontSizeLarge,
   IconGithub,
   IconInvisible,
+  IconPercentage,
   IconPriceColor,
   IconPriceColorInverse,
   IconTwitter,
@@ -93,19 +99,19 @@ export default function Index() {
     [items, mutate],
   )
   const [inverseColor, setInverseColor] = useAtom(inverseColorAtom)
-  const [hidePrice, setHidePrice] = useAtom(hidePriceAtom)
+  const [priceMode, setPriceMode] = useAtom(priceModeAtom)
   const [largeFont, setLargeFont] = useAtom(largeFontAtom)
   useEffect(() => {
     setInverseColor(localStorage.getItem('inverseColor') === 'true')
-    setHidePrice(localStorage.getItem('hidePrice') === 'true')
+    setPriceMode((localStorage.getItem('priceMode') || 'SHOW') as PriceMode)
     setLargeFont(localStorage.getItem('largeFont') === 'true')
-  }, [setInverseColor, setHidePrice, setLargeFont])
+  }, [setInverseColor, setPriceMode, setLargeFont])
   useEffect(() => {
     localStorage.setItem('inverseColor', inverseColor ? 'true' : 'false')
   }, [inverseColor])
   useEffect(() => {
-    localStorage.setItem('hidePrice', hidePrice ? 'true' : 'false')
-  }, [hidePrice])
+    localStorage.setItem('priceMode', priceMode)
+  }, [priceMode])
   useEffect(() => {
     localStorage.setItem('largeFont', largeFont ? 'true' : 'false')
   }, [largeFont])
@@ -171,7 +177,13 @@ export default function Index() {
             }}
           />
           <PixelButton
-            icon={hidePrice ? <IconInvisible /> : <IconVisible />}
+            icon={
+              {
+                SHOW: <IconVisible />,
+                HIDE: <IconInvisible />,
+                PERCENTAGE: <IconPercentage />,
+              }[priceMode]
+            }
             className={cx(
               'nes-pointer',
               css`
@@ -180,7 +192,14 @@ export default function Index() {
               `,
             )}
             onClick={() => {
-              setHidePrice((old) => !old)
+              setPriceMode(
+                (old) =>
+                  ({
+                    SHOW: 'HIDE',
+                    HIDE: 'PERCENTAGE',
+                    PERCENTAGE: 'SHOW',
+                  }[old] as PriceMode),
+              )
             }}
           />
         </span>
