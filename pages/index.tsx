@@ -15,7 +15,7 @@ import { useAtom } from 'jotai'
 import ListItem from '../components/ListItem'
 import PixelContainer from '../components/PixelContainer'
 import PixelButton from '../components/PixelButton'
-import Profit from '../components/Price'
+import Profit from '../components/Profit'
 import PixelLogo from '../components/PixelLogo'
 import Calculation from '../components/Calculation'
 import db from '../libs/db'
@@ -266,6 +266,7 @@ export default function Index() {
           <Profit
             price={totalPrice}
             cost={totalCost}
+            amount={1}
             className={css`
               align-self: flex-end;
             `}

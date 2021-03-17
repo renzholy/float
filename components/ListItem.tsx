@@ -12,7 +12,7 @@ import db from '../libs/db'
 import { Item } from '../libs/types'
 import PixelInput from './PixelInput'
 import PixelButton from './PixelButton'
-import Profit from './Price'
+import Profit from './Profit'
 import Calculation from './Calculation'
 import { IconTrash } from '../assets/icons'
 

@@ -8,7 +8,7 @@ export default function Profit(props: {
   className?: string
   price?: number
   cost: number
-  amount?: number
+  amount: number
 }) {
   const [inverseColor] = useAtom(inverseColorAtom)
   const [profitMode] = useAtom(profitModeAtom)
@@ -23,9 +23,6 @@ export default function Profit(props: {
   }, [inverseColor, props.cost, props.price])
   const profit = useMemo(() => {
     if (props.price === undefined) {
-      return null
-    }
-    if (props.amount === undefined) {
       return null
     }
     const num = (props.price - props.cost) * props.amount
