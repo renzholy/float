@@ -18,7 +18,7 @@ export default function Profit(props: {
   const [profitMode] = useAtom(profitModeAtom)
   const color = useMemo(() => {
     if (props.price === undefined) {
-      return undefined
+      return '#adafbc'
     }
     if (props.price - props.cost >= 0) {
       return inverseColor ? '#92cc41' : '#e76e55'
@@ -27,7 +27,7 @@ export default function Profit(props: {
   }, [inverseColor, props.cost, props.price])
   const profit = useMemo(() => {
     if (props.price === undefined) {
-      return null
+      return '-'
     }
     const num = (props.price - props.cost) * rate * props.amount
     if (profitMode === 'SHOW') {
