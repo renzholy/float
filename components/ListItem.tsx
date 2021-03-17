@@ -46,14 +46,21 @@ export default function ListItem(props: {
   }, [item.amount])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
-    throttle(() => {
-      if (!props.isExpanded) {
-        return
-      }
-      db.items.update([item.type, item.id], {
-        amount: Number.isNaN(parseFloat(amount)) ? 1 : parseFloat(amount),
-      })
-    }, 300),
+    throttle(
+      () => {
+        if (!props.isExpanded) {
+          return
+        }
+        db.items.update([item.type, item.id], {
+          amount: Number.isNaN(parseFloat(amount)) ? 1 : parseFloat(amount),
+        })
+      },
+      300,
+      {
+        leading: true,
+        trailing: true,
+      },
+    ),
     [amount, item.id, item.type, props.isExpanded],
   )
   // Cost
@@ -65,14 +72,21 @@ export default function ListItem(props: {
   }, [item.cost])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
-    throttle(() => {
-      if (!props.isExpanded) {
-        return
-      }
-      db.items.update([item.type, item.id], {
-        cost: Number.isNaN(parseFloat(cost)) ? 0 : parseFloat(cost),
-      })
-    }, 300),
+    throttle(
+      () => {
+        if (!props.isExpanded) {
+          return
+        }
+        db.items.update([item.type, item.id], {
+          cost: Number.isNaN(parseFloat(cost)) ? 0 : parseFloat(cost),
+        })
+      },
+      300,
+      {
+        leading: true,
+        trailing: true,
+      },
+    ),
     [cost, item.id, item.type, props.isExpanded],
   )
   // Currency
