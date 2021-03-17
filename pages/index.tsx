@@ -253,7 +253,7 @@ export default function Index() {
               className={css`
                 color: #adafbc;
               `}>
-              RMB
+              CNY
             </span>
             <Calculation
               className={css`
