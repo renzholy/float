@@ -223,6 +223,9 @@ export default function Index() {
             margin-bottom: -0.5em;
             display: flex;
             flex-direction: column;
+            &:hover {
+              cursor: url(/icons/cursor-pointer.png) 14 0, pointer;
+            }
           `}>
           <span>总计</span>
           <div
@@ -233,10 +236,6 @@ export default function Index() {
             <span
               className={css`
                 color: #adafbc;
-                &:hover {
-                  box-shadow: 0 0.125em 0 #adafbc;
-                  cursor: url(/icons/cursor-pointer.png) 14 0, pointer;
-                }
               `}>
               RMB
             </span>
