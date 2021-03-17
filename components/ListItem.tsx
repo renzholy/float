@@ -195,8 +195,12 @@ export default function ListItem(props: {
                 className={cx(
                   'nes-pointer',
                   css`
+                    text-align: center;
                     color: #adafbc;
                     &:hover {
+                      box-shadow: 0 0.125em 0 #d3d3d3;
+                    }
+                    &:active {
                       box-shadow: 0 0.125em 0 #adafbc;
                     }
                   `,
