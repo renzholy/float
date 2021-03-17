@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import useSWR from 'swr'
 
-import { ItemType } from '../libs/types'
+import { Currency, ItemType } from '../libs/types'
 
-export function usePrice(base: string, type: ItemType, id: string) {
+export function usePrice(base: Currency, type: ItemType, id: string) {
   const { data: rates } = useSWR<{ rates: { [name: string]: number } }>(
     ['exchanges', base],
     () =>

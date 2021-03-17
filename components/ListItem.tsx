@@ -24,7 +24,11 @@ export default function ListItem(props: {
 }) {
   const item = props.value
   const rates = useRates()
-  const { data: price, isValidating } = usePrice('CNY', item.type, item.id)
+  const { data: price, isValidating } = usePrice(
+    props.value.currency,
+    item.type,
+    item.id,
+  )
   useEffect(() => {
     if (price !== undefined) {
       db.items.update([item.type, item.id], { price })
