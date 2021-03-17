@@ -256,6 +256,12 @@ export default function Index() {
             margin-bottom: -0.5em;
             display: flex;
             flex-direction: column;
+            &:hover .item-hover {
+              color: #209cee;
+            }
+            &:active .item-hover {
+              color: #006bb3;
+            }
             &:hover {
               cursor: url(/icons/cursor-pointer.png) 14 0, pointer;
             }
@@ -266,7 +272,7 @@ export default function Index() {
                 ({ CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[old] as Currency),
             )
           }}>
-          <span>总计</span>
+          <span className="item-hover">总计</span>
           <div
             className={css`
               display: flex;

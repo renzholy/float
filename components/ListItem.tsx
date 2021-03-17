@@ -115,11 +115,9 @@ export default function ListItem(props: {
           : undefined,
         css`
           margin-bottom: 1em;
-
           &:hover .item-hover {
             color: #209cee;
           }
-
           &:active .item-hover {
             color: #006bb3;
           }
