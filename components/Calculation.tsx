@@ -44,9 +44,9 @@ export default function Calculation(props: {
       }
       return 'amount' in props && props.amount !== undefined
         ? props.cost === 0
-          ? `(${formatNumber(props.price)} x ${formatNumber(
-              props.amount,
-            )}) x ${formatNumber(rate)} =`
+          ? `${formatNumber(props.price)} x ${formatNumber(
+              rate,
+            )} x ${formatNumber(props.amount)} =`
           : `(${formatNumber(props.price)} - ${formatNumber(
               props.cost,
             )}) x ${formatNumber(rate)} x ${formatNumber(props.amount)} =`
