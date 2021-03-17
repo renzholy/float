@@ -15,18 +15,24 @@ import { useAtom } from 'jotai'
 import ListItem from '../components/ListItem'
 import PixelContainer from '../components/PixelContainer'
 import PixelButton from '../components/PixelButton'
-import Price from '../components/Price'
+import Profit from '../components/Profit'
 import PixelLogo from '../components/PixelLogo'
 import Calculation from '../components/Calculation'
 import db from '../libs/db'
 import { ItemType } from '../libs/types'
-import { hidePriceAtom, inverseColorAtom, largeFontAtom } from '../libs/atoms'
+import {
+  profitModeAtom,
+  inverseColorAtom,
+  largeFontAtom,
+  ProfitMode,
+} from '../libs/atoms'
 import {
   IconAdd,
   IconFontSize,
   IconFontSizeLarge,
   IconGithub,
   IconInvisible,
+  IconPercentage,
   IconPriceColor,
   IconPriceColorInverse,
   IconTwitter,
@@ -93,32 +99,29 @@ export default function Index() {
     [items, mutate],
   )
   const [inverseColor, setInverseColor] = useAtom(inverseColorAtom)
-  const [hidePrice, setHidePrice] = useAtom(hidePriceAtom)
+  const [profitMode, setProfitMode] = useAtom(profitModeAtom)
   const [largeFont, setLargeFont] = useAtom(largeFontAtom)
   useEffect(() => {
-    db.config.toArray().then((configs) =>
-      configs.map((config) => {
-        if (config.key === 'inverseColor') {
-          setInverseColor(config.value)
-        } else if (config.key === 'hidePrice') {
-          setHidePrice(config.value)
-        } else if (config.key === 'largeFont') {
-          setLargeFont(config.value)
-        }
-        return undefined
-      }),
-    )
-  }, [setInverseColor, setHidePrice, setLargeFont])
+    setInverseColor(localStorage.getItem('inverseColor') === 'true')
+    setProfitMode((localStorage.getItem('profitMode') || 'SHOW') as ProfitMode)
+    setLargeFont(localStorage.getItem('largeFont') === 'true')
+  }, [setInverseColor, setProfitMode, setLargeFont])
   useEffect(() => {
-    db.config.put({ key: 'inverseColor', value: inverseColor })
+    localStorage.setItem('inverseColor', inverseColor ? 'true' : 'false')
   }, [inverseColor])
   useEffect(() => {
-    db.config.put({ key: 'hidePrice', value: hidePrice })
-  }, [hidePrice])
+    localStorage.setItem('profitMode', profitMode)
+  }, [profitMode])
   useEffect(() => {
-    db.config.put({ key: 'largeFont', value: largeFont })
+    localStorage.setItem('largeFont', largeFont ? 'true' : 'false')
   }, [largeFont])
   const fontClassName = getFontClassName(largeFont)
+  useEffect(() => {
+    setExpanded(undefined)
+    return () => {
+      setExpanded(undefined)
+    }
+  }, [])
 
   return (
     <div
@@ -174,7 +177,13 @@ export default function Index() {
             }}
           />
           <PixelButton
-            icon={hidePrice ? <IconInvisible /> : <IconVisible />}
+            icon={
+              {
+                SHOW: <IconVisible />,
+                HIDE: <IconInvisible />,
+                PERCENTAGE: <IconPercentage />,
+              }[profitMode]
+            }
             className={cx(
               'nes-pointer',
               css`
@@ -183,7 +192,14 @@ export default function Index() {
               `,
             )}
             onClick={() => {
-              setHidePrice((old) => !old)
+              setProfitMode(
+                (old) =>
+                  ({
+                    SHOW: 'HIDE',
+                    HIDE: 'PERCENTAGE',
+                    PERCENTAGE: 'SHOW',
+                  }[old] as ProfitMode),
+              )
             }}
           />
         </span>
@@ -220,25 +236,39 @@ export default function Index() {
         <div
           className={css`
             line-height: 1.5;
-            margin-bottom: -0.5em !important;
+            margin-bottom: -0.5em;
+            display: flex;
+            flex-direction: column;
+            &:hover {
+              cursor: url(/icons/cursor-pointer.png) 14 0, pointer;
+            }
           `}>
           <span>总计</span>
-          <br />
-          {Number.isNaN(totalPrice) || Number.isNaN(totalCost) ? null : (
+          <div
+            className={css`
+              display: flex;
+              justify-content: space-between;
+            `}>
+            <span
+              className={css`
+                color: #adafbc;
+              `}>
+              RMB
+            </span>
             <Calculation
               className={css`
-                float: right;
+                align-self: flex-end;
               `}
-              x={totalPrice}
-              y={totalCost}
+              price={totalPrice}
+              cost={totalCost}
             />
-          )}
-          <br />
-          &nbsp;
-          <Price
-            value={totalPrice - totalCost}
+          </div>
+          <Profit
+            price={totalPrice}
+            cost={totalCost}
+            amount={1}
             className={css`
-              float: right;
+              align-self: flex-end;
             `}
           />
         </div>

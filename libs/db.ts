@@ -5,13 +5,6 @@ import { Item, ItemType } from './types'
 class FloatDatabase extends Dexie {
   items: Dexie.Table<Item, [ItemType, string]>
 
-  config: Dexie.Table<
-    | { key: 'inverseColor'; value: boolean }
-    | { key: 'hidePrice'; value: boolean }
-    | { key: 'largeFont'; value: boolean },
-    string
-  >
-
   constructor() {
     super('FloatDatabase')
     this.version(1).stores({
@@ -21,8 +14,11 @@ class FloatDatabase extends Dexie {
       items: '[type+id]',
       config: '&key',
     })
+    this.version(3).stores({
+      items: '&[type+id]',
+      config: null,
+    })
     this.items = this.table('items')
-    this.config = this.table('config')
   }
 }
 

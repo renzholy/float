@@ -6,6 +6,7 @@ import IconFontSizeLarge from './font-size-large.svg'
 import IconFontSize from './font-size.svg'
 import IconGithub from './github.svg'
 import IconInvisible from './invisible.svg'
+import IconPercentage from './percentage.svg'
 import IconPriceColorInverse from './price-color-inverse.svg'
 import IconPriceColor from './price-color.svg'
 import IconTrash from './trash.svg'
@@ -19,6 +20,7 @@ export {
   IconFontSize,
   IconGithub,
   IconInvisible,
+  IconPercentage,
   IconPriceColorInverse,
   IconPriceColor,
   IconTrash,

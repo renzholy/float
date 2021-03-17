@@ -1,21 +1,40 @@
 import { cx, css } from '@linaria/core'
 import { useAtom } from 'jotai'
+import { useMemo } from 'react'
 
-import { hidePriceAtom } from '../libs/atoms'
+import { profitModeAtom } from '../libs/atoms'
 import { formatNumber } from '../libs/formatter'
 
 /**
- * (x - y) * z =
- * x - y =
- * x * z =
+ * (price - cost) x amount =
+ * price - cost =
+ * price x amount =
  */
 export default function Calculation(props: {
   className?: string
-  x: number
-  y: number
-  z?: number
+  price?: number
+  cost: number
+  amount?: number
 }) {
-  const [hidePrice] = useAtom(hidePriceAtom)
+  const [profitMode] = useAtom(profitModeAtom)
+  const text = useMemo(() => {
+    if (props.price === undefined) {
+      return null
+    }
+    if (Number.isNaN(props.price) || Number.isNaN(props.cost)) {
+      return null
+    }
+    if (profitMode === 'SHOW') {
+      return 'amount' in props && props.amount !== undefined
+        ? props.cost === 0
+          ? `${formatNumber(props.price)} x ${formatNumber(props.amount)} =`
+          : `(${formatNumber(props.price)} - ${formatNumber(
+              props.cost,
+            )}) x ${formatNumber(props.amount)} =`
+        : `${formatNumber(props.price)} - ${formatNumber(props.cost)} =`
+    }
+    return null
+  }, [profitMode, props])
 
   return (
     <span
@@ -25,15 +44,7 @@ export default function Calculation(props: {
         `,
         props.className,
       )}>
-      {hidePrice
-        ? null
-        : 'z' in props && props.z !== undefined
-        ? props.y === 0
-          ? `${formatNumber(props.x)} x ${formatNumber(props.z)} =`
-          : `(${formatNumber(props.x)} - ${formatNumber(
-              props.y,
-            )}) x ${formatNumber(props.z)} =`
-        : `${formatNumber(props.x)} - ${formatNumber(props.y)} =`}
+      {text}
     </span>
   )
 }
