@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import useSWR from 'swr'
 
 import { ItemType } from '../libs/types'
@@ -11,6 +12,18 @@ export function usePrice(base: string, type: ItemType, id: string) {
       ).then((response) => response.json()),
     { refreshInterval: 10 * 1000 },
   )
+  useEffect(() => {
+    if (rates) {
+      localStorage.setItem(
+        'rates',
+        JSON.stringify({
+          CNY: rates.rates.CNY,
+          USD: rates.rates.USD,
+          HKD: rates.rates.HKD,
+        }),
+      )
+    }
+  }, [rates])
   return useSWR<number>(
     rates ? ['price', type, id, rates] : null,
     () => {

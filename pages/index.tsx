@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 
@@ -19,12 +21,12 @@ import Profit from '../components/Profit'
 import PixelLogo from '../components/PixelLogo'
 import Calculation from '../components/Calculation'
 import db from '../libs/db'
-import { ItemType } from '../libs/types'
+import { Currency, ItemType, ProfitMode } from '../libs/types'
 import {
   profitModeAtom,
   inverseColorAtom,
   largeFontAtom,
-  ProfitMode,
+  currencyAtom,
 } from '../libs/atoms'
 import {
   IconAdd,
@@ -101,11 +103,13 @@ export default function Index() {
   const [inverseColor, setInverseColor] = useAtom(inverseColorAtom)
   const [profitMode, setProfitMode] = useAtom(profitModeAtom)
   const [largeFont, setLargeFont] = useAtom(largeFontAtom)
+  const [currency, setCurrency] = useAtom(currencyAtom)
   useEffect(() => {
     setInverseColor(localStorage.getItem('inverseColor') === 'true')
     setProfitMode((localStorage.getItem('profitMode') || 'SHOW') as ProfitMode)
     setLargeFont(localStorage.getItem('largeFont') === 'true')
-  }, [setInverseColor, setProfitMode, setLargeFont])
+    setCurrency((localStorage.getItem('currency') || 'CNY') as Currency)
+  }, [setInverseColor, setProfitMode, setLargeFont, setCurrency])
   useEffect(() => {
     localStorage.setItem('inverseColor', inverseColor ? 'true' : 'false')
   }, [inverseColor])
@@ -115,6 +119,9 @@ export default function Index() {
   useEffect(() => {
     localStorage.setItem('largeFont', largeFont ? 'true' : 'false')
   }, [largeFont])
+  useEffect(() => {
+    localStorage.setItem('currency', currency)
+  }, [currency])
   const fontClassName = getFontClassName(largeFont)
   useEffect(() => {
     setExpanded(undefined)
@@ -242,7 +249,13 @@ export default function Index() {
             &:hover {
               cursor: url(/icons/cursor-pointer.png) 14 0, pointer;
             }
-          `}>
+          `}
+          onClick={() => {
+            setCurrency(
+              (old) =>
+                ({ CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[old] as Currency),
+            )
+          }}>
           <span>总计</span>
           <div
             className={css`
@@ -253,7 +266,7 @@ export default function Index() {
               className={css`
                 color: #adafbc;
               `}>
-              CNY
+              {currency}
             </span>
             <Calculation
               className={css`

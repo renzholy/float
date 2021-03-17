@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import Dexie from 'dexie/dist/dexie'
 
 import { Item, ItemType } from './types'
@@ -18,6 +20,18 @@ class FloatDatabase extends Dexie {
       items: '&[type+id]',
       config: null,
     })
+    this.version(4)
+      .stores({
+        items: '&[type+id]',
+      })
+      .upgrade((trans) =>
+        trans
+          .table<Item, [ItemType, string]>('items')
+          .toCollection()
+          .modify((obj) => {
+            obj.currency = 'CNY'
+          }),
+      )
     this.items = this.table('items')
   }
 }
