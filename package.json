@@ -9,7 +9,9 @@
     "type-check": "tsc",
     "format": "prettier --config .prettierrc.json --write .",
     "lint": "eslint .",
-    "svg": "node svg.js"
+    "svg": "node svg.js",
+    "test": "lint-staged",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@linaria/core": "^3.0.0-beta.1",
@@ -52,11 +54,6 @@
     "prettier": "^2.2.1",
     "typescript": "^4.2.3",
     "webpack": "^5.26.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*": [
