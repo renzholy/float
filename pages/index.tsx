@@ -41,6 +41,7 @@ import {
   IconVisible,
 } from '../assets/icons'
 import { getFontClassName } from '../libs/font'
+import { useRates } from '../hooks/use-rates'
 
 const SortableListItem = SortableElement(ListItem)
 
@@ -50,6 +51,28 @@ const SortableListContainer = SortableContainer(
 
 export default function Index() {
   const router = useRouter()
+  const [inverseColor, setInverseColor] = useAtom(inverseColorAtom)
+  const [profitMode, setProfitMode] = useAtom(profitModeAtom)
+  const [largeFont, setLargeFont] = useAtom(largeFontAtom)
+  const [currency, setCurrency] = useAtom(currencyAtom)
+  useEffect(() => {
+    setInverseColor(localStorage.getItem('inverseColor') === 'true')
+    setProfitMode((localStorage.getItem('profitMode') || 'SHOW') as ProfitMode)
+    setLargeFont(localStorage.getItem('largeFont') === 'true')
+    setCurrency((localStorage.getItem('currency') || 'CNY') as Currency)
+  }, [setInverseColor, setProfitMode, setLargeFont, setCurrency])
+  useEffect(() => {
+    localStorage.setItem('inverseColor', inverseColor ? 'true' : 'false')
+  }, [inverseColor])
+  useEffect(() => {
+    localStorage.setItem('profitMode', profitMode)
+  }, [profitMode])
+  useEffect(() => {
+    localStorage.setItem('largeFont', largeFont ? 'true' : 'false')
+  }, [largeFont])
+  useEffect(() => {
+    localStorage.setItem('currency', currency)
+  }, [currency])
   const [isSorting, setIsSorting] = useState(false)
   const { data: items, revalidate, mutate } = useSWR(
     'items',
@@ -63,16 +86,25 @@ export default function Index() {
       isPaused: () => isSorting,
     },
   )
+  const rates = useRates()
   const totalPrice = useMemo(
     () =>
       sumBy(items, (item) =>
-        item.price === undefined ? NaN : item.amount * item.price,
+        item.price === undefined
+          ? NaN
+          : (item.amount * item.price * rates[currency]) / rates[item.currency],
       ),
-    [items],
+    [currency, items, rates],
   )
   const totalCost = useMemo(
-    () => sumBy(items, (item) => item.amount * (item.cost || 0)),
-    [items],
+    () =>
+      sumBy(
+        items,
+        (item) =>
+          (item.amount * (item.cost || 0) * rates[currency]) /
+          rates[item.currency],
+      ),
+    [currency, items, rates],
   )
   const isValidating = useMemo(() => some(items, (item) => item.isValidating), [
     items,
@@ -100,28 +132,6 @@ export default function Index() {
     },
     [items, mutate],
   )
-  const [inverseColor, setInverseColor] = useAtom(inverseColorAtom)
-  const [profitMode, setProfitMode] = useAtom(profitModeAtom)
-  const [largeFont, setLargeFont] = useAtom(largeFontAtom)
-  const [currency, setCurrency] = useAtom(currencyAtom)
-  useEffect(() => {
-    setInverseColor(localStorage.getItem('inverseColor') === 'true')
-    setProfitMode((localStorage.getItem('profitMode') || 'SHOW') as ProfitMode)
-    setLargeFont(localStorage.getItem('largeFont') === 'true')
-    setCurrency((localStorage.getItem('currency') || 'CNY') as Currency)
-  }, [setInverseColor, setProfitMode, setLargeFont, setCurrency])
-  useEffect(() => {
-    localStorage.setItem('inverseColor', inverseColor ? 'true' : 'false')
-  }, [inverseColor])
-  useEffect(() => {
-    localStorage.setItem('profitMode', profitMode)
-  }, [profitMode])
-  useEffect(() => {
-    localStorage.setItem('largeFont', largeFont ? 'true' : 'false')
-  }, [largeFont])
-  useEffect(() => {
-    localStorage.setItem('currency', currency)
-  }, [currency])
   const fontClassName = getFontClassName(largeFont)
   useEffect(() => {
     setExpanded(undefined)
@@ -274,15 +284,17 @@ export default function Index() {
               `}
               price={totalPrice}
               cost={totalCost}
+              currency={currency}
             />
           </div>
           <Profit
-            price={totalPrice}
-            cost={totalCost}
-            amount={1}
             className={css`
               align-self: flex-end;
             `}
+            price={totalPrice}
+            cost={totalCost}
+            amount={1}
+            currency={currency}
           />
         </div>
       </PixelContainer>

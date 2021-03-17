@@ -118,6 +118,7 @@ export default function ListItem(props: {
             price={item.price}
             cost={item.cost}
             amount={item.amount}
+            currency={item.currency}
           />
         </div>
         <Profit
@@ -127,6 +128,7 @@ export default function ListItem(props: {
           price={item.price}
           cost={item.cost}
           amount={item.amount}
+          currency={item.currency}
         />
         <br />
       </div>
