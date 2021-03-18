@@ -20,11 +20,12 @@ html * {
   font-weight: bold;
   font-smooth: never;
   -webkit-font-smoothing: none;
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
   cursor: url(/icons/cursor-default.png), auto;
-  -webkit-tap-highlight-color: transparent;
 }
 
 html body {
