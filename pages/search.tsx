@@ -4,7 +4,7 @@
 import { css, cx } from '@linaria/core'
 import maxBy from 'lodash/maxBy'
 import { useRouter } from 'next/dist/client/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAtom } from 'jotai'
 
 import { useSearch } from '../hooks/use-search'
@@ -21,8 +21,11 @@ export default function Search() {
   const router = useRouter()
   const [keyword, setKeyword] = useState('')
   const { data, isValidating } = useSearch(keyword)
-  const [largeFont] = useAtom(largeFontAtom)
+  const [largeFont, setLargeFont] = useAtom(largeFontAtom)
   const fontClassName = getFontClassName(largeFont)
+  useEffect(() => {
+    setLargeFont(localStorage.getItem('largeFont') === 'true')
+  }, [setLargeFont])
 
   return (
     <div
