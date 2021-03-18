@@ -312,7 +312,7 @@ export default function Index() {
           justify-content: flex-end;
         `}>
         <PixelLogo
-          href="https://web.okjike.com/u/d25026f2-18ce-48aa-9ea7-c05a25446368"
+          href="https://m.okjike.com/users/d25026f2-18ce-48aa-9ea7-c05a25446368"
           className={css`
             margin-right: 1em;
           `}
