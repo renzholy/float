@@ -109,14 +109,16 @@ export default function ListItem(props: {
         props.isExpanded
           ? css`
               .item-hover {
-                color: var(--color-primary-0);
+                color: var(--color-primary-0) !important;
               }
             `
           : undefined,
         css`
           margin-bottom: 1em;
-          &:hover .item-hover {
-            color: var(--color-primary-0);
+          @media (hover: hover) and (pointer: fine) {
+            &:hover .item-hover {
+              color: var(--color-primary-0);
+            }
           }
           &:active .item-hover {
             color: var(--color-primary-1);
@@ -213,8 +215,10 @@ export default function ListItem(props: {
                   css`
                     text-align: center;
                     color: var(--color-gray-1);
-                    &:hover {
-                      box-shadow: 0 0.125em 0 var(--color-gray-2);
+                    @media (hover: hover) and (pointer: fine) {
+                      &:hover {
+                        box-shadow: 0 0.125em 0 var(--color-gray-2);
+                      }
                     }
                     &:active {
                       box-shadow: 0 0.125em 0 var(--color-gray-1);

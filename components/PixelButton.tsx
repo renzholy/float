@@ -17,7 +17,7 @@ export default function PixelButton(props: {
         'nes-pointer',
         css`
           font-size: 1em;
-          outline: none !important;
+          outline: none;
           appearance: none;
           border-width: 0.25em;
           background-clip: padding-box;
@@ -37,19 +37,15 @@ export default function PixelButton(props: {
                 1 / 0.25em;
             }
           }
-          &:hover {
-            background-color: var(--color-gray-3);
-            box-shadow: inset -0.25em -0.25em var(--color-gray-1);
+          @media (hover: hover) and (pointer: fine) {
+            &:hover {
+              background-color: var(--color-gray-3);
+              box-shadow: inset -0.25em -0.25em var(--color-gray-1);
+            }
           }
           &:active {
             background-color: var(--color-gray-3);
             box-shadow: inset 0.25em 0.25em var(--color-gray-1);
-          }
-          &:disabled {
-            cursor: not-allowed;
-            opacity: 0.6;
-            background-color: var(--color-gray-2);
-            box-shadow: none;
           }
         `,
         props.className,

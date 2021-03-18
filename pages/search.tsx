@@ -71,11 +71,11 @@ export default function Search() {
                   css`
                     line-height: 1.5;
                     word-break: break-all;
-
-                    &:hover .item-hover {
-                      color: var(--color-primary-0);
+                    @media (hover: hover) and (pointer: fine) {
+                      &:hover .item-hover {
+                        color: var(--color-primary-0);
+                      }
                     }
-
                     &:active .item-hover {
                       color: var(--color-primary-1);
                     }

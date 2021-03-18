@@ -252,21 +252,23 @@ export default function Index() {
           ))}
         </SortableListContainer>
         <div
-          className={css`
-            line-height: 1.5;
-            margin-bottom: -0.5em;
-            display: flex;
-            flex-direction: column;
-            &:hover .item-hover {
-              color: var(--color-primary-0);
-            }
-            &:active .item-hover {
-              color: var(--color-primary-1);
-            }
-            &:hover {
-              cursor: url(/icons/cursor-pointer.png) 14 0, pointer;
-            }
-          `}
+          className={cx(
+            css`
+              line-height: 1.5;
+              margin-bottom: -0.5em;
+              display: flex;
+              flex-direction: column;
+              @media (hover: hover) and (pointer: fine) {
+                &:hover .item-hover {
+                  color: var(--color-primary-0);
+                }
+              }
+              &:active .item-hover {
+                color: var(--color-primary-1);
+              }
+            `,
+            'nes-pointer',
+          )}
           onClick={() => {
             setCurrency(
               (old) =>
