@@ -34,6 +34,7 @@ import {
   IconFontSizeLarge,
   IconGithub,
   IconInvisible,
+  IconJike,
   IconPercentage,
   IconPriceColor,
   IconPriceColorInverse,
@@ -310,6 +311,13 @@ export default function Index() {
           display: flex;
           justify-content: flex-end;
         `}>
+        <PixelLogo
+          href="https://web.okjike.com/u/d25026f2-18ce-48aa-9ea7-c05a25446368"
+          className={css`
+            margin-right: 1em;
+          `}
+          icon={<IconJike />}
+        />
         <PixelLogo
           href="https://twitter.com/RenzHoly"
           className={css`
