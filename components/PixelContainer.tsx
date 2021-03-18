@@ -10,8 +10,8 @@ export default function PixelContainer(props: {
     <div
       className={cx(
         css`
-          color: #212529;
-          border: 0.25em solid #212529;
+          color: var(--color-gray-0);
+          border: 0.25em solid var(--color-gray-0);
           padding: 2em;
         `,
         props.className,
@@ -22,7 +22,7 @@ export default function PixelContainer(props: {
             margin-top: -2.75em;
             margin-bottom: 0.5em;
             padding: 0.5em;
-            background-color: white;
+            background-color: var(--color-gray-4);
             display: block;
             width: fit-content;
           `}>

@@ -258,10 +258,10 @@ export default function Index() {
             display: flex;
             flex-direction: column;
             &:hover .item-hover {
-              color: #209cee;
+              color: var(--color-primary-0);
             }
             &:active .item-hover {
-              color: #006bb3;
+              color: var(--color-primary-1);
             }
             &:hover {
               cursor: url(/icons/cursor-pointer.png) 14 0, pointer;
@@ -281,7 +281,7 @@ export default function Index() {
             `}>
             <span
               className={css`
-                color: #adafbc;
+                color: var(--color-gray-1);
               `}>
               {currency}
             </span>

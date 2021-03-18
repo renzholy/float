@@ -109,17 +109,17 @@ export default function ListItem(props: {
         props.isExpanded
           ? css`
               .item-hover {
-                color: #209cee;
+                color: var(--color-primary-0);
               }
             `
           : undefined,
         css`
           margin-bottom: 1em;
           &:hover .item-hover {
-            color: #209cee;
+            color: var(--color-primary-0);
           }
           &:active .item-hover {
-            color: #006bb3;
+            color: var(--color-primary-1);
           }
         `,
       )}>
@@ -138,7 +138,7 @@ export default function ListItem(props: {
         <div>
           <span
             className={css`
-              color: #adafbc;
+              color: var(--color-gray-1);
             `}>
             {item.type}
             &nbsp;
@@ -212,12 +212,12 @@ export default function ListItem(props: {
                   'nes-pointer',
                   css`
                     text-align: center;
-                    color: #adafbc;
+                    color: var(--color-gray-1);
                     &:hover {
-                      box-shadow: 0 0.125em 0 #d3d3d3;
+                      box-shadow: 0 0.125em 0 var(--color-gray-2);
                     }
                     &:active {
-                      box-shadow: 0 0.125em 0 #adafbc;
+                      box-shadow: 0 0.125em 0 var(--color-gray-1);
                     }
                   `,
                 )}

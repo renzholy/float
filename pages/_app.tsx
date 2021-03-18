@@ -4,6 +4,7 @@ import React from 'react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 
+import './theme.css'
 import './global.css'
 
 function MyApp({ Component, pageProps }: AppProps) {

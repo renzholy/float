@@ -18,12 +18,12 @@ export default function Profit(props: {
   const [profitMode] = useAtom(profitModeAtom)
   const color = useMemo(() => {
     if (props.price === undefined) {
-      return '#adafbc'
+      return 'var(--color-gray-1)'
     }
     if (props.price - props.cost >= 0) {
-      return inverseColor ? '#92cc41' : '#e76e55'
+      return inverseColor ? 'var(--color-success-0)' : 'var(--color-error-0)'
     }
-    return inverseColor ? '#e76e55' : '#92cc41'
+    return inverseColor ? 'var(--color-error-0)' : 'var(--color-success-0)'
   }, [inverseColor, props.cost, props.price])
   const profit = useMemo(() => {
     if (props.price === undefined) {

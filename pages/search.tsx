@@ -70,11 +70,11 @@ export default function Search() {
                     word-break: break-all;
 
                     &:hover .item-hover {
-                      color: #209cee;
+                      color: var(--color-primary-0);
                     }
 
                     &:active .item-hover {
-                      color: #006bb3;
+                      color: var(--color-primary-1);
                     }
                   `,
                   'nes-pointer',
@@ -106,7 +106,7 @@ export default function Search() {
                 <br />
                 <span
                   className={css`
-                    color: #adafbc;
+                    color: var(--color-gray-1);
                   `}>
                   {item.type}
                   &nbsp;

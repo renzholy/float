@@ -27,8 +27,8 @@ export default function PixelButton(props: {
           background-repeat: no-repeat;
           width: 3em;
           height: 3em;
-          color: #212529;
-          background-color: #ffffff;
+          color: var(--color-gray-0);
+          background-color: var(--color-gray-4);
           border-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAUSURBVHgBY2AAAkVVzf8MyAwMAQBqbwW5b8ntjAAAAABJRU5ErkJggg==)
             1 / 0.25em;
           @media not all and (min-resolution: 0.001dpcm) {
@@ -38,17 +38,17 @@ export default function PixelButton(props: {
             }
           }
           &:hover {
-            background-color: #e7e7e7;
-            box-shadow: inset -0.25em -0.25em #adafbc;
+            background-color: var(--color-gray-3);
+            box-shadow: inset -0.25em -0.25em var(--color-gray-1);
           }
           &:active {
-            background-color: #e7e7e7;
-            box-shadow: inset 0.25em 0.25em #adafbc;
+            background-color: var(--color-gray-3);
+            box-shadow: inset 0.25em 0.25em var(--color-gray-1);
           }
           &:disabled {
             cursor: not-allowed;
             opacity: 0.6;
-            background-color: #d3d3d3;
+            background-color: var(--color-gray-2);
             box-shadow: none;
           }
         `,

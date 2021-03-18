@@ -61,7 +61,7 @@ export default function Calculation(props: {
     <span
       className={cx(
         css`
-          color: #d3d3d3;
+          color: var(--color-gray-2);
         `,
         props.className,
       )}>

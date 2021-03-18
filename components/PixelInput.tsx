@@ -24,7 +24,7 @@ export default function PixelInput(props: {
       className={cx(
         'nes-text',
         css`
-          color: #212529;
+          color: var(--color-gray-0);
           font-size: 1em;
           appearance: none;
           padding: 0.75em;
@@ -35,7 +35,7 @@ export default function PixelInput(props: {
           margin: 0;
           border-width: 0.25em;
           &::placeholder {
-            color: #d3d3d3;
+            color: var(--color-gray-2);
           }
         `,
         props.isError
