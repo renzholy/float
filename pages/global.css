@@ -25,7 +25,7 @@ html * {
 }
 
 html {
-  cursor: url(/icons/cursor-default.png), auto;
+  cursor: url(/cursors/cursor-default.png), auto;
 }
 
 html body {
@@ -35,9 +35,9 @@ html body {
 }
 
 .nes-pointer {
-  cursor: url(/icons/cursor-pointer.png) 14 0, pointer;
+  cursor: url(/cursors/cursor-pointer.png) 14 0, pointer;
 }
 
 .nes-text {
-  cursor: url(/icons/cursor-text.png) 16 16, text;
+  cursor: url(/cursors/cursor-text.png) 16 16, text;
 }
