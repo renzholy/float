@@ -24,7 +24,7 @@
     "next": "10.0.9",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-sortable-hoc": "^1.11.0",
+    "react-sortable-hoc": "^2.0.0",
     "swr": "^0.5.3"
   },
   "devDependencies": {
