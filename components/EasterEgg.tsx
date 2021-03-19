@@ -7,6 +7,8 @@ import { useCallback, useState } from 'react'
 import { IconBox, IconCoin } from '../assets/icons'
 import { SVG2DataURI } from '../libs/svg'
 
+const DURATION = 400
+
 function Coin() {
   return (
     <div
@@ -26,10 +28,10 @@ function Coin() {
             top: -150px;
           }
           to {
-            top: -80px;
+            top: -70px;
           }
         }
-        animation: bounce 400ms cubic-bezier(0.3, 2.4, 0.85, 2.5);
+        animation: bounce ${DURATION}ms cubic-bezier(0.3, 2.4, 0.85, 2.5);
       `}
       style={{
         backgroundImage: SVG2DataURI(<IconCoin />),
@@ -43,7 +45,7 @@ export default function EasterEgg() {
   const [show, setShow] = useState(false)
   const handleClick = useCallback(() => {
     setShow(true)
-    window.navigator.vibrate([20])
+    window.navigator.vibrate([10])
     const id = Math.random().toString()
     setCoins((old) => ({
       ...old,
@@ -54,7 +56,7 @@ export default function EasterEgg() {
         const { [id]: remove, ...rest } = old
         return rest
       })
-    }, 400)
+    }, DURATION * 0.9)
   }, [])
 
   return (
