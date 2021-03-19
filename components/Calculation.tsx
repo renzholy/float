@@ -57,7 +57,9 @@ export default function Calculation(props: {
     if (rate === 1) {
       return formatNumber(props.price)
     }
-    return `${formatNumber(props.price)} x ${formatNumber(rate)}`
+    return `${formatNumber(props.price)} x ${formatNumber(
+      rate,
+    )} = ${formatNumber(props.price * rate)}`
   }, [profitMode, props, rate])
 
   return (
