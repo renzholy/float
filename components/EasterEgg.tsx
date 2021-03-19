@@ -45,7 +45,12 @@ export default function EasterEgg() {
   const [show, setShow] = useState(false)
   const handleClick = useCallback(() => {
     setShow(true)
-    window.navigator.vibrate([10])
+    if (
+      'vibrate' in window.navigator &&
+      typeof window.navigator.vibrate === 'function'
+    ) {
+      window.navigator.vibrate([10])
+    }
     const id = Math.random().toString()
     setCoins((old) => ({
       ...old,
