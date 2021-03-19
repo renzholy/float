@@ -16,6 +16,7 @@ export default function PixelButton(props: {
       className={cx(
         'nes-pointer',
         css`
+          font-size: 1em;
           outline: none;
           appearance: none;
           border-width: 0.25em;
