@@ -58,7 +58,7 @@ export default function Search() {
         />
       </div>
       {data.length || keyword ? (
-        <PixelContainer title={isValidating ? '搜索中...' : '搜索结果'}>
+        <PixelContainer title={isValidating ? '搜索中…' : '搜索结果'}>
           <div
             className={css`
               & > div + div {

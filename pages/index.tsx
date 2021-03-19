@@ -222,7 +222,7 @@ export default function Index() {
           />
         </span>
       </div>
-      <PixelContainer title={isValidating ? '更新中...' : '浮动收益'}>
+      <PixelContainer title={isValidating ? '更新中…' : '浮动收益'}>
         <SortableListContainer
           axis="y"
           lockAxis="y"
