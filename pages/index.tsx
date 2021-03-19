@@ -43,6 +43,7 @@ import {
 } from '../assets/icons'
 import { getFontClassName } from '../libs/font'
 import { useRates } from '../hooks/use-rates'
+import EasterEgg from '../components/EasterEgg'
 
 const SortableListItem = SortableElement(ListItem)
 
@@ -311,23 +312,27 @@ export default function Index() {
         className={css`
           margin-top: 1em;
           display: flex;
-          justify-content: flex-end;
+          justify-content: space-between;
+          line-height: 0;
         `}>
-        <PixelLogo
-          href="https://m.okjike.com/users/d25026f2-18ce-48aa-9ea7-c05a25446368"
-          className={css`
-            margin-right: 1em;
-          `}
-          icon={<IconJike />}
-        />
-        <PixelLogo
-          href="https://twitter.com/RenzHoly"
-          className={css`
-            margin-right: 1em;
-          `}
-          icon={<IconTwitter />}
-        />
-        <PixelLogo icon={<IconGithub />} href="https://github.com/RenzHoly" />
+        <EasterEgg />
+        <div>
+          <PixelLogo
+            href="https://m.okjike.com/users/d25026f2-18ce-48aa-9ea7-c05a25446368"
+            className={css`
+              margin-right: 1em;
+            `}
+            icon={<IconJike />}
+          />
+          <PixelLogo
+            href="https://twitter.com/RenzHoly"
+            className={css`
+              margin-right: 1em;
+            `}
+            icon={<IconTwitter />}
+          />
+          <PixelLogo icon={<IconGithub />} href="https://github.com/RenzHoly" />
+        </div>
       </div>
     </div>
   )
