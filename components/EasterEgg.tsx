@@ -38,7 +38,9 @@ function Coin() {
 
 export default function EasterEgg() {
   const [coins, setCoins] = useState<{ [key: string]: boolean }>({})
+  const [show, setShow] = useState(false)
   const handleClick = useCallback(() => {
+    setShow(true)
     window.navigator.vibrate([20])
     const id = Math.random().toString()
     setCoins((old) => ({
@@ -78,6 +80,7 @@ export default function EasterEgg() {
           `,
         )}
         style={{
+          opacity: show ? 1 : 0,
           backgroundImage: SVG2DataURI(<IconBox />),
         }}
         onClick={handleClick}
