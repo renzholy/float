@@ -286,14 +286,16 @@ export default function Index() {
               `}>
               {currency}
             </span>
-            <Calculation
-              className={css`
-                align-self: flex-end;
-              `}
-              price={totalPrice}
-              cost={totalCost}
-              currency={currency}
-            />
+            {profitMode === 'SHOW' ? (
+              <Calculation
+                className={css`
+                  align-self: flex-end;
+                `}
+                price={totalPrice}
+                cost={totalCost}
+                currency={currency}
+              />
+            ) : null}
           </div>
           <Profit
             className={css`
