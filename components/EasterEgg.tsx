@@ -15,16 +15,18 @@ function Coin() {
         width: 3em;
         height: 3em;
         line-height: 0;
-        background-size: 2em;
+        background-size: 2.5em;
         background-position: 50%;
         background-repeat: no-repeat;
         @keyframes bounce {
-          from,
-          to {
-            top: -50px;
+          from {
+            top: 0px;
           }
           80% {
-            top: -100px;
+            top: -150px;
+          }
+          to {
+            top: -80px;
           }
         }
         animation: bounce 400ms cubic-bezier(0.3, 2.4, 0.85, 2.5);
@@ -74,7 +76,7 @@ export default function EasterEgg() {
             width: 3em;
             height: 3em;
             line-height: 0;
-            background-size: 2.5em;
+            background-size: 3em;
             background-position: 50%;
             background-repeat: no-repeat;
           `,
