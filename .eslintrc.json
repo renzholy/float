@@ -19,6 +19,7 @@
   "rules": {
     "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": "off",
+    "import/order": "warn",
     "react/destructuring-assignment": "off",
     "react/jsx-closing-bracket-location": "off",
     "react/prop-types": "off",
@@ -27,12 +28,11 @@
     "react/jsx-one-expression-per-line": "off",
     "react/jsx-wrap-multilines": "off",
     "react/require-default-props": "off",
-    "no-underscore-dangle": "off",
-    "no-nested-ternary": "off",
-    "@typescript-eslint/naming-convention": "off",
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
+    "no-underscore-dangle": "off",
+    "no-nested-ternary": "off",
     "no-bitwise": "off"
   }
 }

@@ -1,7 +1,7 @@
 import flatten from 'lodash/flatten'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { SearchItem, ItemType } from '../../libs/types'
+import { ItemType, SearchItem } from '../../libs/types'
 
 function unescapeUnicode(text?: string): string {
   return (

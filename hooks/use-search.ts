@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import useSWR from 'swr'
 
-import { SearchItem, ItemType } from '../libs/types'
+import { ItemType, SearchItem } from '../libs/types'
 
 function useSearchServer(keyword: string) {
   return useSWR<SearchItem[]>(

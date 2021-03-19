@@ -2,7 +2,7 @@ import { useAtom } from 'jotai'
 import { useMemo } from 'react'
 import { useRate } from '../hooks/use-rate'
 
-import { profitModeAtom, inverseColorAtom } from '../libs/atoms'
+import { inverseColorAtom, profitModeAtom } from '../libs/atoms'
 import { formatNumber } from '../libs/formatter'
 import { Currency } from '../libs/types'
 

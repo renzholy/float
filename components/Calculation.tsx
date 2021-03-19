@@ -1,8 +1,8 @@
-import { cx, css } from '@linaria/core'
+import { css, cx } from '@linaria/core'
 import { useAtom } from 'jotai'
 import { useMemo } from 'react'
-import { useRate } from '../hooks/use-rate'
 
+import { useRate } from '../hooks/use-rate'
 import { profitModeAtom } from '../libs/atoms'
 import { formatNumber } from '../libs/formatter'
 import { Currency } from '../libs/types'

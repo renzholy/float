@@ -23,10 +23,10 @@ import Calculation from '../components/Calculation'
 import db from '../libs/db'
 import { Currency, ItemType, ProfitMode } from '../libs/types'
 import {
-  profitModeAtom,
+  currencyAtom,
   inverseColorAtom,
   largeFontAtom,
-  currencyAtom,
+  profitModeAtom,
 } from '../libs/atoms'
 import {
   IconAdd,
