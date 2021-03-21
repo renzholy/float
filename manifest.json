@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "Float - 浮动收益",
+  "description": "随时随地查看浮动收益，支持股票、基金、外汇、加密货币。",
+  "version": "0.0.1",
+  "icons": {
+    "16": "/chrome/chrome16.png",
+    "32": "/chrome/chrome32.png",
+    "48": "/chrome/chrome48.png",
+    "128": "/chrome/chrome128.png"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistence": false
+  },
+  "homepage_url": "https://float.watch",
+  "browser_action": {
+    "default_title": "Float - 浮动收益",
+    "default_popup": "index.html"
+  }
+}

@@ -38,7 +38,6 @@ export default function Search() {
       <div
         className={css`
           display: flex;
-          margin-bottom: 1em;
         `}>
         <PixelButton
           icon={<IconClose />}
@@ -58,7 +57,11 @@ export default function Search() {
         />
       </div>
       {data.length || keyword ? (
-        <PixelContainer title={isValidating ? '搜索中…' : '搜索结果'}>
+        <PixelContainer
+          title={isValidating ? '搜索中…' : '搜索结果'}
+          className={css`
+            margin-top: 1em;
+          `}>
           <div
             className={css`
               & > div + div {

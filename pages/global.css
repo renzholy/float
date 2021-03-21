@@ -25,6 +25,7 @@ html * {
 }
 
 html {
+  min-width: 360px;
   cursor: url(/cursors/cursor-default.png), auto;
 }
 

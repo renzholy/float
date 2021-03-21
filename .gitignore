@@ -35,3 +35,5 @@ yarn-error.log*
 
 # linaria
 .linaria-cache/
+
+extension.zip

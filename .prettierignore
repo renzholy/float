@@ -18,3 +18,4 @@ LICENSE
 .linaria-cache/
 yarn.lock
 .husky/
+extension.sh

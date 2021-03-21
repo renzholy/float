@@ -8,7 +8,9 @@ function useSearchServer(keyword: string) {
     keyword ? ['searchServer', keyword] : null,
     async () =>
       fetch(
-        `/api/search?keyword=${encodeURIComponent(keyword)}`,
+        `${
+          'chrome' in window ? 'https://float.watch' : ''
+        }/api/search?keyword=${encodeURIComponent(keyword)}`,
       ).then((response) => response.json()),
     {
       revalidateOnFocus: false,
