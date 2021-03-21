@@ -1,8 +1,7 @@
-const numberFormat = Intl.NumberFormat([], {
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
-})
+const numberFormat = Intl.NumberFormat()
 
 export function formatNumber(num: number) {
-  return Number.isNaN(num) ? '-' : numberFormat.format(num)
+  return Number.isNaN(num)
+    ? '-'
+    : numberFormat.format(parseFloat(num.toPrecision(5)))
 }
