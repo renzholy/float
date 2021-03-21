@@ -24,7 +24,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const list: SearchItem[][] = await Promise.all([
     fetch(
       `https://smartbox.gtimg.cn/s3/?v=2&q=${encodeURIComponent(keyword)}&t=gp`,
-      {},
     )
       .then((response) => response.text())
       .then(parseText)
@@ -40,7 +39,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       ),
     fetch(
       `https://smartbox.gtimg.cn/s3/?v=2&q=${encodeURIComponent(keyword)}&t=us`,
-      {},
     )
       .then((response) => response.text())
       .then(parseText)
@@ -54,7 +52,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       ),
     fetch(
       `https://smartbox.gtimg.cn/s3/?v=2&q=${encodeURIComponent(keyword)}&t=hk`,
-      {},
     )
       .then((response) => response.text())
       .then(parseText)
@@ -68,7 +65,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       ),
     fetch(
       `https://smartbox.gtimg.cn/s3/?v=2&q=${encodeURIComponent(keyword)}&t=jj`,
-      {},
     )
       .then((response) => response.text())
       .then(parseText)
