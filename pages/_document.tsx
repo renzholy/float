@@ -56,7 +56,7 @@ export default class extends Document {
           <link rel="manifest" href="/site.webmanifest" />
           <script
             async
-            src="https://www.googletagmanager.com/gtag/js?id=G-ME74X8YQ5V"
+            src="https://www.googletagmanager.com/gtag/js?id=G-SNBS23GLGS"
           />
           <script
             // eslint-disable-next-line react/no-danger
@@ -66,7 +66,7 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 
-gtag('config', 'G-ME74X8YQ5V');`,
+gtag('config', 'G-SNBS23GLGS');`,
             }}
           />
         </Head>
