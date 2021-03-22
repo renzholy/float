@@ -19,3 +19,4 @@ LICENSE
 yarn.lock
 .husky/
 extension.sh
+out/
