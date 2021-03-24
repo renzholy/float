@@ -214,6 +214,9 @@ export default function Index() {
               key={item.type + item.id}
               index={index}
               value={item}
+              className={css`
+                margin-top: 1em;
+              `}
               isExpanded={
                 item.type === expanded?.[0] && item.id === expanded[1]
               }

@@ -43,7 +43,6 @@ export default function Total(props: {
       className={cx(
         css`
           line-height: 1.5;
-          margin-bottom: -0.5em;
           display: flex;
           flex-direction: column;
           @media (hover: hover) and (pointer: fine) {
