@@ -12,7 +12,7 @@ export default function PixelContainer(props: {
         css`
           color: var(--color-gray-0);
           border: 0.25em solid var(--color-gray-0);
-          padding: 2em 2em 1.5em 2em;
+          padding: 2em;
         `,
         props.className,
       )}>
