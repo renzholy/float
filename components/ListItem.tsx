@@ -170,7 +170,6 @@ export default function ListItem(props: {
       {props.isExpanded ? (
         <div
           className={css`
-            margin-top: -1em;
             display: flex;
             align-items: flex-end;
           `}
