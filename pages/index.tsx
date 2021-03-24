@@ -199,6 +199,7 @@ export default function Index() {
         </span>
       </div>
       <PixelContainer title={isValidating ? '更新中…' : '浮动收益'}>
+        <Total items={items} profitMode={profitMode} />
         <SortableListContainer
           axis="y"
           lockAxis="y"
@@ -227,7 +228,6 @@ export default function Index() {
             />
           ))}
         </SortableListContainer>
-        <Total items={items} profitMode={profitMode} />
       </PixelContainer>
       <div
         className={css`
