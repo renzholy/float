@@ -18,6 +18,7 @@ import { IconTrash } from '../assets/icons'
 import { useRates } from '../hooks/use-rates'
 
 export default function ListItem(props: {
+  className?: string
   value: Item
   isExpanded: boolean
   onClick(): void
@@ -114,7 +115,6 @@ export default function ListItem(props: {
             `
           : undefined,
         css`
-          margin-bottom: 1em;
           @media (hover: hover) and (pointer: fine) {
             &:hover .item-hover {
               color: var(--color-primary-0);
@@ -124,6 +124,7 @@ export default function ListItem(props: {
             color: var(--color-primary-1);
           }
         `,
+        props.className,
       )}>
       <div
         className={cx(
@@ -165,7 +166,6 @@ export default function ListItem(props: {
           amount={item.amount}
           currency={item.currency}
         />
-        <br />
       </div>
       {props.isExpanded ? (
         <div

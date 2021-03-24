@@ -3,7 +3,6 @@
 
 import { css, cx } from '@linaria/core'
 import orderBy from 'lodash/orderBy'
-import sumBy from 'lodash/sumBy'
 import some from 'lodash/some'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
@@ -15,9 +14,8 @@ import { useAtom } from 'jotai'
 import ListItem from '../components/ListItem'
 import PixelContainer from '../components/PixelContainer'
 import PixelButton from '../components/PixelButton'
-import Profit from '../components/Profit'
 import PixelLogo from '../components/PixelLogo'
-import Calculation from '../components/Calculation'
+import Total from '../components/Total'
 import db from '../libs/db'
 import { Currency, ItemType, ProfitMode } from '../libs/types'
 import {
@@ -40,7 +38,6 @@ import {
   IconVisible,
 } from '../assets/icons'
 import { getFontClassName } from '../libs/font'
-import { useRates } from '../hooks/use-rates'
 import EasterEgg from '../components/EasterEgg'
 
 const SortableListItem = SortableElement(ListItem)
@@ -85,26 +82,6 @@ export default function Index() {
       dedupingInterval: 1000,
       isPaused: () => isSorting,
     },
-  )
-  const rates = useRates()
-  const totalPrice = useMemo(
-    () =>
-      sumBy(items, (item) =>
-        item.price === undefined
-          ? NaN
-          : (item.amount * item.price * rates[currency]) / rates[item.currency],
-      ),
-    [currency, items, rates],
-  )
-  const totalCost = useMemo(
-    () =>
-      sumBy(
-        items,
-        (item) =>
-          (item.amount * (item.cost || 0) * rates[currency]) /
-          rates[item.currency],
-      ),
-    [currency, items, rates],
   )
   const isValidating = useMemo(() => some(items, (item) => item.isValidating), [
     items,
@@ -222,6 +199,7 @@ export default function Index() {
         </span>
       </div>
       <PixelContainer title={isValidating ? '更新中…' : '浮动收益'}>
+        <Total items={items} profitMode={profitMode} />
         <SortableListContainer
           axis="y"
           lockAxis="y"
@@ -236,6 +214,9 @@ export default function Index() {
               key={item.type + item.id}
               index={index}
               value={item}
+              className={css`
+                margin-top: 1em;
+              `}
               isExpanded={
                 item.type === expanded?.[0] && item.id === expanded[1]
               }
@@ -250,63 +231,6 @@ export default function Index() {
             />
           ))}
         </SortableListContainer>
-        <div
-          className={cx(
-            css`
-              line-height: 1.5;
-              margin-bottom: -0.5em;
-              display: flex;
-              flex-direction: column;
-              @media (hover: hover) and (pointer: fine) {
-                &:hover .item-hover {
-                  color: var(--color-primary-0);
-                }
-              }
-              &:active .item-hover {
-                color: var(--color-primary-1);
-              }
-            `,
-            'nes-pointer',
-          )}
-          onClick={() => {
-            setCurrency(
-              (old) =>
-                ({ CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[old] as Currency),
-            )
-          }}>
-          <span className="item-hover">总计</span>
-          <div
-            className={css`
-              display: flex;
-              justify-content: space-between;
-            `}>
-            <span
-              className={css`
-                color: var(--color-gray-1);
-              `}>
-              {currency}
-            </span>
-            {profitMode === 'SHOW' ? (
-              <Calculation
-                className={css`
-                  align-self: flex-end;
-                `}
-                price={totalPrice}
-                cost={totalCost}
-                currency={currency}
-              />
-            ) : null}
-          </div>
-          <Profit
-            className={css`
-              align-self: flex-end;
-            `}
-            price={totalPrice}
-            cost={totalCost}
-            amount={1}
-            currency={currency}
-          />
-        </div>
       </PixelContainer>
       <div
         className={css`
