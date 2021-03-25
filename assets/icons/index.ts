@@ -4,9 +4,11 @@ import IconAdd from './add.svg'
 import IconBox from './box.svg'
 import IconClose from './close.svg'
 import IconCoin from './coin.svg'
+import IconExport from './export.svg'
 import IconFontSizeLarge from './font-size-large.svg'
 import IconFontSize from './font-size.svg'
 import IconGithub from './github.svg'
+import IconImport from './import.svg'
 import IconInvisible from './invisible.svg'
 import IconJike from './jike.svg'
 import IconPercentage from './percentage.svg'
@@ -21,9 +23,11 @@ export {
   IconBox,
   IconClose,
   IconCoin,
+  IconExport,
   IconFontSizeLarge,
   IconFontSize,
   IconGithub,
+  IconImport,
   IconInvisible,
   IconJike,
   IconPercentage,
