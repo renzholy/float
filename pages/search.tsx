@@ -39,11 +39,12 @@ export default function Search() {
         items.map((item) => db.items.put(item, [item.type, item.id])),
       )
       alert('导入成功')
+      router.push('/')
     } catch (err) {
       console.error(err)
       alert('解析数据出错')
     }
-  }, [])
+  }, [router])
   const handleExport = useCallback(async () => {
     const items = await db.items.toArray()
     await navigator.clipboard.writeText(
