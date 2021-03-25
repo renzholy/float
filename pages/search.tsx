@@ -87,74 +87,65 @@ export default function Search() {
         className={css`
           margin-top: 1em;
         `}>
-        {data.length ? (
-          <div
-            className={css`
-              & > div + div {
-                margin-top: 1em;
-              }
-            `}>
-            {data.map((item) => (
-              <div
-                className={cx(
-                  css`
-                    line-height: 1.5;
-                    word-break: break-all;
-                    @media (hover: hover) and (pointer: fine) {
-                      &:hover .item-hover {
-                        color: var(--color-primary-0);
-                      }
+        <div
+          className={css`
+            & > div + div {
+              margin-top: 1em;
+            }
+          `}>
+          {data.map((item) => (
+            <div
+              className={cx(
+                css`
+                  line-height: 1.5;
+                  word-break: break-all;
+                  @media (hover: hover) and (pointer: fine) {
+                    &:hover .item-hover {
+                      color: var(--color-primary-0);
                     }
-                    &:active .item-hover {
-                      color: var(--color-primary-1);
-                    }
-                  `,
-                  'nes-pointer',
-                )}
-                key={item.type + item.id}
-                onClick={async () => {
-                  const items = await db.items.toArray()
-                  const order = (maxBy(items, 'order')?.order || 0) + 1
-                  await db.items.put(
-                    {
-                      ...item,
-                      order,
-                      amount: 1,
-                      cost: 0,
-                      currency: {
-                        [ItemType.FOREX]: 'CNY',
-                        [ItemType.CRYPTO]: 'USD',
-                        [ItemType.STOCK_CN]: 'CNY',
-                        [ItemType.STOCK_HK]: 'HKD',
-                        [ItemType.STOCK_US]: 'USD',
-                        [ItemType.FUND]: 'CNY',
-                      }[item.type] as Currency,
-                    },
-                    [item.type, item.id],
-                  )
-                  router.push('/')
-                }}>
-                <span className="item-hover">{item.name}</span>
-                <br />
-                <span
-                  className={css`
-                    color: var(--color-gray-1);
-                  `}>
-                  {item.type}
-                  &nbsp;
-                  {item.code}
-                </span>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <span
-            className={css`
-              color: var(--color-gray-1);
-            `}>
-            No Result.
-          </span>
-        )}
+                  }
+                  &:active .item-hover {
+                    color: var(--color-primary-1);
+                  }
+                `,
+                'nes-pointer',
+              )}
+              key={item.type + item.id}
+              onClick={async () => {
+                const items = await db.items.toArray()
+                const order = (maxBy(items, 'order')?.order || 0) + 1
+                await db.items.put(
+                  {
+                    ...item,
+                    order,
+                    amount: 1,
+                    cost: 0,
+                    currency: {
+                      [ItemType.FOREX]: 'CNY',
+                      [ItemType.CRYPTO]: 'USD',
+                      [ItemType.STOCK_CN]: 'CNY',
+                      [ItemType.STOCK_HK]: 'HKD',
+                      [ItemType.STOCK_US]: 'USD',
+                      [ItemType.FUND]: 'CNY',
+                    }[item.type] as Currency,
+                  },
+                  [item.type, item.id],
+                )
+                router.push('/')
+              }}>
+              <span className="item-hover">{item.name}</span>
+              <br />
+              <span
+                className={css`
+                  color: var(--color-gray-1);
+                `}>
+                {item.type}
+                &nbsp;
+                {item.code}
+              </span>
+            </div>
+          ))}
+        </div>
       </PixelContainer>
       <div
         className={css`

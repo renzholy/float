@@ -14,7 +14,8 @@ export default function PixelLogo(props: {
   return (
     <a
       href={props.href}
-      target="_black"
+      target="_blank"
+      rel="noreferrer"
       className={cx(
         css`
           appearance: none;
