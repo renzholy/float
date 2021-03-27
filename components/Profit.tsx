@@ -40,7 +40,7 @@ export default function Profit(props: {
       const percentage =
         props.cost === 0
           ? 100
-          : formatNumber(((props.price - props.cost) / props.cost) * 100)
+          : formatNumber(((props.price - props.cost) / props.cost) * 100, 4)
       return props.price - props.cost >= 0
         ? `+${percentage}%`
         : `${percentage}%`
