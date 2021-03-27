@@ -5,7 +5,6 @@
 
 import { css, cx } from '@linaria/core'
 import { useEffect, useState } from 'react'
-import throttle from 'lodash/throttle'
 
 import { usePrice } from '../hooks/use-price'
 import db from '../libs/db'
@@ -42,54 +41,32 @@ export default function ListItem(props: {
   const [amount, setAmount] = useState('')
   useEffect(() => {
     if (item.amount !== undefined) {
-      setAmount(item.amount.toString())
+      setAmount((old) => (!old ? item.amount.toString() : old))
     }
   }, [item.amount])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(
-    throttle(
-      () => {
-        if (!props.isExpanded) {
-          return
-        }
-        db.items.update([item.type, item.id], {
-          amount: Number.isNaN(parseFloat(amount)) ? 1 : parseFloat(amount),
-        })
-      },
-      300,
-      {
-        leading: true,
-        trailing: true,
-      },
-    ),
-    [amount, item.id, item.type, props.isExpanded],
-  )
+  useEffect(() => {
+    if (!props.isExpanded) {
+      return
+    }
+    db.items.update([item.type, item.id], {
+      amount: Number.isNaN(parseFloat(amount)) ? 1 : parseFloat(amount),
+    })
+  }, [amount, item.id, item.type, props.isExpanded])
   // Cost
   const [cost, setCost] = useState('')
   useEffect(() => {
     if (item.cost !== undefined) {
-      setCost(item.cost.toString())
+      setCost((old) => (!old ? item.cost.toString() : old))
     }
   }, [item.cost])
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(
-    throttle(
-      () => {
-        if (!props.isExpanded) {
-          return
-        }
-        db.items.update([item.type, item.id], {
-          cost: Number.isNaN(parseFloat(cost)) ? 0 : parseFloat(cost),
-        })
-      },
-      300,
-      {
-        leading: true,
-        trailing: true,
-      },
-    ),
-    [cost, item.id, item.type, props.isExpanded],
-  )
+  useEffect(() => {
+    if (!props.isExpanded) {
+      return
+    }
+    db.items.update([item.type, item.id], {
+      cost: Number.isNaN(parseFloat(cost)) ? 0 : parseFloat(cost),
+    })
+  }, [cost, item.id, item.type, props.isExpanded])
   // Currency
   const [currency, setCurrency] = useState<Currency>('CNY')
   useEffect(() => {
