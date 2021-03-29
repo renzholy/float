@@ -139,9 +139,9 @@ export default function Search() {
                 className={css`
                   color: var(--color-gray-1);
                 `}>
-                {item.type}
-                &nbsp;
                 {item.code}
+                &nbsp;
+                {item.type}
               </span>
             </div>
           ))}

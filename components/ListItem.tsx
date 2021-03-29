@@ -120,9 +120,9 @@ export default function ListItem(props: {
             className={css`
               color: var(--color-gray-1);
             `}>
-            {item.type}
-            &nbsp;
             {item.code}
+            &nbsp;
+            {item.type}
           </span>
           <Calculation
             className={css`
