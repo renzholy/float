@@ -16,7 +16,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="description"
           content="随时随地查看浮动收益，支持股票、基金、外汇、加密货币。"
         />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover"
+          name="viewport"
+        />
       </Head>
       <Component {...pageProps} />
     </>
