@@ -8,13 +8,13 @@ import { formatNumber } from '../libs/formatter'
 import { Currency } from '../libs/types'
 
 /**
- * (price - cost) x amount =
+ * (price - cost) × amount =
  * price - cost =
- * price x amount =
+ * price × amount =
  *
- * (price - cost) x rate x amount =
- * (price - cost) x rate =
- * price x rate x amount =
+ * (price - cost) × rate × amount =
+ * (price - cost) × rate =
+ * price × rate × amount =
  */
 export default function Calculation(props: {
   className?: string
@@ -36,28 +36,28 @@ export default function Calculation(props: {
       if (rate === 1) {
         return 'amount' in props && props.amount !== undefined
           ? props.cost === 0
-            ? `${formatNumber(props.price)} x ${formatNumber(props.amount)} =`
+            ? `${formatNumber(props.price)} × ${formatNumber(props.amount)} =`
             : `(${formatNumber(props.price)} - ${formatNumber(
                 props.cost,
-              )}) x ${formatNumber(props.amount)} =`
+              )}) × ${formatNumber(props.amount)} =`
           : `${formatNumber(props.price)} - ${formatNumber(props.cost)} =`
       }
       return 'amount' in props && props.amount !== undefined
         ? props.cost === 0
-          ? `${formatNumber(props.price)} x ${formatNumber(
+          ? `${formatNumber(props.price)} × ${formatNumber(
               rate,
-            )} x ${formatNumber(props.amount)} =`
+            )} × ${formatNumber(props.amount)} =`
           : `(${formatNumber(props.price)} - ${formatNumber(
               props.cost,
-            )}) x ${formatNumber(rate)} x ${formatNumber(props.amount)} =`
+            )}) × ${formatNumber(rate)} × ${formatNumber(props.amount)} =`
         : `(${formatNumber(props.price)} - ${formatNumber(
             props.cost,
-          )}) x ${formatNumber(rate)} =`
+          )}) × ${formatNumber(rate)} =`
     }
     if (rate === 1) {
       return formatNumber(props.price)
     }
-    return `${formatNumber(props.price)} x ${formatNumber(
+    return `${formatNumber(props.price)} × ${formatNumber(
       rate,
     )} = ${formatNumber(props.price * rate)}`
   }, [profitMode, props, rate])
