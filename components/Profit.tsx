@@ -38,7 +38,11 @@ export default function Profit(props: {
     }
     if (profitMode === 'PERCENTAGE') {
       return numeral(
-        props.cost === 0 ? 1 : (props.price - props.cost) / props.cost,
+        props.cost === 0
+          ? props.amount === 0
+            ? 0
+            : 1
+          : (props.price - props.cost) / props.cost,
       ).format('+0,0.0%')
     }
     return null

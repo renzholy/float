@@ -118,7 +118,7 @@ export default function Search() {
                   {
                     ...item,
                     order,
-                    amount: 1,
+                    amount: 0,
                     cost: 0,
                     currency: {
                       [ItemType.FOREX]: 'CNY',
