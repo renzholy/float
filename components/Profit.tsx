@@ -1,9 +1,9 @@
 import { useAtom } from 'jotai'
 import { useMemo } from 'react'
-import { useRate } from '../hooks/use-rate'
+import numeral from 'numeral'
 
+import { useRate } from '../hooks/use-rate'
 import { inverseColorAtom, profitModeAtom } from '../libs/atoms'
-import { formatNumber } from '../libs/formatter'
 import { Currency } from '../libs/types'
 
 export default function Profit(props: {
@@ -31,19 +31,19 @@ export default function Profit(props: {
     }
     const num = (props.price - props.cost) * rate * props.amount
     if (profitMode === 'SHOW') {
-      return num >= 0 ? `+${formatNumber(num)}` : formatNumber(num)
+      return numeral(num).format('+0,0.00')
     }
     if (profitMode === 'HIDE') {
       return num >= 0 ? '+***' : '-***'
     }
     if (profitMode === 'PERCENTAGE') {
-      const percentage =
+      return numeral(
         props.cost === 0
-          ? 100
-          : formatNumber(((props.price - props.cost) / props.cost) * 100, 4)
-      return props.price - props.cost >= 0
-        ? `+${percentage}%`
-        : `${percentage}%`
+          ? props.amount === 0
+            ? 0
+            : 1
+          : (props.price - props.cost) / props.cost,
+      ).format('+0,0.0%')
     }
     return null
   }, [profitMode, props.amount, props.cost, props.price, rate])

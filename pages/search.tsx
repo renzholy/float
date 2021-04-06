@@ -8,6 +8,7 @@ import omit from 'lodash/omit'
 import { useRouter } from 'next/dist/client/router'
 import { useCallback, useEffect, useState } from 'react'
 import { useAtom } from 'jotai'
+import useSWR from 'swr'
 
 import { useSearch } from '../hooks/use-search'
 import db from '../libs/db'
@@ -17,7 +18,7 @@ import PixelButton from '../components/PixelButton'
 import { IconClose, IconExport, IconImport } from '../assets/icons'
 import { getFontClassName } from '../libs/font'
 import { largeFontAtom } from '../libs/atoms'
-import { Currency, Item, ItemType } from '../libs/types'
+import { Currency, Item, ItemType, SearchItem } from '../libs/types'
 
 export default function Search() {
   const router = useRouter()
@@ -45,13 +46,40 @@ export default function Search() {
       alert('解析数据出错')
     }
   }, [router])
+  const { data: items = [], revalidate } = useSWR('export', () =>
+    db.items.toArray(),
+  )
   const handleExport = useCallback(async () => {
-    const items = await db.items.toArray()
     await navigator.clipboard.writeText(
       JSON.stringify(items.map((item) => omit(item, 'isValidating'))),
     )
     alert('已导出到剪贴板')
-  }, [])
+  }, [items])
+  const handleAddItem = useCallback(
+    async (item: SearchItem) => {
+      await revalidate()
+      const order = (maxBy(items, 'order')?.order || 0) + 1
+      await db.items.put(
+        {
+          ...item,
+          order,
+          amount: 0,
+          cost: 0,
+          currency: {
+            [ItemType.FOREX]: 'CNY',
+            [ItemType.CRYPTO]: 'USD',
+            [ItemType.STOCK_CN]: 'CNY',
+            [ItemType.STOCK_HK]: 'HKD',
+            [ItemType.STOCK_US]: 'USD',
+            [ItemType.FUND]: 'CNY',
+          }[item.type] as Currency,
+        },
+        [item.type, item.id],
+      )
+      router.push('/')
+    },
+    [items, revalidate, router],
+  )
 
   return (
     <div
@@ -111,28 +139,7 @@ export default function Search() {
                 'nes-pointer',
               )}
               key={item.type + item.id}
-              onClick={async () => {
-                const items = await db.items.toArray()
-                const order = (maxBy(items, 'order')?.order || 0) + 1
-                await db.items.put(
-                  {
-                    ...item,
-                    order,
-                    amount: 1,
-                    cost: 0,
-                    currency: {
-                      [ItemType.FOREX]: 'CNY',
-                      [ItemType.CRYPTO]: 'USD',
-                      [ItemType.STOCK_CN]: 'CNY',
-                      [ItemType.STOCK_HK]: 'HKD',
-                      [ItemType.STOCK_US]: 'USD',
-                      [ItemType.FUND]: 'CNY',
-                    }[item.type] as Currency,
-                  },
-                  [item.type, item.id],
-                )
-                router.push('/')
-              }}>
+              onClick={() => handleAddItem(item)}>
               <span className="item-hover">{item.name}</span>
               <br />
               <span
