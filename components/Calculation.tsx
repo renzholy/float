@@ -1,10 +1,10 @@
 import { css, cx } from '@linaria/core'
 import { useAtom } from 'jotai'
-import { useMemo } from 'react'
+import numeral from 'numeral'
+import { useCallback, useMemo } from 'react'
 
 import { useRate } from '../hooks/use-rate'
 import { profitModeAtom } from '../libs/atoms'
-import { formatNumber } from '../libs/formatter'
 import { Currency } from '../libs/types'
 
 /**
@@ -25,6 +25,15 @@ export default function Calculation(props: {
 }) {
   const rate = useRate(props.currency)
   const [profitMode] = useAtom(profitModeAtom)
+  const formatNumber = useCallback(
+    (num: number) =>
+      Number.isInteger(num)
+        ? num.toString()
+        : num >= 1000
+        ? numeral(num).format('0,0[.][00]')
+        : num.toPrecision(5),
+    [],
+  )
   const text = useMemo(() => {
     if (props.price === undefined) {
       return null
@@ -60,7 +69,7 @@ export default function Calculation(props: {
     return `${formatNumber(props.price)} × ${formatNumber(
       rate,
     )} = ${formatNumber(props.price * rate)}`
-  }, [profitMode, props, rate])
+  }, [formatNumber, profitMode, props, rate])
 
   return (
     <span
