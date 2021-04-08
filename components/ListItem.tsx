@@ -49,7 +49,7 @@ export default function ListItem(props: {
       return
     }
     db.items.update([item.type, item.id], {
-      amount: Number.isNaN(parseFloat(amount)) ? 1 : parseFloat(amount),
+      amount: Number.isNaN(parseFloat(amount)) ? 0 : parseFloat(amount),
     })
   }, [amount, item.id, item.type, props.isExpanded])
   // Cost
