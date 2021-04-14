@@ -59,7 +59,7 @@ export default function ListItem(props: {
     if (item.type !== ItemType.CUSTOM) {
       return
     }
-    setPrice(item.price?.toString() || '0')
+    setPrice(item.price ? item.price.toString() : '')
   }, [item.price, item.type])
   useEffect(() => {
     if (!props.isExpanded || item.type !== ItemType.CUSTOM) {
@@ -72,9 +72,7 @@ export default function ListItem(props: {
   // Amount
   const [amount, setAmount] = useState('')
   useEffect(() => {
-    if (item.amount !== undefined) {
-      setAmount((old) => (!old ? item.amount.toString() : old))
-    }
+    setAmount(item.amount ? item.amount.toString() : '')
   }, [item.amount])
   useEffect(() => {
     if (!props.isExpanded) {
@@ -87,9 +85,7 @@ export default function ListItem(props: {
   // Cost
   const [cost, setCost] = useState('')
   useEffect(() => {
-    if (item.cost !== undefined) {
-      setCost((old) => (!old ? item.cost.toString() : old))
-    }
+    setCost(item.cost ? item.cost.toString() : '')
   }, [item.cost])
   useEffect(() => {
     if (!props.isExpanded) {
@@ -247,11 +243,7 @@ export default function ListItem(props: {
                   `}>
                   名称
                 </label>
-                <PixelInput
-                  placeholder="名称"
-                  value={name}
-                  onChange={setName}
-                />
+                <PixelInput isError={!name} value={name} onChange={setName} />
               </div>
               <div
                 className={css`
@@ -268,7 +260,6 @@ export default function ListItem(props: {
                 </label>
                 <PixelInput
                   isError={!!price && Number.isNaN(parseFloat(price))}
-                  placeholder="单价"
                   value={price}
                   onChange={setPrice}
                 />
@@ -298,7 +289,6 @@ export default function ListItem(props: {
               </label>
               <PixelInput
                 isError={!!amount && Number.isNaN(parseFloat(amount))}
-                placeholder="数量"
                 value={amount}
                 onChange={setAmount}
               />
