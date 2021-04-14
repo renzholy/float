@@ -24,7 +24,7 @@ export function usePrice(base: Currency, type: ItemType, id: string) {
       )
     }
   }, [rates])
-  return useSWR<number>(
+  return useSWR<number | undefined>(
     rates ? ['price', type, id, rates] : null,
     () => {
       if (type === ItemType.FOREX) {
@@ -54,6 +54,9 @@ export function usePrice(base: Currency, type: ItemType, id: string) {
         return fetch(`https://qt.gtimg.cn/q=jj${id}`)
           .then((response) => response.text())
           .then((text) => parseFloat(text.split('~')[5]))
+      }
+      if (type === ItemType.CUSTOM) {
+        return undefined
       }
       return NaN
     },

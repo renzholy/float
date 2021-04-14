@@ -9,6 +9,7 @@ export enum ItemType {
   STOCK_HK = '港股',
   STOCK_US = '美股',
   FUND = '基金',
+  CUSTOM = '自定义',
 }
 
 export interface SearchItem {

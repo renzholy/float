@@ -105,11 +105,24 @@ export function useSearch(
     isValidating: clientIsValidating,
   } = useSearchClient(keyword)
   const localData = useSearchLocal(keyword)
-  const data = useMemo(() => [...localData, ...serverData, ...clientData], [
-    localData,
-    serverData,
-    clientData,
-  ])
+  const data = useMemo(
+    () => [
+      ...localData,
+      ...serverData,
+      ...clientData,
+      ...(keyword
+        ? [
+            {
+              type: ItemType.CUSTOM,
+              id: keyword,
+              code: '',
+              name: keyword,
+            },
+          ]
+        : []),
+    ],
+    [localData, serverData, clientData, keyword],
+  )
   const isValidating = useMemo(() => serverIsValidating || clientIsValidating, [
     serverIsValidating,
     clientIsValidating,

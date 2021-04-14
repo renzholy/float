@@ -72,6 +72,7 @@ export default function Search() {
             [ItemType.STOCK_HK]: 'HKD',
             [ItemType.STOCK_US]: 'USD',
             [ItemType.FUND]: 'CNY',
+            [ItemType.CUSTOM]: 'CNY',
           }[item.type] as Currency,
         },
         [item.type, item.id],
@@ -146,8 +147,7 @@ export default function Search() {
                 className={css`
                   color: var(--color-gray-1);
                 `}>
-                {item.code}
-                &nbsp;
+                {item.code ? `${item.code} ` : ''}
                 {item.type}
               </span>
             </div>
