@@ -111,49 +111,51 @@ export default function Search() {
           onChange={setKeyword}
         />
       </div>
-      <PixelContainer
-        title={isValidating ? '搜索中…' : '搜索结果'}
-        className={css`
-          margin-top: 1em;
-        `}>
-        <div
+      {data.length ? (
+        <PixelContainer
+          title={isValidating ? '搜索中…' : '搜索结果'}
           className={css`
-            & > div + div {
-              margin-top: 1em;
-            }
+            margin-top: 1em;
           `}>
-          {data.map((item) => (
-            <div
-              className={cx(
-                css`
-                  line-height: 1.5;
-                  word-break: break-all;
-                  @media (hover: hover) and (pointer: fine) {
-                    &:hover .item-hover {
-                      color: var(--color-primary-0);
+          <div
+            className={css`
+              & > div + div {
+                margin-top: 1em;
+              }
+            `}>
+            {data.map((item) => (
+              <div
+                className={cx(
+                  css`
+                    line-height: 1.5;
+                    word-break: break-all;
+                    @media (hover: hover) and (pointer: fine) {
+                      &:hover .item-hover {
+                        color: var(--color-primary-0);
+                      }
                     }
-                  }
-                  &:active .item-hover {
-                    color: var(--color-primary-1);
-                  }
-                `,
-                'nes-pointer',
-              )}
-              key={item.type + item.id}
-              onClick={() => handleAddItem(item)}>
-              <span className="item-hover">{item.name}</span>
-              <br />
-              <span
-                className={css`
-                  color: var(--color-gray-1);
-                `}>
-                {item.code ? `${item.code} ` : ''}
-                {item.type}
-              </span>
-            </div>
-          ))}
-        </div>
-      </PixelContainer>
+                    &:active .item-hover {
+                      color: var(--color-primary-1);
+                    }
+                  `,
+                  'nes-pointer',
+                )}
+                key={item.type + item.id}
+                onClick={() => handleAddItem(item)}>
+                <span className="item-hover">{item.name}</span>
+                <br />
+                <span
+                  className={css`
+                    color: var(--color-gray-1);
+                  `}>
+                  {item.code ? `${item.code} ` : ''}
+                  {item.type}
+                </span>
+              </div>
+            ))}
+          </div>
+        </PixelContainer>
+      ) : null}
       <div
         className={css`
           margin-top: 1em;
