@@ -34,7 +34,7 @@ export default function Profit(props: {
       return numeral(num).format('+0,0.00')
     }
     if (profitMode === 'HIDE') {
-      return num >= 0 ? '+***' : '-***'
+      return num >= 0 ? '+' : '-'
     }
     if (profitMode === 'PERCENTAGE') {
       return numeral(
