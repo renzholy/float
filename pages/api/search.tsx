@@ -19,7 +19,10 @@ function parseText(text: string): string[][] {
   return matched.split('^').map((item) => item.split('~'))
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function search(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const { keyword } = req.query as { keyword: string }
   const list: SearchItem[][] = await Promise.all([
     fetch(

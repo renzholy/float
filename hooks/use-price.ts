@@ -4,12 +4,9 @@ import useSWR from 'swr'
 import { Currency, ItemType } from '../libs/types'
 
 export function usePrice(base: Currency, type: ItemType, id: string) {
-  const { data: rates } = useSWR<{ rates: { [name: string]: number } }>(
+  const { data: rates } = useSWR<{ [name: string]: number }>(
     ['exchanges', base],
-    () =>
-      fetch(
-        `https://api.ratesapi.io/api/latest?base=${base}`,
-      ).then((response) => response.json()),
+    () => fetch(`/api/rates?base=${base}`).then((response) => response.json()),
     { refreshInterval: 10 * 1000 },
   )
   useEffect(() => {
@@ -17,9 +14,9 @@ export function usePrice(base: Currency, type: ItemType, id: string) {
       localStorage.setItem(
         'rates',
         JSON.stringify({
-          CNY: rates.rates.CNY,
-          USD: rates.rates.USD,
-          HKD: rates.rates.HKD,
+          CNY: rates.CNY,
+          USD: rates.USD,
+          HKD: rates.HKD,
         }),
       )
     }
@@ -28,12 +25,12 @@ export function usePrice(base: Currency, type: ItemType, id: string) {
     rates ? ['price', type, id, rates] : null,
     () => {
       if (type === ItemType.FOREX) {
-        return 1 / rates!.rates[id.toUpperCase()]
+        return 1 / rates![id.toUpperCase()]
       }
       if (type === ItemType.CRYPTO) {
         return fetch(`https://api.coinpaprika.com/v1/coins/${id}/ohlcv/today`)
           .then((response) => response.json())
-          .then((json: [{ close: number }]) => json[0].close / rates!.rates.USD)
+          .then((json: [{ close: number }]) => json[0].close / rates!.USD)
       }
       if (type === ItemType.STOCK_CN) {
         return fetch(`https://qt.gtimg.cn/q=${id}`)
@@ -43,12 +40,12 @@ export function usePrice(base: Currency, type: ItemType, id: string) {
       if (type === ItemType.STOCK_HK) {
         return fetch(`https://qt.gtimg.cn/q=hk${id}`)
           .then((response) => response.text())
-          .then((text) => parseFloat(text.split('~')[3]) / rates!.rates.HKD)
+          .then((text) => parseFloat(text.split('~')[3]) / rates!.HKD)
       }
       if (type === ItemType.STOCK_US) {
         return fetch(`https://qt.gtimg.cn/q=us${id}`)
           .then((response) => response.text())
-          .then((text) => parseFloat(text.split('~')[3]) / rates!.rates.USD)
+          .then((text) => parseFloat(text.split('~')[3]) / rates!.USD)
       }
       if (type === ItemType.FUND) {
         return fetch(`https://qt.gtimg.cn/q=jj${id}`)
