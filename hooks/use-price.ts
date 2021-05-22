@@ -6,7 +6,12 @@ import { Currency, ItemType } from '../libs/types'
 export function usePrice(base: Currency, type: ItemType, id: string) {
   const { data: rates } = useSWR<{ [name: string]: number }>(
     ['exchanges', base],
-    () => fetch(`/api/rates?base=${base}`).then((response) => response.json()),
+    () =>
+      fetch(
+        `${
+          'chrome' in window ? 'https://float.watch' : ''
+        }/api/rates?base=${base}`,
+      ).then((response) => response.json()),
     { refreshInterval: 10 * 1000 },
   )
   useEffect(() => {
