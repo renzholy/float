@@ -5,6 +5,7 @@
 
 import { css, cx } from '@linaria/core'
 import React, { useCallback, useEffect, useState } from 'react'
+import numeral from 'numeral'
 
 import { usePrice } from '../hooks/use-price'
 import db from '../libs/db'
@@ -18,10 +19,11 @@ import { useRates } from '../hooks/use-rates'
 import PixelNumericInput from './PixelNumericInput'
 
 export default function ListItem(props: {
-  className?: string
+  total: number
   value: Item
   isExpanded: boolean
   onClick(): void
+  className?: string
 }) {
   const item = props.value
   const rates = useRates()
@@ -212,15 +214,28 @@ export default function ListItem(props: {
             currency={item.currency}
           />
         </div>
-        <Profit
+        <div
           className={css`
-            align-self: flex-end;
-          `}
-          price={item.price}
-          cost={item.cost}
-          amount={item.amount}
-          currency={item.currency}
-        />
+            display: flex;
+            justify-content: space-between;
+          `}>
+          <span
+            className={css`
+              color: var(--color-gray-1);
+            `}>
+            {item.price === undefined
+              ? ''
+              : numeral((item.price * item.amount) / props.total).format(
+                  '0,0.0%',
+                )}
+          </span>
+          <Profit
+            price={item.price}
+            cost={item.cost}
+            amount={item.amount}
+            currency={item.currency}
+          />
+        </div>
       </div>
       {props.isExpanded ? (
         <>

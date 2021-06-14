@@ -4,6 +4,7 @@
 import { css, cx } from '@linaria/core'
 import orderBy from 'lodash/orderBy'
 import some from 'lodash/some'
+import sumBy from 'lodash/sumBy'
 import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
@@ -71,7 +72,11 @@ export default function Index() {
     localStorage.setItem('currency', currency)
   }, [currency])
   const [isSorting, setIsSorting] = useState(false)
-  const { data: items, revalidate, mutate } = useSWR(
+  const {
+    data: items,
+    revalidate,
+    mutate,
+  } = useSWR(
     'items',
     async () => {
       const array = await db.items.toArray()
@@ -83,9 +88,10 @@ export default function Index() {
       isPaused: () => isSorting,
     },
   )
-  const isValidating = useMemo(() => some(items, (item) => item.isValidating), [
-    items,
-  ])
+  const isValidating = useMemo(
+    () => some(items, (item) => item.isValidating),
+    [items],
+  )
   const [expanded, setExpanded] = useState<[ItemType, string]>()
   const handleSortEnd = useCallback(
     async ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
@@ -116,6 +122,13 @@ export default function Index() {
       setExpanded(undefined)
     }
   }, [])
+  const totalValue = useMemo(
+    () =>
+      sumBy(items, (item) =>
+        item.price === undefined ? NaN : item.amount * item.price,
+      ),
+    [items],
+  )
 
   return (
     <div
@@ -214,9 +227,7 @@ export default function Index() {
               key={item.type + item.id}
               index={index}
               value={item}
-              className={css`
-                margin-top: 1em;
-              `}
+              total={totalValue}
               isExpanded={
                 item.type === expanded?.[0] && item.id === expanded[1]
               }
@@ -228,6 +239,9 @@ export default function Index() {
                 )
                 revalidate()
               }}
+              className={css`
+                margin-top: 1.5em;
+              `}
             />
           ))}
         </SortableListContainer>

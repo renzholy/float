@@ -84,15 +84,27 @@ export default function Total(props: {
           />
         ) : null}
       </div>
-      <Profit
+      <div
         className={css`
-          align-self: flex-end;
-        `}
-        price={totalPrice}
-        cost={totalCost}
-        amount={1}
-        currency={currency}
-      />
+          display: flex;
+          justify-content: space-between;
+        `}>
+        <span
+          className={css`
+            color: var(--color-gray-1);
+          `}>
+          100%
+        </span>
+        <Profit
+          className={css`
+            align-self: flex-end;
+          `}
+          price={totalPrice}
+          cost={totalCost}
+          amount={1}
+          currency={currency}
+        />
+      </div>
     </div>
   )
 }
