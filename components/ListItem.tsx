@@ -221,13 +221,13 @@ export default function ListItem(props: {
           `}>
           <span
             className={css`
-              color: var(--color-gray-1);
+              color: var(--color-gray-2);
             `}>
             {item.price === undefined
               ? ''
-              : numeral((item.price * item.amount) / props.total).format(
-                  '0,0.0%',
-                )}
+              : numeral(
+                  (item.amount * item.price) / rates[currency] / props.total,
+                ).format('0,0.0%')}
           </span>
           <Profit
             price={item.price}

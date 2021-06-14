@@ -98,7 +98,7 @@ export default function Total(props: {
         `}>
         <span
           className={css`
-            color: var(--color-gray-1);
+            color: var(--color-gray-2);
           `}>
           100%
         </span>

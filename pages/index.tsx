@@ -40,6 +40,7 @@ import {
 } from '../assets/icons'
 import { getFontClassName } from '../libs/font'
 import EasterEgg from '../components/EasterEgg'
+import { useRates } from '../hooks/use-rates'
 
 const SortableListItem = SortableElement(ListItem)
 
@@ -122,12 +123,15 @@ export default function Index() {
       setExpanded(undefined)
     }
   }, [])
+  const rates = useRates()
   const totalValue = useMemo(
     () =>
       sumBy(items, (item) =>
-        item.price === undefined ? NaN : item.amount * item.price,
+        item.price === undefined
+          ? NaN
+          : (item.amount * item.price) / rates[item.currency],
       ),
-    [items],
+    [items, rates],
   )
 
   return (
