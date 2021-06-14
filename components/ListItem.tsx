@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
 import { css, cx } from '@linaria/core'
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { usePrice } from '../hooks/use-price'
 import db from '../libs/db'
@@ -15,6 +15,7 @@ import Profit from './Profit'
 import Calculation from './Calculation'
 import { IconTrash } from '../assets/icons'
 import { useRates } from '../hooks/use-rates'
+import PixelNumericInput from './PixelNumericInput'
 
 export default function ListItem(props: {
   className?: string
@@ -54,45 +55,49 @@ export default function ListItem(props: {
     })
   }, [name, item.id, item.type, props.isExpanded])
   // Price
-  const [price, setPrice] = useState('')
+  const [price, setPrice] = useState<number>()
   useEffect(() => {
     if (item.type !== ItemType.CUSTOM) {
       return
     }
-    setPrice(item.price ? item.price.toString() : '')
+    setPrice(item.price)
   }, [item.price, item.type])
   useEffect(() => {
-    if (!props.isExpanded || item.type !== ItemType.CUSTOM) {
+    if (
+      !props.isExpanded ||
+      price === undefined ||
+      item.type !== ItemType.CUSTOM
+    ) {
       return
     }
     db.items.update([item.type, item.id], {
-      price: Number.isNaN(parseFloat(price)) ? 0 : parseFloat(price),
+      price,
     })
   }, [price, item.id, item.type, props.isExpanded])
   // Amount
-  const [amount, setAmount] = useState('')
+  const [amount, setAmount] = useState<number>()
   useEffect(() => {
-    setAmount(item.amount ? item.amount.toString() : '')
+    setAmount(item.amount)
   }, [item.amount])
   useEffect(() => {
-    if (!props.isExpanded) {
+    if (!props.isExpanded || amount === undefined) {
       return
     }
     db.items.update([item.type, item.id], {
-      amount: Number.isNaN(parseFloat(amount)) ? 0 : parseFloat(amount),
+      amount,
     })
   }, [amount, item.id, item.type, props.isExpanded])
   // Cost
-  const [cost, setCost] = useState('')
+  const [cost, setCost] = useState<number>()
   useEffect(() => {
-    setCost(item.cost ? item.cost.toString() : '')
+    setCost(item.cost)
   }, [item.cost])
   useEffect(() => {
-    if (!props.isExpanded) {
+    if (!props.isExpanded || cost === undefined) {
       return
     }
     db.items.update([item.type, item.id], {
-      cost: Number.isNaN(parseFloat(cost)) ? 0 : parseFloat(cost),
+      cost,
     })
   }, [cost, item.id, item.type, props.isExpanded])
   // Currency
@@ -131,21 +136,21 @@ export default function ListItem(props: {
             (old) => ({ CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[old] as Currency),
           )
           setCost((old) =>
-            (
-              (parseFloat(old) / rates[currency]) *
-              rates[
-                { CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[currency] as Currency
-              ]
-            ).toString(),
+            old === undefined
+              ? undefined
+              : (old / rates[currency]) *
+                rates[
+                  { CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[currency] as Currency
+                ],
           )
           if (item.type === ItemType.CUSTOM) {
             setPrice((old) =>
-              (
-                (parseFloat(old) / rates[currency]) *
-                rates[
-                  { CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[currency] as Currency
-                ]
-              ).toString(),
+              old === undefined
+                ? undefined
+                : (old / rates[currency]) *
+                  rates[
+                    { CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[currency] as Currency
+                  ],
             )
           }
         }}>
@@ -258,11 +263,7 @@ export default function ListItem(props: {
                   `}>
                   单价&nbsp;{renderCurrency()}
                 </label>
-                <PixelInput
-                  isError={!!price && Number.isNaN(parseFloat(price))}
-                  value={price}
-                  onChange={setPrice}
-                />
+                <PixelNumericInput value={price} onChange={setPrice} />
               </div>
             </div>
           ) : null}
@@ -287,11 +288,7 @@ export default function ListItem(props: {
                 `}>
                 数量
               </label>
-              <PixelInput
-                isError={!!amount && Number.isNaN(parseFloat(amount))}
-                value={amount}
-                onChange={setAmount}
-              />
+              <PixelNumericInput value={amount} onChange={setAmount} />
             </div>
             <div
               className={css`
@@ -306,11 +303,7 @@ export default function ListItem(props: {
                 `}>
                 成本&nbsp;{renderCurrency()}
               </label>
-              <PixelInput
-                isError={!!cost && Number.isNaN(parseFloat(cost))}
-                value={cost}
-                onChange={setCost}
-              />
+              <PixelNumericInput value={cost} onChange={setCost} />
             </div>
             <PixelButton
               icon={<IconTrash />}
