@@ -61,7 +61,14 @@ export default function Total(props: {
           (old) => ({ CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[old] as Currency),
         )
       }}>
-      <span className="item-hover">总计</span>
+      <div
+        className={css`
+          display: flex;
+          justify-content: space-between;
+        `}>
+        <span className="item-hover">持仓</span>
+        <span>收益</span>
+      </div>
       <div
         className={css`
           display: flex;
