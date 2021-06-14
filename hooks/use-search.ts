@@ -93,17 +93,14 @@ function useSearchLocal(keyword: string): SearchItem[] {
     : []
 }
 
-export function useSearch(
-  keyword: string,
-): { data: SearchItem[]; isValidating: boolean } {
-  const {
-    data: serverData = [],
-    isValidating: serverIsValidating,
-  } = useSearchServer(keyword)
-  const {
-    data: clientData = [],
-    isValidating: clientIsValidating,
-  } = useSearchClient(keyword)
+export function useSearch(keyword: string): {
+  data: SearchItem[]
+  isValidating: boolean
+} {
+  const { data: serverData = [], isValidating: serverIsValidating } =
+    useSearchServer(keyword)
+  const { data: clientData = [], isValidating: clientIsValidating } =
+    useSearchClient(keyword)
   const localData = useSearchLocal(keyword)
   const data = useMemo(
     () => [
@@ -123,9 +120,9 @@ export function useSearch(
     ],
     [localData, serverData, clientData, keyword],
   )
-  const isValidating = useMemo(() => serverIsValidating || clientIsValidating, [
-    serverIsValidating,
-    clientIsValidating,
-  ])
+  const isValidating = useMemo(
+    () => serverIsValidating || clientIsValidating,
+    [serverIsValidating, clientIsValidating],
+  )
   return { data, isValidating }
 }
