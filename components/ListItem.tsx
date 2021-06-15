@@ -225,7 +225,7 @@ export default function ListItem(props: {
               color: var(--color-gray-2);
             `}>
             {numeral(
-              (item.amount * item.cost) / rates[currency] / props.totalPirce,
+              (item.amount * item.cost) / rates[currency] / props.totalCost,
             ).format('0,0.0%')}
             &nbsp;→&nbsp;
             {item.price === undefined
