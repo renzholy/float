@@ -124,13 +124,18 @@ export default function Index() {
     }
   }, [])
   const rates = useRates()
-  const totalValue = useMemo(
+  const totalPirce = useMemo(
     () =>
       sumBy(items, (item) =>
         item.price === undefined
           ? NaN
           : (item.amount * item.price) / rates[item.currency],
       ),
+    [items, rates],
+  )
+  const totalCost = useMemo(
+    () =>
+      sumBy(items, (item) => (item.amount * item.cost) / rates[item.currency]),
     [items, rates],
   )
 
@@ -231,7 +236,8 @@ export default function Index() {
               key={item.type + item.id}
               index={index}
               value={item}
-              total={totalValue}
+              totalPirce={totalPirce}
+              totalCost={totalCost}
               isExpanded={
                 item.type === expanded?.[0] && item.id === expanded[1]
               }

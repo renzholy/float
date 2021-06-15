@@ -19,7 +19,8 @@ import { useRates } from '../hooks/use-rates'
 import PixelNumericInput from './PixelNumericInput'
 
 export default function ListItem(props: {
-  total: number
+  totalPirce: number
+  totalCost: number
   value: Item
   isExpanded: boolean
   onClick(): void
@@ -223,10 +224,16 @@ export default function ListItem(props: {
             className={css`
               color: var(--color-gray-2);
             `}>
+            {numeral(
+              (item.amount * item.cost) / rates[currency] / props.totalPirce,
+            ).format('0,0.0%')}
+            &nbsp;→&nbsp;
             {item.price === undefined
-              ? ''
+              ? '-'
               : numeral(
-                  (item.amount * item.price) / rates[currency] / props.total,
+                  (item.amount * item.price) /
+                    rates[currency] /
+                    props.totalPirce,
                 ).format('0,0.0%')}
           </span>
           <Profit
