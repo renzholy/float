@@ -1,4 +1,4 @@
-import { css, cx } from '@linaria/core'
+import { css, cx } from '@emotion/css'
 import { ReactNode } from 'react'
 
 export default function PixelContainer(props: {

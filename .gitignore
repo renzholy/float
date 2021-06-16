@@ -33,7 +33,4 @@ yarn-error.log*
 # vercel
 .vercel
 
-# linaria
-.linaria-cache/
-
 extension.zip

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-import { cx, css } from '@linaria/core'
+import { cx, css } from '@emotion/css'
 import { useAtom } from 'jotai'
 import { sumBy } from 'lodash'
 import React, { useMemo } from 'react'

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 
-import { css, cx } from '@linaria/core'
+import { css, cx } from '@emotion/css'
 import { ReactElement } from 'react'
 
 import { SVG2DataURI } from '../libs/svg'

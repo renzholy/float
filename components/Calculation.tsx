@@ -1,4 +1,4 @@
-import { css, cx } from '@linaria/core'
+import { css, cx } from '@emotion/css'
 import { useAtom } from 'jotai'
 import numeral from 'numeral'
 import { useCallback, useMemo } from 'react'
