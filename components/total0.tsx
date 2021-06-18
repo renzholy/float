@@ -9,8 +9,8 @@ import React, { useMemo } from 'react'
 import { useRates } from '../hooks/use-rates'
 import { currencyAtom } from '../libs/atoms'
 import { Currency, Item, ProfitMode } from '../libs/types'
-import Calculation from './Calculation'
-import Profit from './Profit'
+import Calculation from './calculation0'
+import Profit from './profit0'
 
 export default function Total(props: {
   profitMode: ProfitMode

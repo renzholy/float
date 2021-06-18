@@ -10,13 +10,13 @@ import numeral from 'numeral'
 import { usePrice } from '../hooks/use-price'
 import db from '../libs/db'
 import { Currency, Item, ItemType } from '../libs/types'
-import PixelInput from './PixelInput'
-import PixelButton from './PixelButton'
-import Profit from './Profit'
-import Calculation from './Calculation'
+import PixelInput from './pixel-input'
+import PixelButton from './pixel-button'
+import Profit from './profit0'
+import Calculation from './calculation0'
 import { IconTrash } from '../assets/icons'
 import { useRates } from '../hooks/use-rates'
-import PixelNumericInput from './PixelNumericInput'
+import PixelNumericInput from './pixel-numeric-input'
 
 export default function ListItem(props: {
   totalPirce: number

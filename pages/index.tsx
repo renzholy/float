@@ -12,11 +12,11 @@ import { SortableContainer, SortableElement } from 'react-sortable-hoc'
 import arrayMove from 'array-move'
 import { useAtom } from 'jotai'
 
-import ListItem from '../components/ListItem'
-import PixelContainer from '../components/PixelContainer'
-import PixelButton from '../components/PixelButton'
-import PixelLogo from '../components/PixelLogo'
-import Total from '../components/Total'
+import ListItem from '../components/list-item'
+import PixelContainer from '../components/pixel-container'
+import PixelButton from '../components/pixel-button'
+import PixelLogo from '../components/pixel-logo'
+import Total from '../components/total0'
 import db from '../libs/db'
 import { Currency, ItemType, ProfitMode } from '../libs/types'
 import {
@@ -39,7 +39,7 @@ import {
   IconVisible,
 } from '../assets/icons'
 import { getFontClassName } from '../libs/font'
-import EasterEgg from '../components/EasterEgg'
+import EasterEgg from '../components/easter-egg'
 import { useRates } from '../hooks/use-rates'
 
 const SortableListItem = SortableElement(ListItem)

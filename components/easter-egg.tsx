@@ -34,7 +34,7 @@ function Coin() {
         animation: bounce ${DURATION}ms cubic-bezier(0.3, 2.4, 0.85, 2.5);
       `}
       style={{
-        backgroundImage: SVG2DataURI(<IconCoin />),
+        backgroundImage: SVG2DataURI(IconCoin),
       }}
     />
   )
