@@ -4,7 +4,7 @@
 import { css, cx } from '@emotion/css'
 import { useCallback, useState } from 'react'
 
-import { IconBox, IconCoin } from '../assets/icons'
+import { IconBox, IconCoin } from './icons'
 import { SVG2DataURI } from '../libs/svg'
 
 const DURATION = 400
@@ -34,7 +34,7 @@ function Coin() {
         animation: bounce ${DURATION}ms cubic-bezier(0.3, 2.4, 0.85, 2.5);
       `}
       style={{
-        backgroundImage: SVG2DataURI(IconCoin),
+        backgroundImage: SVG2DataURI(<IconCoin />),
       }}
     />
   )

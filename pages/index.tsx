@@ -16,7 +16,7 @@ import ListItem from '../components/list-item'
 import PixelContainer from '../components/pixel-container'
 import PixelButton from '../components/pixel-button'
 import PixelLogo from '../components/pixel-logo'
-import Total from '../components/total0'
+import Total from '../components/total'
 import db from '../libs/db'
 import { Currency, ItemType, ProfitMode } from '../libs/types'
 import {
@@ -37,7 +37,7 @@ import {
   IconPriceColorInverse,
   IconTwitter,
   IconVisible,
-} from '../assets/icons'
+} from '../components/icons'
 import { getFontClassName } from '../libs/font'
 import EasterEgg from '../components/easter-egg'
 import { useRates } from '../hooks/use-rates'
