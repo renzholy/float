@@ -49,7 +49,4 @@ module.exports = (nextConfig = {}) => ({
       },
     ]
   },
-  future: {
-    webpack5: true,
-  },
 })

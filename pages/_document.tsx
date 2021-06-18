@@ -18,7 +18,7 @@ const renderStatic = async (html: string) => {
   return { html, ids, css }
 }
 
-export default class extends Document {
+export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const page = await ctx.renderPage()
     const { css, ids } = await renderStatic(page.html)
