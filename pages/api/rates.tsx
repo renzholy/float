@@ -1,6 +1,6 @@
 import { mapValues } from 'lodash'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { parseStringPromise } from 'xml2js'
+import parser from 'fast-xml-parser'
 
 export default async function rates(req: NextApiRequest, res: NextApiResponse) {
   const base = req.query.base as string | undefined
@@ -8,14 +8,13 @@ export default async function rates(req: NextApiRequest, res: NextApiResponse) {
     'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml',
   )
   const xml = await response.text()
-  const json = await parseStringPromise(xml)
+  const json = await parser.parse(xml, {
+    attributeNamePrefix: '',
+    ignoreAttributes: false,
+  })
   const data = (
-    json['gesmes:Envelope'].Cube[0].Cube[0].Cube.map(
-      ({
-        $: { currency, rate },
-      }: {
-        $: { currency: string; rate: string }
-      }) => ({
+    json['gesmes:Envelope'].Cube.Cube.Cube.map(
+      ({ currency, rate }: { currency: string; rate: string }) => ({
         currency,
         rate: parseFloat(rate),
       }),

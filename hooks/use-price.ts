@@ -9,7 +9,9 @@ export function usePrice(base: Currency, type: ItemType, id: string) {
     () =>
       fetch(
         `${
-          'chrome' in window ? 'https://float.watch' : ''
+          'chrome' in window && window.location.hostname !== 'localhost'
+            ? 'https://float.watch'
+            : ''
         }/api/rates?base=${base}`,
       ).then((response) => response.json()),
     { refreshInterval: 10 * 1000 },

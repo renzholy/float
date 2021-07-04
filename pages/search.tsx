@@ -42,7 +42,6 @@ export default function Search() {
       alert('导入成功')
       router.push('/')
     } catch (err) {
-      console.error(err)
       alert('解析数据出错')
     }
   }, [router])
