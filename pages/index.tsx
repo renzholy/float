@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc'
-import arrayMove from 'array-move'
+import { arrayMoveImmutable } from 'array-move'
 import { useAtom } from 'jotai'
 
 import ListItem from '../components/list-item'
@@ -101,7 +101,7 @@ export default function Index() {
         return
       }
       try {
-        const newItems = arrayMove(items, oldIndex, newIndex)
+        const newItems = arrayMoveImmutable(items, oldIndex, newIndex)
         await mutate(newItems)
         await Promise.all(
           newItems.map((item, index) =>

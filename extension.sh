@@ -1,8 +1,8 @@
 rm -rf .next/ out/
 rm extension.zip
 
-yarn next build
-yarn next export
+yarn build
+yarn export
 
 cp manifest.json ./out
 touch ./out/background.js
