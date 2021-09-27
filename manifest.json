@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Float - 浮动收益",
   "description": "随时随地查看浮动收益，支持股票、基金、外汇、加密货币。",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "icons": {
     "16": "/chrome/chrome16.png",
     "32": "/chrome/chrome32.png",
