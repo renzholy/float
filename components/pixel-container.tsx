@@ -15,7 +15,8 @@ export default function PixelContainer(props: {
           padding: 2em;
         `,
         props.className,
-      )}>
+      )}
+    >
       {props.title ? (
         <span
           className={css`
@@ -25,7 +26,8 @@ export default function PixelContainer(props: {
             background-color: var(--color-gray-4);
             display: block;
             width: fit-content;
-          `}>
+          `}
+        >
           {props.title}
         </span>
       ) : null}

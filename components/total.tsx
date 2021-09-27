@@ -60,12 +60,14 @@ export default function Total(props: {
         setCurrency(
           (old) => ({ CNY: 'USD', USD: 'HKD', HKD: 'CNY' }[old] as Currency),
         )
-      }}>
+      }}
+    >
       <div
         className={css`
           display: flex;
           justify-content: space-between;
-        `}>
+        `}
+      >
         <span className="item-hover">持仓</span>
         <span>收益</span>
       </div>
@@ -73,11 +75,13 @@ export default function Total(props: {
         className={css`
           display: flex;
           justify-content: space-between;
-        `}>
+        `}
+      >
         <span
           className={css`
             color: var(--color-gray-1);
-          `}>
+          `}
+        >
           {currency}
         </span>
         {props.profitMode === 'SHOW' ? (
@@ -95,11 +99,13 @@ export default function Total(props: {
         className={css`
           display: flex;
           justify-content: space-between;
-        `}>
+        `}
+      >
         <span
           className={css`
             color: var(--color-gray-2);
-          `}>
+          `}
+        >
           100%
         </span>
         <Profit

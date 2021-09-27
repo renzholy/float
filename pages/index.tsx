@@ -73,11 +73,7 @@ export default function Index() {
     localStorage.setItem('currency', currency)
   }, [currency])
   const [isSorting, setIsSorting] = useState(false)
-  const {
-    data: items,
-    revalidate,
-    mutate,
-  } = useSWR(
+  const { data: items, mutate } = useSWR(
     'items',
     async () => {
       const array = await db.items.toArray()
@@ -146,13 +142,15 @@ export default function Index() {
           padding: 1em;
         `,
         fontClassName,
-      )}>
+      )}
+    >
       <div
         className={css`
           margin-bottom: 1em;
           display: flex;
           justify-content: space-between;
-        `}>
+        `}
+      >
         <PixelButton
           icon={<IconAdd />}
           onClick={() => {
@@ -163,7 +161,8 @@ export default function Index() {
           className={css`
             line-height: 0;
             display: flex;
-          `}>
+          `}
+        >
           <PixelButton
             icon={largeFont ? <IconFontSizeLarge /> : <IconFontSize />}
             className={cx(
@@ -230,7 +229,8 @@ export default function Index() {
           onSortEnd={handleSortEnd}
           onSortStart={() => {
             setIsSorting(true)
-          }}>
+          }}
+        >
           {items?.map((item, index) => (
             <SortableListItem
               key={item.type + item.id}
@@ -247,7 +247,7 @@ export default function Index() {
                     ? undefined
                     : [item.type, item.id],
                 )
-                revalidate()
+                mutate()
               }}
               className={css`
                 margin-top: 2em;
@@ -262,7 +262,8 @@ export default function Index() {
           display: flex;
           justify-content: space-between;
           line-height: 0;
-        `}>
+        `}
+      >
         <EasterEgg />
         <div>
           <PixelLogo

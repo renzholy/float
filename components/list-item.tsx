@@ -156,7 +156,8 @@ export default function ListItem(props: {
                   ],
             )
           }
-        }}>
+        }}
+      >
         {currency}
       </span>
     ),
@@ -184,7 +185,8 @@ export default function ListItem(props: {
           }
         `,
         props.className,
-      )}>
+      )}
+    >
       <div
         className={cx(
           'nes-pointer',
@@ -195,13 +197,15 @@ export default function ListItem(props: {
             flex-direction: column;
           `,
         )}
-        onClick={props.onClick}>
+        onClick={props.onClick}
+      >
         <span className="item-hover">{item.name}</span>
         <div>
           <span
             className={css`
               color: var(--color-gray-1);
-            `}>
+            `}
+          >
             {item.code ? `${item.code} ` : ''}
             {item.type}
           </span>
@@ -219,11 +223,13 @@ export default function ListItem(props: {
           className={css`
             display: flex;
             justify-content: space-between;
-          `}>
+          `}
+        >
           <span
             className={css`
               color: var(--color-gray-2);
-            `}>
+            `}
+          >
             {numeral(
               (item.amount * item.cost) / rates[currency] / props.totalCost,
             ).format('0,0.0%')}
@@ -256,18 +262,21 @@ export default function ListItem(props: {
               `}
               onClick={(e) => {
                 e.stopPropagation()
-              }}>
+              }}
+            >
               <div
                 className={css`
                   flex: 1;
                   margin-right: 0.5em;
-                `}>
+                `}
+              >
                 <label
                   className={css`
                     white-space: nowrap;
                     margin-bottom: 0.5em;
                     display: block;
-                  `}>
+                  `}
+                >
                   名称
                 </label>
                 <PixelInput isError={!name} value={name} onChange={setName} />
@@ -276,13 +285,15 @@ export default function ListItem(props: {
                 className={css`
                   flex: 1;
                   margin-right: 0.5em;
-                `}>
+                `}
+              >
                 <label
                   className={css`
                     white-space: nowrap;
                     margin-bottom: 0.5em;
                     display: block;
-                  `}>
+                  `}
+                >
                   单价&nbsp;{renderCurrency()}
                 </label>
                 <PixelNumericInput value={price} onChange={setPrice} />
@@ -296,18 +307,21 @@ export default function ListItem(props: {
             `}
             onClick={(e) => {
               e.stopPropagation()
-            }}>
+            }}
+          >
             <div
               className={css`
                 flex: 1;
                 margin-right: 0.5em;
-              `}>
+              `}
+            >
               <label
                 className={css`
                   white-space: nowrap;
                   margin-bottom: 0.5em;
                   display: block;
-                `}>
+                `}
+              >
                 数量
               </label>
               <PixelNumericInput value={amount} onChange={setAmount} />
@@ -316,13 +330,15 @@ export default function ListItem(props: {
               className={css`
                 flex: 1;
                 margin-right: 0.5em;
-              `}>
+              `}
+            >
               <label
                 className={css`
                   white-space: nowrap;
                   margin-bottom: 0.5em;
                   display: block;
-                `}>
+                `}
+              >
                 成本&nbsp;{renderCurrency()}
               </label>
               <PixelNumericInput value={cost} onChange={setCost} />

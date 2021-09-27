@@ -4,7 +4,8 @@ export const IconAdd = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path d="M5 1.5V8.5M1.5 5H8.5" stroke="#212529" />
   </svg>
 )
@@ -15,7 +16,8 @@ export const IconBox = () => (
     height="24"
     viewBox="0 0 24 24"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path d="M2 0H22V2H24V22H22V24H2V22H0V2H2V0Z" fill="#9C4A00" />
     <rect x="2" y="2" width="20" height="20" fill="#E79C21" />
     <path
@@ -55,7 +57,8 @@ export const IconClose = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M5 4.5V5.5M4 3.5V4.5M3 2.5V3.5M2 1.5V2.5M6 5.5V6.5M7 6.5V7.5M8 7.5V8.5M6 3.5V4.5M7 2.5V3.5M8 1.5V2.5M4 5.5V6.5M3 6.5V7.5M2 7.5V8.5"
       stroke="#212529"
@@ -69,7 +72,8 @@ export const IconCoin = () => (
     height="16"
     viewBox="0 0 16 16"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M3 14H2V12H1V4H2V2H3V1H5V0H11V1H13V3H14V5H15V11H14V13H13V15H11V16H5V15H3V14Z"
       fill="#060606"
@@ -90,7 +94,8 @@ export const IconExport = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M1.5 4V8M5 1V6M8.5 4V8M1 8.5H9M5.5 2.5H6.5M3.5 2.5H4.5M2.5 3.5H3.5M6.5 3.5H7.5"
       stroke="#212529"
@@ -104,7 +109,8 @@ export const IconFontSizeLarge = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path d="M1 2.5H6M3.5 3V8" stroke="#212529" />
     <path d="M6 4.5H9M7.5 8V5" stroke="#ADAFBC" />
   </svg>
@@ -116,7 +122,8 @@ export const IconFontSize = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path d="M1 2.5H6M3.5 3V8" stroke="#ADAFBC" />
     <path d="M6 4.5H9M7.5 8V5" stroke="#212529" />
   </svg>
@@ -128,7 +135,8 @@ export const IconGithub = () => (
     height="12"
     viewBox="0 0 12 12"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -144,7 +152,8 @@ export const IconImport = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M1.5 4V8M5 1V6M8.5 4V8M1 8.5H9M5.5 4.5H6.5M3.5 4.5H4.5M2.5 3.5H3.5M6.5 3.5H7.5"
       stroke="#212529"
@@ -158,7 +167,8 @@ export const IconInvisible = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M1 4.5H2M2 3.5H3M3 2.5H7M7 3.5H8M8 4.5H9M4 4.5H6M4 5.5H6M8 5.5H9M2 6.5H3M3 7.5H7M7 6.5H8M1 5.5H2"
       stroke="#ADAFBC"
@@ -179,7 +189,8 @@ export const IconJike = () => (
     height="12"
     viewBox="0 0 12 12"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -199,7 +210,8 @@ export const IconPercentage = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M1 8.5H2M2 7.5H3M3 6.5H4M4 5.5H5M5 4.5H6M6 3.5H7M7 2.5H8M8 1.5H9"
       stroke="#212529"
@@ -225,7 +237,8 @@ export const IconPriceColorInverse = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path d="M1 3.5H6M3.5 1V6" stroke="#92CC41" />
     <line x1="9" y1="7.5" x2="4" y2="7.5" stroke="#E76E55" />
   </svg>
@@ -237,7 +250,8 @@ export const IconPriceColor = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path d="M1 3.5H6M3.5 1V6" stroke="#E76E55" />
     <line x1="9" y1="7.5" x2="4" y2="7.5" stroke="#92CC41" />
   </svg>
@@ -249,7 +263,8 @@ export const IconTrash = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M2 3V8M6 3.5V7.5M8 3V8M4 3.5V7.5M2.5 8.5H7.5M1 2.5H9M2.5 1.5H7.5"
       stroke="#212529"
@@ -263,7 +278,8 @@ export const IconTwitter = () => (
     height="12"
     viewBox="0 0 12 12"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"
@@ -279,7 +295,8 @@ export const IconVisible = () => (
     height="10"
     viewBox="0 0 10 10"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M1 4.5H2M2 3.5H3M3 2.5H7M7 3.5H8M8 4.5H9M4 4.5H6M4 5.5H6M8 5.5H9M2 6.5H3M3 7.5H7M7 6.5H8M1 5.5H2"
       stroke="#212529"

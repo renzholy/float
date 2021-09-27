@@ -78,7 +78,8 @@ export default function Calculation(props: {
           color: var(--color-gray-2);
         `,
         props.className,
-      )}>
+      )}
+    >
       {text}
     </span>
   )

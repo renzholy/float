@@ -45,7 +45,7 @@ export default function Search() {
       alert('解析数据出错')
     }
   }, [router])
-  const { data: items = [], revalidate } = useSWR('export', () =>
+  const { data: items = [], mutate } = useSWR('export', () =>
     db.items.toArray(),
   )
   const handleExport = useCallback(async () => {
@@ -56,7 +56,7 @@ export default function Search() {
   }, [items])
   const handleAddItem = useCallback(
     async (item: SearchItem) => {
-      await revalidate()
+      await mutate()
       const order = (maxBy(items, 'order')?.order || 0) + 1
       await db.items.put(
         {
@@ -78,7 +78,7 @@ export default function Search() {
       )
       router.push('/')
     },
-    [items, revalidate, router],
+    [items, mutate, router],
   )
 
   return (
@@ -88,11 +88,13 @@ export default function Search() {
           padding: 1em;
         `,
         fontClassName,
-      )}>
+      )}
+    >
       <div
         className={css`
           display: flex;
-        `}>
+        `}
+      >
         <PixelButton
           icon={<IconClose />}
           className={css`
@@ -115,13 +117,15 @@ export default function Search() {
           title={isValidating ? '搜索中…' : '搜索结果'}
           className={css`
             margin-top: 1em;
-          `}>
+          `}
+        >
           <div
             className={css`
               & > div + div {
                 margin-top: 1em;
               }
-            `}>
+            `}
+          >
             {data.map((item) => (
               <div
                 className={cx(
@@ -140,13 +144,15 @@ export default function Search() {
                   'nes-pointer',
                 )}
                 key={item.type + item.id}
-                onClick={() => handleAddItem(item)}>
+                onClick={() => handleAddItem(item)}
+              >
                 <span className="item-hover">{item.name}</span>
                 <br />
                 <span
                   className={css`
                     color: var(--color-gray-1);
-                  `}>
+                  `}
+                >
                   {item.code ? `${item.code} ` : ''}
                   {item.type}
                 </span>
@@ -161,7 +167,8 @@ export default function Search() {
           width: 100%;
           display: flex;
           justify-content: flex-end;
-        `}>
+        `}
+      >
         <PixelButton icon={<IconExport />} onClick={handleExport} />
         <PixelButton
           className={css`

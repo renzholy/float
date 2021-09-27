@@ -71,7 +71,8 @@ export default function EasterEgg() {
         width: 3em;
         height: 3em;
         line-height: 0;
-      `}>
+      `}
+    >
       {Object.keys(coins).map((key) => (
         <Coin key={key} />
       ))}
