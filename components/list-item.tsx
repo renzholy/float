@@ -1,7 +1,4 @@
 /* eslint-disable no-alert */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 
 import { css, cx } from '@emotion/css'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -10,12 +7,12 @@ import numeral from 'numeral'
 import { usePrice } from '../hooks/use-price'
 import db from '../libs/db'
 import { Currency, Item, ItemType } from '../libs/types'
+import { useRates } from '../hooks/use-rates'
 import PixelInput from './pixel-input'
 import PixelButton from './pixel-button'
 import Profit from './profit'
 import Calculation from './calculation'
 import { IconTrash } from './icons'
-import { useRates } from '../hooks/use-rates'
 import PixelNumericInput from './pixel-numeric-input'
 
 export default function ListItem(props: {

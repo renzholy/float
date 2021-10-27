@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable jsx-a11y/anchor-has-content */
-
 import { css, cx } from '@emotion/css'
 import { ReactElement } from 'react'
 

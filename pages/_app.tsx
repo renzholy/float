@@ -4,6 +4,7 @@ import React from 'react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { injectGlobal } from '@emotion/css'
+import Script from 'next/script'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 injectGlobal`
@@ -84,6 +85,13 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="viewport"
         />
       </Head>
+      <Script id="gtag">{`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-SNBS23GLGS');`}</Script>
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-SNBS23GLGS" />
       <Component {...pageProps} />
     </>
   )

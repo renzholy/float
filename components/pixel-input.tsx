@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-autofocus */
-
 import { css, cx } from '@emotion/css'
 import { ChangeEvent, useCallback } from 'react'
 

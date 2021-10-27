@@ -77,21 +77,6 @@ export default class MyDocument extends Document {
             href="/favicon-16x16.png"
           />
           <link rel="manifest" href="/site.webmanifest" />
-          <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-SNBS23GLGS"
-          />
-          <script
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              __html: `
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-
-gtag('config', 'G-SNBS23GLGS');`,
-            }}
-          />
         </Head>
         <body>
           <Main />

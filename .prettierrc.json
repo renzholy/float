@@ -2,11 +2,5 @@
   "semi": false,
   "singleQuote": true,
   "trailingComma": "all",
-  "tabWidth": 2,
-  "overrides": [
-    {
-      "files": ".babelrc",
-      "options": { "parser": "json" }
-    }
-  ]
+  "tabWidth": 2
 }
