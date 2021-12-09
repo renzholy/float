@@ -16,6 +16,5 @@ Dockerfile
 LICENSE
 .next/
 yarn.lock
-.husky/
 extension.sh
 out/
