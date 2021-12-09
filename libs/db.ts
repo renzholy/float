@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import Dexie from 'dexie/dist/dexie'
+import Dexie from 'dexie'
 
 import { Item, ItemType } from './types'
 
