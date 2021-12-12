@@ -271,7 +271,7 @@ export default function Index() {
             icon={<IconJike />}
           />
           <PixelLogo
-            href="https://twitter.com/RenzHoly"
+            href="https://twitter.com/aliez_eth"
             className={css`
               margin-right: 1em;
             `}
