@@ -1,6 +1,6 @@
 import { cx, css } from '@emotion/css'
 import { useAtom } from 'jotai'
-import { sumBy } from 'lodash'
+import { sumBy } from 'lodash-es'
 import React, { useMemo } from 'react'
 
 import { useRates } from '../hooks/use-rates'

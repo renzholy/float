@@ -1,6 +1,11 @@
-import { mapValues } from 'lodash'
+import { mapValues } from 'lodash-es'
 import { NextApiRequest, NextApiResponse } from 'next'
-import parser from 'fast-xml-parser'
+import { XMLParser } from 'fast-xml-parser'
+
+const parser = new XMLParser({
+  attributeNamePrefix: '',
+  ignoreAttributes: false,
+})
 
 export default async function rates(req: NextApiRequest, res: NextApiResponse) {
   const base = req.query.base as string | undefined
@@ -8,10 +13,7 @@ export default async function rates(req: NextApiRequest, res: NextApiResponse) {
     'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml',
   )
   const xml = await response.text()
-  const json = await parser.parse(xml, {
-    attributeNamePrefix: '',
-    ignoreAttributes: false,
-  })
+  const json = await parser.parse(xml)
   const data = (
     json['gesmes:Envelope'].Cube.Cube.Cube.map(
       ({ currency, rate }: { currency: string; rate: string }) => ({
