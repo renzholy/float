@@ -17,7 +17,7 @@
     "@emotion/css": "^11.7.1",
     "@emotion/server": "^11.4.0",
     "array-move": "^4.0.0",
-    "dexie": "^3.2.1",
+    "dexie": "^3.2.2",
     "fast-xml-parser": "^4.0.7",
     "jotai": "^1.6.1",
     "lodash-es": "^4.17.21",
