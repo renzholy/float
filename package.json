@@ -18,7 +18,7 @@
     "@emotion/server": "^11.4.0",
     "array-move": "^4.0.0",
     "dexie": "^3.2.2",
-    "fast-xml-parser": "^4.0.7",
+    "fast-xml-parser": "^4.2.4",
     "jotai": "^1.6.1",
     "lodash-es": "^4.17.21",
     "mini-svg-data-uri": "^1.4.4",
